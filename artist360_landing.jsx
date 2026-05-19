@@ -207,6 +207,20 @@ export default function App() {
         @keyframes pulse{0%,100%{opacity:.7;transform:scale(1);}50%{opacity:1;transform:scale(1.04);}}
       `}</style>
 
+      {/* FEATURES */}
+      <section id="features" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#7c6cf6", letterSpacing: "0.2em" }}>PLATFORM MODULES</span>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Artist 360° Platform</h2>
+            <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>Hover any module to reveal what "real-time" specifically means for that view.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 18 }}>
+            {FEATURES.map((f, i) => <FeatureCard key={i} f={f} i={i} />)}
+          </div>
+        </div>
+      </section>
+
       {/* Atmosphere */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-60px", backgroundImage: `linear-gradient(rgba(0,229,160,0.032) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.032) 1px,transparent 1px)`, backgroundSize: "56px 56px", animation: "bgslow 50s linear infinite", maskImage: "radial-gradient(ellipse 90% 65% at 50% 0%,black 30%,transparent 100%)" }} />
@@ -301,6 +315,8 @@ export default function App() {
         </div>
       </section>
 
+      
+
       {/* METRICS */}
       <section ref={mRef} style={{ position: "relative", zIndex: 1, padding: "40px 2rem 80px" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 28 }}>
@@ -310,20 +326,6 @@ export default function App() {
               <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.38)", marginTop: 6, letterSpacing: "0.04em" }}>{m.label}</div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section id="features" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px" }}>
-        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#7c6cf6", letterSpacing: "0.2em" }}>PLATFORM MODULES</span>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Artist 360° Platform</h2>
-            <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>Hover any module to reveal what "real-time" specifically means for that view.</p>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 18 }}>
-            {FEATURES.map((f, i) => <FeatureCard key={i} f={f} i={i} />)}
-          </div>
         </div>
       </section>
 
