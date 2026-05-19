@@ -221,7 +221,7 @@ export default function App() {
           <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
           <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem" }}>Artist <span style={{ color: "#00e5a0" }}>360</span> Intelligence</span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 28, fontSize: "0.85rem" }}>
           {NAV_ITEMS.map(n => (
             <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} style={{ color: "rgba(255, 255, 255, 0.91)", fontSize: "0.85rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255, 255, 255, 0.96)"}>{n}</a>
           ))}
@@ -445,10 +445,10 @@ export default function App() {
 
       {/* FOOTER */}
       <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid rgba(255,255,255,0.06)", padding: "32px 2.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-        <div style={{ fontSize: "0.72rem", color: "#fff", fontFamily: "'Space Mono',monospace" }}>info@chromadata.com · © 2026 Chromadata</div>
+        <div style={{ fontSize: "0.82rem", color: "#fff", fontFamily: "'Space Mono',monospace" }}>info@chromadata.com · © 2026 Chromadata</div>
         <div style={{ display: "flex", gap: 20 }}>
           {["Privacy","Terms","Docs","Glossary"].map(l => (
-            <a key={l} href="#" style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255,255,255,0.3)"}>{l}</a>
+            <a key={l} href="#" style={{ fontSize: "0.82rem", color: "rgba(255, 255, 255, 0.97)", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255, 255, 255, 0.95)"}>{l}</a>
           ))}
         </div>
       </footer>
