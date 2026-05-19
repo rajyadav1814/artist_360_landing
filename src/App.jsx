@@ -1,72 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const NAV_ITEMS = ["Features", "Platform", "Data", "Pricing"];
-
-const FEATURES = [
-  {
-    icon: "🏆",
-    tag: "LEADERBOARD",
-    title: "Artist 360 Leaderboard",
-    desc: "Track 170+ artists across 18 Latin American markets. Composite ranking powered by iTunes performance, Spotify reach, and global footprint — updated live.",
-    stats: ["170 Artists", "18 Markets", "Live Data"],
-    color: "#00e5a0",
-  },
-  {
-    icon: "⚡",
-    tag: "DEBUT INTELLIGENCE",
-    title: "Chart Debuts Report",
-    desc: "Capture every new chart entry the moment it happens. Identify the strongest debuts, multi-track debutants, and catalogue re-entries across Spotify Global and iTunes WW.",
-    stats: ["101 New Entries/Wk", "Best Debut Rank", "Strength vs Field"],
-    color: "#f5c518",
-  },
-  {
-    icon: "🏷️",
-    tag: "LABEL INTELLIGENCE",
-    title: "Label Market Dashboard",
-    desc: "Compare Universal, Sony, Warner, Independent, and Other/Indie across 6.34B+ streams tracked. Real-time market share, week-over-week shifts, and cross-platform performance.",
-    stats: ["6.34B Streams", "5 Label Groups", "9-Day Window"],
-    color: "#7c6cf6",
-  },
-  {
-    icon: "📈",
-    tag: "POSITION INTELLIGENCE",
-    title: "Chart Tracker",
-    desc: "Historical rank trajectories for top 10 artists with line charts, biggest risers & fallers, and 14-day momentum views. Know who's climbing before everyone else.",
-    stats: ["14-Day Trends", "Risers & Fallers", "Avg Position"],
-    color: "#ff6b6b",
-  },
-  {
-    icon: "🎯",
-    tag: "TRACK INTELLIGENCE",
-    title: "Track Acquisition",
-    desc: "613 tracks scored with acquisition signals across 7, 14, and 30-day windows. Identify Rising, Stable, or Falling tracks with cross-platform reach data.",
-    stats: ["613 Tracks", "Acq Score 0–100", "Cross-platform"],
-    color: "#00c2e0",
-  },
-  {
-    icon: "💡",
-    tag: "COMMERCIAL SIGNALS",
-    title: "Acquisition Recommendation",
-    desc: "Composite buy/hold signals for 300+ ranked artists. STRONG BUY ratings derived from Spotify monthly listeners, iTunes WW rankings, and multi-market charting strength.",
-    stats: ["300 Artists", "Strong Buy Signals", "30-Day Window"],
-    color: "#ff9f43",
-  },
-  {
-    icon: "⚖️",
-    tag: "COMPARE",
-    title: "Artist Comparison",
-    desc: "Side-by-side deep dives across 2–5 artists. Rank, monthly listeners, song count, and LATAM country coverage — visual comparison charts included.",
-    stats: ["Up to 5 Artists", "Side-by-Side", "Visual Charts"],
-    color: "#48dbfb",
-  },
-  {
-    icon: "🤖",
-    tag: "AI ANALYST",
-    title: "AI Data Analyst",
-    desc: "Ask anything in plain English. Powered by natural-language PostgreSQL querying — get instant answers, charts, and insights from the full dataset without writing a single line of code.",
-    stats: ["Natural Language", "PostgreSQL Backed", "Charts + Tables"],
-    color: "#a29bfe",
-  },
+const NAV_ITEMS = [
+  { id: "features", label: "Features" },
+  { id: "platform", label: "Platform" },
+  { id: "workflow", label: "Workflow" },
+  { id: "pricing", label: "Access" },
 ];
 
 const METRICS = [
@@ -76,642 +14,1029 @@ const METRICS = [
   { value: "613", label: "Tracks Scored" },
 ];
 
-const PLATFORMS = ["Spotify Global", "iTunes WW", "Cross-Platform Signals"];
+const FEATURES = [
+  {
+    title: "Artist 360 Leaderboard",
+    tag: "RANKING",
+    desc: "Live ranking for 170+ artists across 18 LATAM markets using iTunes, Spotify, and cross-market strength.",
+  },
+  {
+    title: "Chart Debuts Intelligence",
+    tag: "MOMENTUM",
+    desc: "Catch every new chart entry as it happens and identify breakout tracks before they peak.",
+  },
+  {
+    title: "Label Market Dashboard",
+    tag: "MARKET SHARE",
+    desc: "Compare label groups with real-time share movement, week-over-week shifts, and stream concentration.",
+  },
+  {
+    title: "Track Acquisition Score",
+    tag: "SCORING",
+    desc: "613 scored tracks across 7, 14, and 30-day windows with rising, stable, and falling trend signals.",
+  },
+  {
+    title: "Artist Comparison",
+    tag: "DEEP DIVE",
+    desc: "Side-by-side artist analysis for audience, coverage, trajectory, and catalog strength in a single view.",
+  },
+  {
+    title: "AI Data Analyst",
+    tag: "ASK NATURALLY",
+    desc: "Use natural language to query your dataset and instantly generate answers, charts, and decision-ready insights.",
+  },
+];
 
-function useIntersectionObserver(threshold = 0.15) {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+const WORKFLOW = [
+  {
+    step: "01",
+    title: "Watch the market",
+    desc: "Track every major movement in one timeline instead of juggling separate charts and tools.",
+  },
+  {
+    step: "02",
+    title: "Detect opportunities",
+    desc: "Identify artists and tracks with strong acceleration signals before the competition reacts.",
+  },
+  {
+    step: "03",
+    title: "Act with confidence",
+    desc: "Use benchmarked signals and AI-assisted analysis to support A&R, catalog, and campaign decisions.",
+  },
+];
+
+const TREND_BARS = [78, 64, 82, 58, 88, 70, 92, 66, 76, 84, 61, 95];
+
+function useActiveSection(sectionIds) {
+  const [activeSection, setActiveSection] = useState(sectionIds[0]);
+
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold }
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return [ref, visible];
-}
+    const observers = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean)
+      .map((element) => {
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setActiveSection(element.id);
+            }
+          },
+          { threshold: 0.35, rootMargin: "-100px 0px -35% 0px" }
+        );
 
-function AnimatedCounter({ target, suffix = "" }) {
-  const [count, setCount] = useState("0");
-  const [ref, visible] = useIntersectionObserver(0.5);
-  useEffect(() => {
-    if (!visible) return;
-    const numeric = parseFloat(target.replace(/[^0-9.]/g, ""));
-    const isDecimal = target.includes(".");
-    const hasSuffix = target.match(/[A-Za-z+]+$/);
-    const end = numeric;
-    let start = 0;
-    const duration = 1600;
-    const step = 16;
-    const increment = (end / duration) * step;
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount((isDecimal ? start.toFixed(2) : Math.floor(start)) + (hasSuffix ? hasSuffix[0] : ""));
-      }
-    }, step);
-    return () => clearInterval(timer);
-  }, [visible, target]);
-  return <span ref={ref}>{visible ? count : "0"}</span>;
-}
+        observer.observe(element);
+        return observer;
+      });
 
-function FeatureCard({ feature, index }) {
-  const [ref, visible] = useIntersectionObserver(0.1);
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      ref={ref}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        background: hovered
-          ? `linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)`
-          : "rgba(255,255,255,0.02)",
-        border: `1px solid ${hovered ? feature.color + "55" : "rgba(255,255,255,0.07)"}`,
-        borderRadius: 20,
-        padding: "2rem",
-        transition: "all 0.4s cubic-bezier(0.23, 1, 0.32, 1)",
-        transform: visible
-          ? hovered ? "translateY(-6px)" : "translateY(0)"
-          : "translateY(32px)",
-        opacity: visible ? 1 : 0,
-        transitionDelay: visible ? `${index * 60}ms` : "0ms",
-        cursor: "default",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: 2,
-        background: hovered ? `linear-gradient(90deg, transparent, ${feature.color}, transparent)` : "transparent",
-        transition: "all 0.4s ease",
-      }} />
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
-        <span style={{ fontSize: 28 }}>{feature.icon}</span>
-        <span style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: "0.18em",
-          color: feature.color, fontFamily: "'Space Mono', monospace",
-        }}>{feature.tag}</span>
-      </div>
-      <h3 style={{
-        fontSize: "1.15rem", fontWeight: 700, color: "#ffffff",
-        marginBottom: 12, fontFamily: "'DM Serif Display', serif", letterSpacing: "-0.01em",
-      }}>{feature.title}</h3>
-      <p style={{
-        fontSize: "0.875rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.7,
-        marginBottom: 20,
-      }}>{feature.desc}</p>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-        {feature.stats.map((s, i) => (
-          <span key={i} style={{
-            background: `${feature.color}14`,
-            border: `1px solid ${feature.color}30`,
-            color: feature.color,
-            borderRadius: 6, padding: "3px 10px",
-            fontSize: "0.72rem", fontFamily: "'Space Mono', monospace",
-          }}>{s}</span>
-        ))}
-      </div>
-    </div>
-  );
+    return () => observers.forEach((observer) => observer.disconnect());
+  }, [sectionIds]);
+
+  return activeSection;
 }
 
 export default function App() {
-  const [scrolled, setScrolled] = useState(false);
-  const [activeNav, setActiveNav] = useState(null);
-  const [heroVisible, setHeroVisible] = useState(false);
-  const [ticker, setTicker] = useState(0);
+  const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
+  const activeSection = useActiveSection(sectionIds);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => setHeroVisible(true), 100);
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", onScroll);
-    const t = setInterval(() => setTicker(p => (p + 1) % PLATFORMS.length), 2800);
-    return () => { window.removeEventListener("scroll", onScroll); clearInterval(t); };
+    const onScroll = () => setIsScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const [metricsRef, metricsVisible] = useIntersectionObserver(0.2);
-
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#080b14",
-      color: "#ffffff",
-      fontFamily: "'DM Sans', sans-serif",
-      overflowX: "hidden",
-    }}>
+    <div className="landing-shell">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #080b14; }
-        ::-webkit-scrollbar-thumb { background: #00e5a033; border-radius: 2px; }
-        .glow-btn:hover { box-shadow: 0 0 32px rgba(0, 229, 160, 0.35) !important; transform: translateY(-2px) !important; }
-        .outline-btn:hover { background: rgba(255,255,255,0.06) !important; }
-        @keyframes float { 0%,100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-18px) rotate(3deg); } }
-        @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(2.2); opacity: 0; } }
-        @keyframes ticker-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes grid-scroll { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
-        @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
-        @keyframes orbit { 0% { transform: rotate(0deg) translateX(140px) rotate(0deg); } 100% { transform: rotate(360deg) translateX(140px) rotate(-360deg); } }
-        @keyframes orbit2 { 0% { transform: rotate(180deg) translateX(200px) rotate(-180deg); } 100% { transform: rotate(540deg) translateX(200px) rotate(-540deg); } }
+        @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap");
+
+        :root {
+          --bg: #f7f4ef;
+          --ink: #151826;
+          --muted: #5b6072;
+          --card: #fffaf4;
+          --line: #d7cfbf;
+          --accent: #ff5a36;
+          --accent-2: #ffb703;
+          --accent-3: #1f9dff;
+          --accent-soft: rgba(255, 90, 54, 0.14);
+          --hero-shadow: 0 24px 80px rgba(52, 39, 24, 0.16);
+          --radius-lg: 24px;
+          --radius-md: 16px;
+          --radius-sm: 12px;
+        }
+
+        * {
+          box-sizing: border-box;
+        }
+
+        html {
+          scroll-behavior: smooth;
+        }
+
+        body {
+          margin: 0;
+          font-family: "Manrope", sans-serif;
+          color: var(--ink);
+          background:
+            radial-gradient(circle at 12% 18%, #ffd1b5 0%, transparent 34%),
+            radial-gradient(circle at 88% 0%, #b9dcff 0%, transparent 40%),
+            radial-gradient(circle at 52% 86%, #ffe9a8 0%, transparent 34%),
+            var(--bg);
+        }
+
+        .landing-shell {
+          min-height: 100vh;
+          position: relative;
+          overflow-x: hidden;
+        }
+
+        .aurora {
+          position: fixed;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          filter: blur(28px);
+          opacity: 0.72;
+        }
+
+        .aurora span {
+          position: absolute;
+          width: 34vw;
+          height: 34vw;
+          border-radius: 42% 58% 63% 37% / 40% 44% 56% 60%;
+          animation: blobDrift 16s ease-in-out infinite alternate;
+          mix-blend-mode: multiply;
+        }
+
+        .aurora span:nth-child(1) {
+          left: -8vw;
+          top: -12vh;
+          background: rgba(31, 157, 255, 0.22);
+        }
+
+        .aurora span:nth-child(2) {
+          right: -10vw;
+          top: 8vh;
+          width: 30vw;
+          height: 30vw;
+          animation-duration: 19s;
+          background: rgba(255, 90, 54, 0.2);
+        }
+
+        .aurora span:nth-child(3) {
+          left: 30vw;
+          bottom: -16vh;
+          width: 36vw;
+          height: 36vw;
+          animation-duration: 21s;
+          background: rgba(255, 183, 3, 0.2);
+        }
+
+        .grain {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0.15;
+          background-image: radial-gradient(rgba(0, 0, 0, 0.35) 0.5px, transparent 0.5px);
+          background-size: 3px 3px;
+          mix-blend-mode: soft-light;
+          z-index: 0;
+        }
+
+        .container {
+          width: min(1120px, calc(100% - 2.5rem));
+          margin: 0 auto;
+          position: relative;
+          z-index: 1;
+        }
+
+        .nav-wrap {
+          position: sticky;
+          top: 0;
+          z-index: 20;
+          padding-top: 0.9rem;
+        }
+
+        .nav {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem 1rem;
+          border-radius: 999px;
+          border: 1px solid rgba(27, 29, 31, 0.08);
+          backdrop-filter: blur(8px);
+          background: rgba(255, 253, 248, 0.9);
+          box-shadow: ${isScrolled ? "0 10px 24px rgba(50, 35, 20, 0.1)" : "none"};
+          transition: box-shadow 220ms ease;
+        }
+
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: 0.7rem;
+          text-decoration: none;
+          color: inherit;
+          font-weight: 800;
+          letter-spacing: 0.01em;
+        }
+
+        .brand-mark {
+          width: 30px;
+          height: 30px;
+          border-radius: 9px;
+          display: grid;
+          place-items: center;
+          color: #fff;
+          background: linear-gradient(150deg, var(--accent), var(--accent-2));
+          box-shadow: 0 8px 20px rgba(17, 106, 95, 0.35);
+          font-size: 0.9rem;
+        }
+
+        .nav-links {
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
+        }
+
+        .nav-links a {
+          color: var(--muted);
+          text-decoration: none;
+          font-size: 0.9rem;
+          font-weight: 700;
+          padding: 0.5rem 0.85rem;
+          border-radius: 999px;
+          transition: color 180ms ease, background-color 180ms ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+          color: var(--ink);
+          background: rgba(27, 29, 31, 0.08);
+        }
+
+        .hero {
+          padding: 4.6rem 0 2.2rem;
+          display: grid;
+          grid-template-columns: 1.1fr 0.9fr;
+          gap: 2rem;
+          align-items: center;
+        }
+
+        .hero-copy {
+          position: relative;
+        }
+
+        .eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          border: 1px solid var(--line);
+          border-radius: 999px;
+          padding: 0.32rem 0.72rem;
+          color: var(--accent);
+          font-size: 0.75rem;
+          font-weight: 800;
+          letter-spacing: 0.11em;
+          text-transform: uppercase;
+          background: rgba(255, 255, 255, 0.65);
+          animation: fadeInUp 500ms ease both;
+        }
+
+        h1 {
+          margin: 0.95rem 0 1rem;
+          font-family: "Fraunces", serif;
+          font-weight: 700;
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+          font-size: clamp(2.2rem, 5vw, 4.3rem);
+          animation: fadeInUp 650ms ease both;
+        }
+
+        .hero p {
+          margin: 0;
+          max-width: 60ch;
+          color: var(--muted);
+          line-height: 1.72;
+          animation: fadeInUp 800ms ease both;
+        }
+
+        .hero-copy p strong {
+          color: var(--ink);
+        }
+
+        .cta-row {
+          margin-top: 1.8rem;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.75rem;
+          animation: fadeInUp 950ms ease both;
+        }
+
+        .btn {
+          border: 1px solid transparent;
+          border-radius: 999px;
+          padding: 0.78rem 1.24rem;
+          font-size: 0.93rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+        }
+
+        .btn:focus-visible {
+          outline: 3px solid rgba(15, 122, 98, 0.28);
+          outline-offset: 2px;
+        }
+
+        .btn-primary {
+          color: #fff;
+          background: linear-gradient(145deg, var(--accent), var(--accent-2));
+          box-shadow: 0 12px 28px rgba(19, 109, 92, 0.34);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .btn-primary::after {
+          content: "";
+          position: absolute;
+          top: -140%;
+          left: -40%;
+          width: 40%;
+          height: 320%;
+          transform: rotate(22deg);
+          background: rgba(255, 255, 255, 0.35);
+          animation: sheen 3.4s ease-in-out infinite;
+        }
+
+        .btn-secondary {
+          background: rgba(255, 255, 255, 0.7);
+          border-color: rgba(27, 29, 31, 0.14);
+          color: var(--ink);
+        }
+
+        .btn:hover {
+          transform: translateY(-2px);
+        }
+
+        .hero-card {
+          border-radius: var(--radius-lg);
+          border: 1px solid rgba(27, 29, 31, 0.1);
+          background: linear-gradient(170deg, #fffefb 0%, #ffe9d0 100%);
+          box-shadow: var(--hero-shadow);
+          padding: 1.2rem;
+          position: relative;
+          min-height: 360px;
+          overflow: hidden;
+          animation: floatIn 1s ease both;
+        }
+
+        .hero-card::before {
+          content: "";
+          position: absolute;
+          width: 220px;
+          height: 220px;
+          border-radius: 50%;
+          top: -120px;
+          right: -80px;
+          background: radial-gradient(circle, rgba(31, 157, 255, 0.22), transparent 70%);
+        }
+
+        .hero-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 0.65rem;
+          margin-bottom: 0.9rem;
+        }
+
+        .hero-stat {
+          background: var(--card);
+          border: 1px solid rgba(27, 29, 31, 0.12);
+          border-radius: var(--radius-sm);
+          padding: 0.95rem;
+          transition: transform 180ms ease;
+        }
+
+        .hero-stat:hover {
+          transform: translateY(-3px);
+        }
+
+        .hero-stat-value {
+          font-weight: 800;
+          font-size: 1.25rem;
+        }
+
+        .hero-stat-label {
+          color: var(--muted);
+          font-size: 0.82rem;
+          margin-top: 0.2rem;
+        }
+
+        .trend-panel {
+          border: 1px solid rgba(27, 29, 31, 0.1);
+          border-radius: var(--radius-sm);
+          background: rgba(255, 255, 255, 0.7);
+          padding: 0.8rem;
+        }
+
+        .trend-head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.65rem;
+          font-size: 0.78rem;
+          color: var(--muted);
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+
+        .bars {
+          height: 86px;
+          display: grid;
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          gap: 0.35rem;
+          align-items: end;
+        }
+
+        .bar {
+          border-radius: 999px;
+          background: linear-gradient(180deg, var(--accent-3), var(--accent-2));
+          animation: pulseBars 2.2s ease-in-out infinite;
+          transform-origin: bottom;
+        }
+
+        .strip {
+          margin: 1.4rem 0 3.4rem;
+          border-radius: 16px;
+          border: 1px solid rgba(27, 29, 31, 0.1);
+          background: rgba(255, 255, 255, 0.64);
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          overflow: hidden;
+          box-shadow: 0 10px 24px rgba(27, 29, 31, 0.06);
+        }
+
+        .strip-item {
+          padding: 1rem;
+          text-align: center;
+        }
+
+        .strip-item + .strip-item {
+          border-left: 1px solid rgba(27, 29, 31, 0.08);
+        }
+
+        .strip-item strong {
+          display: block;
+          font-size: 1.1rem;
+          margin-bottom: 0.15rem;
+        }
+
+        section {
+          scroll-margin-top: 96px;
+        }
+
+        .section-head {
+          margin-bottom: 1.2rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          gap: 1rem;
+        }
+
+        .section-head h2 {
+          margin: 0;
+          font-family: "Fraunces", serif;
+          font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+          letter-spacing: -0.01em;
+        }
+
+        .section-head p {
+          margin: 0;
+          color: var(--muted);
+          max-width: 44ch;
+          line-height: 1.7;
+        }
+
+        .feature-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0.9rem;
+          margin: 1.2rem 0 4rem;
+        }
+
+        .feature-card {
+          border: 1px solid rgba(27, 29, 31, 0.12);
+          border-radius: var(--radius-md);
+          background: rgba(255, 255, 255, 0.66);
+          padding: 1.05rem;
+          min-height: 208px;
+          transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+          position: relative;
+          isolation: isolate;
+          overflow: hidden;
+        }
+
+        .feature-card::after {
+          content: "";
+          position: absolute;
+          inset: auto -20% -70% -20%;
+          height: 120px;
+          background: radial-gradient(circle, rgba(31, 157, 255, 0.22), transparent 65%);
+          opacity: 0;
+          transition: opacity 200ms ease;
+          z-index: -1;
+        }
+
+        .feature-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(15, 122, 98, 0.42);
+          box-shadow: 0 14px 30px rgba(17, 49, 41, 0.11);
+        }
+
+        .feature-card:hover::after {
+          opacity: 1;
+        }
+
+        .tag {
+          display: inline-block;
+          background: var(--accent-soft);
+          color: var(--accent);
+          border-radius: 999px;
+          padding: 0.28rem 0.6rem;
+          font-size: 0.68rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        .feature-card h3 {
+          margin: 0.85rem 0 0.45rem;
+          font-size: 1.05rem;
+        }
+
+        .feature-card p {
+          margin: 0;
+          color: var(--muted);
+          line-height: 1.6;
+          font-size: 0.92rem;
+        }
+
+        .platform {
+          margin: 0.3rem 0 4rem;
+          border: 1px solid rgba(27, 29, 31, 0.12);
+          border-radius: var(--radius-lg);
+          background: linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(185, 220, 255, 0.36));
+          box-shadow: 0 18px 44px rgba(40, 30, 16, 0.08);
+          padding: 1.2rem;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+
+        .platform-card {
+          border-radius: 14px;
+          border: 1px solid rgba(27, 29, 31, 0.1);
+          background: var(--card);
+          padding: 1rem;
+          transition: transform 180ms ease, box-shadow 180ms ease;
+        }
+
+        .platform-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 10px 24px rgba(17, 49, 41, 0.11);
+        }
+
+        .platform-card strong {
+          font-size: 0.95rem;
+          letter-spacing: 0.02em;
+        }
+
+        .platform-card p {
+          margin: 0.4rem 0 0;
+          color: var(--muted);
+          line-height: 1.58;
+          font-size: 0.9rem;
+        }
+
+        .workflow {
+          margin-bottom: 4rem;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0.9rem;
+        }
+
+        .workflow-item {
+          border: 1px solid rgba(27, 29, 31, 0.12);
+          border-radius: var(--radius-md);
+          background: rgba(255, 255, 255, 0.73);
+          padding: 1rem;
+          position: relative;
+          transition: transform 180ms ease, border-color 180ms ease;
+        }
+
+        .workflow-item:hover {
+          transform: translateY(-4px);
+          border-color: rgba(31, 157, 255, 0.34);
+        }
+
+        .workflow-step {
+          font-family: "Fraunces", serif;
+          color: var(--accent-2);
+          font-size: 1.2rem;
+          font-weight: 700;
+        }
+
+        .workflow-item h3 {
+          margin: 0.55rem 0 0.5rem;
+          font-size: 1.04rem;
+        }
+
+        .workflow-item p {
+          margin: 0;
+          color: var(--muted);
+          line-height: 1.62;
+        }
+
+        .cta {
+          margin-bottom: 3.2rem;
+          border-radius: 26px;
+          border: 1px solid rgba(27, 29, 31, 0.14);
+          background:
+            radial-gradient(circle at 20% 10%, rgba(255, 90, 54, 0.24), transparent 36%),
+            radial-gradient(circle at 80% 0%, rgba(31, 157, 255, 0.2), transparent 34%),
+            radial-gradient(circle at 50% 100%, rgba(255, 183, 3, 0.22), transparent 44%),
+            var(--card);
+          box-shadow: 0 24px 50px rgba(38, 26, 12, 0.12);
+          padding: clamp(1.4rem, 3vw, 2.5rem);
+          text-align: center;
+          overflow: hidden;
+        }
+
+        .cta h2 {
+          margin: 0;
+          font-family: "Fraunces", serif;
+          font-size: clamp(1.8rem, 4vw, 2.9rem);
+          line-height: 1.1;
+          letter-spacing: -0.015em;
+        }
+
+        .cta p {
+          max-width: 58ch;
+          margin: 0.85rem auto 1.4rem;
+          color: var(--muted);
+          line-height: 1.72;
+        }
+
+        footer {
+          border-top: 1px solid rgba(27, 29, 31, 0.12);
+          padding: 1.4rem 0 2rem;
+          color: var(--muted);
+          font-size: 0.87rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 0.6rem;
+          flex-wrap: wrap;
+        }
+
+        .footer-links {
+          display: flex;
+          gap: 0.8rem;
+        }
+
+        .footer-links a {
+          color: inherit;
+          text-decoration: none;
+          border-bottom: 1px solid transparent;
+        }
+
+        .footer-links a:hover {
+          border-bottom-color: currentColor;
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(14px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes blobDrift {
+          0% {
+            transform: translate3d(0, 0, 0) rotate(0deg);
+          }
+          50% {
+            transform: translate3d(2.4vw, 2.2vh, 0) rotate(11deg);
+          }
+          100% {
+            transform: translate3d(-1.6vw, -2.4vh, 0) rotate(-8deg);
+          }
+        }
+
+        @keyframes pulseBars {
+          0%,
+          100% {
+            transform: scaleY(0.65);
+            opacity: 0.75;
+          }
+          50% {
+            transform: scaleY(1);
+            opacity: 1;
+          }
+        }
+
+        @keyframes sheen {
+          0% {
+            left: -45%;
+          }
+          60% {
+            left: 130%;
+          }
+          100% {
+            left: 130%;
+          }
+        }
+
+        @keyframes floatIn {
+          from {
+            opacity: 0;
+            transform: translateY(18px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @media (max-width: 1000px) {
+          .hero {
+            grid-template-columns: 1fr;
+          }
+
+          .feature-grid,
+          .workflow {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 760px) {
+          .container {
+            width: min(1120px, calc(100% - 1.2rem));
+          }
+
+          .nav {
+            border-radius: 18px;
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 0.65rem;
+          }
+
+          .nav-links {
+            width: 100%;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+          }
+
+          .strip {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .strip-item:nth-child(3),
+          .strip-item:nth-child(4) {
+            border-top: 1px solid rgba(27, 29, 31, 0.08);
+          }
+
+          .strip-item:nth-child(3),
+          .strip-item:nth-child(1) {
+            border-left: 0;
+          }
+
+          .section-head {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .feature-grid,
+          .platform,
+          .workflow {
+            grid-template-columns: 1fr;
+          }
+
+          .hero-card {
+            min-height: 0;
+          }
+
+          footer {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          *,
+          *::before,
+          *::after {
+            animation-duration: 1ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 1ms !important;
+            scroll-behavior: auto !important;
+          }
+        }
       `}</style>
 
-      {/* Animated background grid */}
-      <div style={{
-        position: "fixed", inset: 0, zIndex: 0, overflow: "hidden", pointerEvents: "none",
-      }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: `
-            linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
-          animation: "grid-scroll 40s linear infinite",
-          maskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%)",
-        }} />
-        <div style={{
-          position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)",
-          width: 800, height: 800, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0,229,160,0.06) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
-        <div style={{
-          position: "absolute", top: "60%", left: "10%",
-          width: 400, height: 400, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(124,108,246,0.08) 0%, transparent 70%)",
-        }} />
-        <div style={{
-          position: "absolute", top: "40%", right: "5%",
-          width: 300, height: 300, borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(0,194,224,0.07) 0%, transparent 70%)",
-        }} />
+      <div className="aurora" aria-hidden>
+        <span />
+        <span />
+        <span />
       </div>
 
-      {/* NAV */}
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        padding: "0 2.5rem",
-        background: scrolled ? "rgba(8,11,20,0.92)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none",
-        transition: "all 0.3s ease",
-        height: 64, display: "flex", alignItems: "center", justifyContent: "space-between",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 34, height: 34, borderRadius: 10,
-            background: "linear-gradient(135deg, #00e5a0, #00c2e0)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 16,
-          }}>🎵</div>
-          <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "1.05rem", letterSpacing: "-0.01em" }}>
-            Artist <span style={{ color: "#00e5a0" }}>360</span> Intelligence
-          </span>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
-          {NAV_ITEMS.map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} style={{
-              color: "rgba(255,255,255,0.6)", fontSize: "0.85rem", textDecoration: "none",
-              fontWeight: 500, transition: "color 0.2s",
-              letterSpacing: "0.02em",
-            }}
-              onMouseEnter={e => e.target.style.color = "#fff"}
-              onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.6)"}
-            >{item}</a>
-          ))}
-        </div>
-        <button
-          className="glow-btn"
-          style={{
-            background: "#00e5a0", color: "#080b14",
-            border: "none", borderRadius: 8, padding: "8px 20px",
-            fontSize: "0.85rem", fontWeight: 700, cursor: "pointer",
-            transition: "all 0.3s ease", letterSpacing: "0.02em",
-          }}
-        >Request Access</button>
-      </nav>
+      <div className="grain" aria-hidden />
 
-      {/* HERO */}
-      <section style={{
-        position: "relative", zIndex: 1,
-        minHeight: "100vh", display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center",
-        padding: "100px 2rem 60px",
-        textAlign: "center",
-      }}>
-        <h1 style={{
-          fontSize: "clamp(3rem, 7vw, 6.5rem)",
-          fontFamily: "'DM Serif Display', serif",
-          fontWeight: 400, lineHeight: 1.05,
-          letterSpacing: "-0.03em",
-          maxWidth: 900,
-          opacity: heroVisible ? 1 : 0,
-          transform: heroVisible ? "translateY(0)" : "translateY(24px)",
-          transition: "all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.1s",
-        }}>
-          The intelligence layer
-          <em style={{ color: "#00e5a0", fontStyle: "italic" }}>Latin music</em> never had
-        </h1>
+      <div className="container nav-wrap">
+        <nav className="nav" aria-label="Main navigation">
+          <a href="#top" className="brand">
+            <span className="brand-mark">A</span>
+            Artist 360 Intelligence
+          </a>
 
-        <p style={{
-          fontSize: "1.1rem", color: "rgba(255,255,255,0.5)",
-          maxWidth: 560, lineHeight: 1.75, marginTop: 24, marginBottom: 16,
-          opacity: heroVisible ? 1 : 0,
-          transform: heroVisible ? "translateY(0)" : "translateY(24px)",
-          transition: "all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.2s",
-        }}>
-          Real-time artist rankings, label market share, debut signals, and AI-powered analysis — unified across Spotify and iTunes for 18 LATAM markets.
-        </p>
-
-        {/* Animated platform ticker */}
-        <div style={{
-          height: 28, overflow: "hidden", marginBottom: 40,
-          opacity: heroVisible ? 1 : 0,
-          transition: "opacity 0.8s ease 0.3s",
-        }}>
-          <div key={ticker} style={{
-            animation: "ticker-in 0.5s ease forwards",
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "0.8rem", color: "#7c6cf6", letterSpacing: "0.12em",
-          }}>▸ {PLATFORMS[ticker]}</div>
-        </div>
-
-        <div style={{
-          display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center",
-          opacity: heroVisible ? 1 : 0,
-          transform: heroVisible ? "translateY(0)" : "translateY(24px)",
-          transition: "all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.35s",
-        }}>
-          <button className="glow-btn" style={{
-            background: "#00e5a0", color: "#080b14",
-            border: "none", borderRadius: 10, padding: "13px 32px",
-            fontSize: "0.95rem", fontWeight: 700, cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}>Get Early Access</button>
-          <button className="outline-btn" style={{
-            background: "transparent", color: "#fff",
-            border: "1px solid rgba(255,255,255,0.15)", borderRadius: 10, padding: "13px 32px",
-            fontSize: "0.95rem", fontWeight: 500, cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}>View Demo →</button>
-        </div>
-
-        {/* Floating dashboard mockup */}
-        <div style={{
-          marginTop: 80, width: "100%", maxWidth: 1000,
-          background: "rgba(255,255,255,0.03)",
-          border: "1px solid rgba(255,255,255,0.08)",
-          borderRadius: 20, overflow: "hidden",
-          opacity: heroVisible ? 1 : 0,
-          transform: heroVisible ? "translateY(0) perspective(1000px) rotateX(4deg)" : "translateY(50px) perspective(1000px) rotateX(8deg)",
-          transition: "all 1s cubic-bezier(0.23, 1, 0.32, 1) 0.5s",
-          boxShadow: "0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,160,0.1)",
-        }}>
-          {/* Mock topbar */}
-          <div style={{
-            background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)",
-            padding: "12px 20px", display: "flex", alignItems: "center", gap: 12,
-          }}>
-            <div style={{ display: "flex", gap: 6 }}>
-              {["#ff5f57", "#febc2e", "#28c840"].map(c => (
-                <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />
-              ))}
-            </div>
-            <div style={{
-              flex: 1, background: "rgba(255,255,255,0.04)", borderRadius: 6,
-              padding: "4px 12px", fontSize: "0.72rem", color: "rgba(255,255,255,0.3)",
-              fontFamily: "'Space Mono', monospace",
-            }}>chromadata.com · Artist 360 Intelligence</div>
-            <div style={{
-              background: "rgba(0,229,160,0.15)", color: "#00e5a0",
-              border: "1px solid rgba(0,229,160,0.3)", borderRadius: 6,
-              padding: "3px 10px", fontSize: "0.68rem", fontFamily: "'Space Mono', monospace",
-            }}>● LIVE</div>
-          </div>
-          {/* Mock content grid */}
-          <div style={{ padding: "24px", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14 }}>
-            {[
-              { label: "Currently #1", val: "Drake", sub: "94.26M listeners", c: "#00e5a0" },
-              { label: "Strongest Debut", val: "#1", sub: "Make Them Cry · 42.9M", c: "#f5c518" },
-              { label: "Top Label", val: "Universal", sub: "27.4% stream share", c: "#7c6cf6" },
-              { label: "Tracked Artists", val: "170+", sub: "18 LATAM markets", c: "#ff9f43" },
-            ].map((item, i) => (
-              <div key={i} style={{
-                background: "rgba(255,255,255,0.03)", border: `1px solid ${item.c}22`,
-                borderRadius: 12, padding: "16px",
-              }}>
-                <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.4)", marginBottom: 6, fontFamily: "'Space Mono', monospace", letterSpacing: "0.1em" }}>{item.label.toUpperCase()}</div>
-                <div style={{ fontSize: "1.4rem", fontWeight: 700, color: item.c, fontFamily: "'DM Serif Display', serif" }}>{item.val}</div>
-                <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.4)", marginTop: 4 }}>{item.sub}</div>
-              </div>
+          <div className="nav-links">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className={activeSection === item.id ? "active" : ""}
+              >
+                {item.label}
+              </a>
             ))}
           </div>
-          {/* Mock chart area */}
-          <div style={{ padding: "0 24px 24px" }}>
-            <div style={{
-              background: "rgba(255,255,255,0.02)", borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.05)", padding: "20px",
-              display: "flex", alignItems: "flex-end", gap: 6, height: 120,
-            }}>
-              {[60, 45, 80, 55, 95, 70, 88, 62, 75, 85, 50, 92, 78, 66, 100, 72, 58, 84].map((h, i) => (
-                <div key={i} style={{
-                  flex: 1, borderRadius: "4px 4px 0 0",
-                  background: i === 14
-                    ? "#00e5a0"
-                    : `rgba(0,229,160,${0.15 + (h / 100) * 0.2})`,
-                  height: `${h}%`,
-                  transition: "height 0.5s ease",
-                }} />
-              ))}
+        </nav>
+      </div>
+
+      <main className="container" id="top">
+        <section className="hero" aria-label="Hero">
+          <div className="hero-copy">
+            <span className="eyebrow">Artist-grade market intelligence</span>
+            <h1>
+              A sharper command center for artist growth, market movement, and acquisition decisions.
+            </h1>
+            <p>
+              Artist 360 combines cross-platform rankings, trend detection, and AI-assisted analysis so
+              labels, managers, and A&Rs can move from raw data to <strong>confident action in minutes</strong>.
+            </p>
+            <div className="cta-row">
+              <button className="btn btn-primary">Request Early Access</button>
+              <button className="btn btn-secondary">See Platform Tour</button>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* METRICS */}
-      <section ref={metricsRef} style={{ position: "relative", zIndex: 1, padding: "60px 2rem" }}>
-        <div style={{
-          maxWidth: 1000, margin: "0 auto",
-          display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24,
-        }}>
-          {METRICS.map((m, i) => (
-            <div key={i} style={{
-              textAlign: "center",
-              opacity: metricsVisible ? 1 : 0,
-              transform: metricsVisible ? "translateY(0)" : "translateY(24px)",
-              transition: `all 0.7s ease ${i * 100}ms`,
-            }}>
-              <div style={{
-                fontSize: "clamp(2rem, 4vw, 3.2rem)",
-                fontFamily: "'DM Serif Display', serif",
-                color: "#00e5a0", fontWeight: 400,
-              }}>
-                <AnimatedCounter target={m.value} />
+          <aside className="hero-card" aria-label="Quick highlights">
+            <div style={{ marginBottom: "0.8rem", fontWeight: 800, fontSize: "0.95rem" }}>
+              Today at a glance
+            </div>
+            <div className="hero-grid">
+              {METRICS.map((metric) => (
+                <div key={metric.label} className="hero-stat">
+                  <div className="hero-stat-value">{metric.value}</div>
+                  <div className="hero-stat-label">{metric.label}</div>
+                </div>
+              ))}
+            </div>
+            <div className="trend-panel" aria-label="Momentum trend preview">
+              <div className="trend-head">
+                <span>Momentum signal</span>
+                <span>Last 14 days</span>
               </div>
-              <div style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.45)", marginTop: 6, letterSpacing: "0.05em" }}>{m.label}</div>
+              <div className="bars">
+                {TREND_BARS.map((height, index) => (
+                  <span
+                    key={`${height}-${index}`}
+                    className="bar"
+                    style={{ height: `${height}%`, animationDelay: `${index * 90}ms` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <div className="strip" aria-label="Key numbers">
+          {METRICS.map((metric) => (
+            <div key={metric.label} className="strip-item">
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
             </div>
           ))}
         </div>
-      </section>
 
-      {/* FEATURES GRID */}
-      <section id="features" style={{ position: "relative", zIndex: 1, padding: "80px 2rem" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 64 }}>
-            <span style={{
-              fontFamily: "'Space Mono', monospace", fontSize: "0.72rem",
-              color: "#7c6cf6", letterSpacing: "0.2em",
-            }}>PLATFORM MODULES</span>
-            <h2 style={{
-              fontFamily: "'DM Serif Display', serif", fontSize: "clamp(2rem, 4vw, 3.2rem)",
-              marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.1,
-            }}>Eight intelligence<br /><em style={{ color: "#00e5a0" }}>modules,</em> one platform</h2>
-            <p style={{ color: "rgba(255,255,255,0.45)", maxWidth: 500, margin: "16px auto 0", lineHeight: 1.7 }}>
-              Every view is powered by live Spotify Global and iTunes WW data, updated continuously across 18 Latin American markets.
+        <section id="features" aria-labelledby="features-heading">
+          <div className="section-head">
+            <h2 id="features-heading">A complete intelligence stack</h2>
+            <p>
+              From leaderboard movement to acquisition scoring, each module is built to help teams read
+              momentum clearly and prioritize the right artist and catalog bets.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
-            {FEATURES.map((f, i) => <FeatureCard key={i} feature={f} index={i} />)}
-          </div>
-        </div>
-      </section>
 
-      {/* DATA SECTION */}
-      <section id="data" style={{ position: "relative", zIndex: 1, padding: "80px 2rem" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{
-            display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center",
-          }}>
-            <div>
-              <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.72rem", color: "#00e5a0", letterSpacing: "0.2em" }}>DATA ARCHITECTURE</span>
-              <h2 style={{
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
-                marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.15,
-              }}>Real data.<br />Real signals.<br /><em>Real edge.</em></h2>
-              <p style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.75, marginTop: 20, fontSize: "0.92rem" }}>
-                Artist 360 ingests daily chart snapshots from Spotify Global and iTunes Worldwide, normalizing across 18 Latin American markets to produce composite acquisition scores, momentum signals, and label-level market share analytics.
+          <div className="feature-grid">
+            {FEATURES.map((feature, index) => (
+              <article key={feature.title} className="feature-card" style={{ animation: `fadeInUp 450ms ease ${index * 60}ms both` }}>
+                <span className="tag">{feature.tag}</span>
+                <h3>{feature.title}</h3>
+                <p>{feature.desc}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="platform" aria-labelledby="platform-heading">
+          <div className="section-head">
+            <h2 id="platform-heading">Built for real decisions, not vanity charts</h2>
+            <p>
+              The platform balances depth and clarity, so users can quickly understand movement,
+              validate assumptions, and share evidence-backed decisions across teams.
+            </p>
+          </div>
+
+          <div className="platform">
+            <div className="platform-card">
+              <strong>Signal-first dashboard</strong>
+              <p>
+                Surface only what matters: highest acceleration, strongest debuts, market-share shifts,
+                and risk signals in a clean command view.
               </p>
-              <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 16 }}>
-                {[
-                  { label: "Spotify Global", detail: "Monthly listeners · Daily snapshots · Track-level streams" },
-                  { label: "iTunes WW", detail: "Weekly chart positions · Points · 18 LATAM countries" },
-                  { label: "Cross-Platform", detail: "Combined acquisition scores · Momentum signals · Signal overlays" },
-                ].map((d, i) => (
-                  <div key={i} style={{
-                    display: "flex", alignItems: "flex-start", gap: 14, padding: "14px 16px",
-                    background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)",
-                    borderRadius: 12,
-                  }}>
-                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#00e5a0", marginTop: 5, flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: "0.88rem", marginBottom: 3 }}>{d.label}</div>
-                      <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.4)" }}>{d.detail}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
-            {/* Orbital illustration */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: 400 }}>
-              <div style={{ position: "relative", width: 360, height: 360 }}>
-                {/* Rings */}
-                {[140, 200].map((r, i) => (
-                  <div key={i} style={{
-                    position: "absolute",
-                    top: "50%", left: "50%",
-                    width: r * 2, height: r * 2,
-                    marginLeft: -r, marginTop: -r,
-                    borderRadius: "50%",
-                    border: `1px dashed rgba(0,229,160,${0.12 - i * 0.04})`,
-                  }} />
-                ))}
-                {/* Center node */}
-                <div style={{
-                  position: "absolute", top: "50%", left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  width: 72, height: 72, borderRadius: "50%",
-                  background: "linear-gradient(135deg, #00e5a0, #00c2e0)",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 28, boxShadow: "0 0 40px rgba(0,229,160,0.4)",
-                }}>🎵</div>
-                {/* Orbit 1: Spotify */}
-                <div style={{ position: "absolute", top: "50%", left: "50%", width: 0, height: 0, animation: "orbit 8s linear infinite" }}>
-                  <div style={{
-                    position: "absolute", top: -20, left: -20,
-                    width: 40, height: 40, borderRadius: "50%",
-                    background: "#1DB954", display: "flex", alignItems: "center",
-                    justifyContent: "center", fontSize: 18,
-                    boxShadow: "0 0 20px rgba(29,185,84,0.5)",
-                  }}>🎧</div>
-                </div>
-                {/* Orbit 2: iTunes */}
-                <div style={{ position: "absolute", top: "50%", left: "50%", width: 0, height: 0, animation: "orbit2 12s linear infinite" }}>
-                  <div style={{
-                    position: "absolute", top: -20, left: -20,
-                    width: 40, height: 40, borderRadius: "50%",
-                    background: "#fc3c44", display: "flex", alignItems: "center",
-                    justifyContent: "center", fontSize: 18,
-                    boxShadow: "0 0 20px rgba(252,60,68,0.5)",
-                  }}>🎵</div>
-                </div>
-                {/* Label tags */}
-                {[
-                  { label: "6.34B Streams", x: "78%", y: "10%", c: "#00e5a0" },
-                  { label: "170 Artists", x: "75%", y: "80%", c: "#7c6cf6" },
-                  { label: "18 Markets", x: "2%", y: "50%", c: "#f5c518" },
-                ].map((t, i) => (
-                  <div key={i} style={{
-                    position: "absolute", left: t.x, top: t.y,
-                    background: `${t.c}14`, border: `1px solid ${t.c}30`,
-                    borderRadius: 6, padding: "4px 10px",
-                    fontSize: "0.7rem", color: t.c, fontFamily: "'Space Mono', monospace",
-                    whiteSpace: "nowrap",
-                  }}>{t.label}</div>
-                ))}
-              </div>
+            <div className="platform-card">
+              <strong>Explainable scores</strong>
+              <p>
+                Every rank and recommendation links back to measurable factors, making leadership and
+                partner conversations clear and defensible.
+              </p>
+            </div>
+            <div className="platform-card">
+              <strong>Natural language exploration</strong>
+              <p>
+                Ask direct questions in plain English, then drill into generated tables and charts without
+                writing SQL or switching tools.
+              </p>
+            </div>
+            <div className="platform-card">
+              <strong>Cross-functional fit</strong>
+              <p>
+                Designed for A&R, management, and marketing teams who need shared visibility with role-
+                relevant context and fast handoff.
+              </p>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* AI SECTION */}
-      <section id="platform" style={{ position: "relative", zIndex: 1, padding: "80px 2rem" }}>
-        <div style={{
-          maxWidth: 900, margin: "0 auto", textAlign: "center",
-        }}>
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.72rem", color: "#a29bfe", letterSpacing: "0.2em" }}>AI DATA ANALYST</span>
-          <h2 style={{
-            fontFamily: "'DM Serif Display', serif",
-            fontSize: "clamp(2rem, 4vw, 3rem)",
-            marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.15,
-          }}>Ask your data anything.<br /><em style={{ color: "#a29bfe" }}>Get answers instantly.</em></h2>
-          <p style={{ color: "rgba(255,255,255,0.45)", maxWidth: 560, margin: "16px auto 32px", lineHeight: 1.7 }}>
-            Powered by natural-language PostgreSQL querying. No dashboards to navigate, no SQL to write — just ask.
+        <section id="workflow" aria-labelledby="workflow-heading">
+          <div className="section-head">
+            <h2 id="workflow-heading">A faster operating rhythm</h2>
+            <p>
+              Replace fragmented weekly analysis with a continuous loop that highlights where to look,
+              what to prioritize, and when to act.
+            </p>
+          </div>
+
+          <div className="workflow">
+            {WORKFLOW.map((item) => (
+              <article key={item.step} className="workflow-item">
+                <span className="workflow-step">{item.step}</span>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="pricing" className="cta" aria-labelledby="cta-heading">
+          <h2 id="cta-heading">Ready to run a smarter artist strategy?</h2>
+          <p>
+            Join labels, managers, and A&R teams using Artist 360 to evaluate momentum earlier, allocate
+            budget with better confidence, and uncover high-upside opportunities across LATAM.
           </p>
-          {/* Mock chat UI */}
-          <div style={{
-            background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)",
-            borderRadius: 20, overflow: "hidden", textAlign: "left",
-          }}>
-            <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ fontSize: 18 }}>🤖</span>
-              <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>AI Data Analyst</span>
-              <span style={{ marginLeft: "auto", fontSize: "0.7rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono', monospace" }}>Powered by Claude</span>
-            </div>
-            <div style={{ padding: "28px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
-              {[
-                { q: "Who are the top 10 artists by total Spotify streams right now?", a: "Drake leads with 94.26M monthly listeners at rank #1, followed by Michael Jackson (102.13M, #2) and Justin Bieber (143.86M, #3). Stream velocity shows Drake gaining +2.1% week-over-week..." },
-                { q: "Which label is growing fastest this week?", a: "Other/Indie is the fastest growing label group, up +270.4% week-over-week (WkA→WkB). They moved from 288.8M to 1.1B streams, now holding 21.4% market share..." },
-              ].map((item, i) => (
-                <div key={i}>
-                  <div style={{
-                    background: "rgba(162,155,254,0.1)", border: "1px solid rgba(162,155,254,0.2)",
-                    borderRadius: "12px 12px 4px 12px", padding: "12px 16px",
-                    fontSize: "0.85rem", color: "rgba(255,255,255,0.8)",
-                    maxWidth: "75%", marginLeft: "auto",
-                  }}>{item.q}</div>
-                  <div style={{
-                    background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)",
-                    borderRadius: "4px 12px 12px 12px", padding: "12px 16px",
-                    fontSize: "0.82rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65,
-                    maxWidth: "85%", marginTop: 8,
-                  }}>{item.a}</div>
-                </div>
-              ))}
-              <div style={{
-                background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 10, padding: "12px 16px", display: "flex", gap: 10, alignItems: "center",
-              }}>
-                <span style={{ flex: 1, fontSize: "0.82rem", color: "rgba(255,255,255,0.25)" }}>Ask about artists, listeners, rankings, or trends…</span>
-                <div style={{
-                  width: 28, height: 28, borderRadius: 6,
-                  background: "#a29bfe", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12,
-                }}>↑</div>
-              </div>
-            </div>
+          <div className="cta-row" style={{ justifyContent: "center" }}>
+            <button className="btn btn-primary">Book a Demo</button>
+            <button className="btn btn-secondary">Contact Sales</button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* CTA */}
-      <section id="pricing" style={{ position: "relative", zIndex: 1, padding: "100px 2rem 120px" }}>
-        <div style={{
-          maxWidth: 700, margin: "0 auto", textAlign: "center",
-          background: "linear-gradient(135deg, rgba(0,229,160,0.07) 0%, rgba(124,108,246,0.07) 100%)",
-          border: "1px solid rgba(0,229,160,0.15)",
-          borderRadius: 28, padding: "64px 48px",
-          position: "relative", overflow: "hidden",
-        }}>
-          <div style={{
-            position: "absolute", top: -80, right: -80,
-            width: 300, height: 300, borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(0,229,160,0.12) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }} />
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.72rem", color: "#00e5a0", letterSpacing: "0.2em" }}>GET STARTED</span>
-          <h2 style={{
-            fontFamily: "'DM Serif Display', serif",
-            fontSize: "clamp(2rem, 4vw, 2.8rem)",
-            marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.15,
-          }}>Ready to know your<br /><em style={{ color: "#00e5a0" }}>market better?</em></h2>
-          <p style={{ color: "rgba(255,255,255,0.5)", marginTop: 16, lineHeight: 1.7, marginBottom: 36 }}>
-            Join music labels, managers, and A&Rs using Artist 360 Intelligence to make faster, smarter decisions across Latin America.
-          </p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <button className="glow-btn" style={{
-              background: "#00e5a0", color: "#080b14",
-              border: "none", borderRadius: 10, padding: "14px 36px",
-              fontSize: "1rem", fontWeight: 700, cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}>Request Early Access</button>
-            <button className="outline-btn" style={{
-              background: "transparent", color: "#fff",
-              border: "1px solid rgba(255,255,255,0.2)", borderRadius: 10, padding: "14px 28px",
-              fontSize: "1rem", fontWeight: 500, cursor: "pointer",
-              transition: "all 0.3s ease",
-            }}>Contact Sales</button>
+        <footer>
+          <div>Artist 360 Intelligence by Chromadata</div>
+          <div className="footer-links" aria-label="Footer links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Docs</a>
           </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer style={{
-        position: "relative", zIndex: 1,
-        borderTop: "1px solid rgba(255,255,255,0.06)",
-        padding: "32px 2rem",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        flexWrap: "wrap", gap: 16,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 28, height: 28, borderRadius: 8,
-            background: "linear-gradient(135deg, #00e5a0, #00c2e0)",
-            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13,
-          }}>🎵</div>
-          <span style={{ fontFamily: "'DM Serif Display', serif", fontSize: "0.9rem" }}>Artist 360 Intelligence</span>
-        </div>
-        <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.3)" }}>
-          info@chromadata.com · © 2026 Chromadata. All rights reserved.
-        </div>
-        <div style={{ display: "flex", gap: 20 }}>
-          {["Privacy", "Terms", "Docs"].map(l => (
-            <a key={l} href="#" style={{
-              fontSize: "0.78rem", color: "rgba(255,255,255,0.35)",
-              textDecoration: "none", transition: "color 0.2s",
-            }}
-              onMouseEnter={e => e.target.style.color = "#fff"}
-              onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.35)"}
-            >{l}</a>
-          ))}
-        </div>
-      </footer>
+          <div>info@chromadata.com</div>
+        </footer>
+      </main>
     </div>
   );
 }
