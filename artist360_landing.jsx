@@ -231,15 +231,8 @@ export default function App() {
 
       {/* HERO */}
       <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,229,160,0.09)", border: "1px solid rgba(0,229,160,0.22)", borderRadius: 100, padding: "5px 16px", marginBottom: 28, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(-12px)", transition: "all 0.7s ease" }}>
-          <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#00e5a0", position: "relative" }}>
-            <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "#00e5a0", animation: "ring 2s ease-out infinite" }} />
-          </div>
-          <span style={{ fontSize: "0.7rem", fontWeight: 700, letterSpacing: "0.16em", color: "#00e5a0", fontFamily: "'Space Mono',monospace" }}>LIVE · LAST RUN 2026-05-19 00:34</span>
-        </div>
-
-        <h1 style={{ fontSize: "clamp(3rem,7.5vw,6.8rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.04, letterSpacing: "-0.03em", maxWidth: 920, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
-          The intelligence layer<br /><em style={{ color: "#00e5a0" }}>Latin music</em> never had
+        <h1 style={{ fontSize: "clamp(3rem,7.5vw,6.8rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.04, letterSpacing: "-0.03em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
+          The intelligence layer<em style={{ color: "#00e5a0" }}>Latin music never had</em>
         </h1>
 
         <p style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.46)", maxWidth: 580, lineHeight: 1.8, marginTop: 24, marginBottom: 12, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.22s" }}>
@@ -461,11 +454,7 @@ export default function App() {
 
       {/* FOOTER */}
       <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid rgba(255,255,255,0.06)", padding: "32px 2.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>🎵</div>
-          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.9rem" }}>Artist 360 Intelligence</span>
-        </div>
-        <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.26)", fontFamily: "'Space Mono',monospace" }}>info@chromadata.com · © 2026 Chromadata</div>
+        <div style={{ fontSize: "0.72rem", color: "#fff", fontFamily: "'Space Mono',monospace" }}>info@chromadata.com · © 2026 Chromadata</div>
         <div style={{ display: "flex", gap: 20 }}>
           {["Privacy","Terms","Docs","Glossary"].map(l => (
             <a key={l} href="#" style={{ fontSize: "0.76rem", color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255,255,255,0.3)"}>{l}</a>
