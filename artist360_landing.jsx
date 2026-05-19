@@ -376,15 +376,6 @@ export default function App() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {(FILTER_MAP[filter] || REALTIME_TERMS).map((term, i) => <GlossaryCard key={term.term} term={term} i={i} />)}
           </div>
-
-          {/* Note */}
-          <div style={{ marginTop: 36, padding: "18px 22px", background: "rgba(245,197,24,0.055)", border: "1px solid rgba(245,197,24,0.18)", borderRadius: 14, display: "flex", gap: 14, alignItems: "flex-start" }}>
-            <span style={{ fontSize: 19, flexShrink: 0 }}>💡</span>
-            <div>
-              <div style={{ fontSize: "0.68rem", fontWeight: 700, color: "#f5c518", marginBottom: 5, fontFamily: "'Space Mono',monospace", letterSpacing: "0.12em" }}>WHY THIS MATTERS</div>
-              <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.52)", lineHeight: 1.78 }}>Industry dashboards often use "live" loosely — it can mean a daily CSV upload, a weekly manual refresh, or a static screenshot. In Artist 360, every metric traces back to an automated pipeline with a visible timestamp. If you ever question how fresh the data is, the "Last Run" field tells you exactly when it was computed.</p>
-            </div>
-          </div>
         </div>
       </section>
 
