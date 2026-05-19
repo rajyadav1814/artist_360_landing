@@ -192,7 +192,7 @@ export default function App() {
   const [mRef, mVis] = useIO(0.2);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#070a10", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#2d2e2d", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
         *{margin:0;padding:0;box-sizing:border-box;}
