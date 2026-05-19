@@ -3,15 +3,15 @@ import { useState, useEffect, useRef } from "react";
 const NAV_ITEMS = ["Features", "How It Works", "Glossary", "Pricing"];
 
 const FEATURES = [
-  { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360 Leaderboard",
+  { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360",
     desc: "170+ artists ranked live across 18 Latin American markets. Composite scoring fuses iTunes chart points, Spotify monthly listeners, and global footprint — recalculated every time fresh data lands.",
     stats: ["170 Artists", "18 Markets", "Live Composite Score"], color: "#00e5a0",
     realtime: "Rankings update automatically as Spotify and iTunes push new chart snapshots — no manual refresh or spreadsheet upload required." },
-  { icon: "⚡", tag: "DEBUT INTELLIGENCE", title: "Chart Debuts Report",
+  { icon: "⚡", tag: "DEBUT INTELLIGENCE", title: "Debuts/Chart",
     desc: "Every new chart entry flagged the moment it appears. Strongest debut, multi-track debutants, catalogue re-entries, and debut score vs. incumbents — all surfaced live for Week 20.",
     stats: ["101 New Entries/Wk", "Debut Score", "Strength vs Field"], color: "#f5c518",
     realtime: "New entries are detected within the same processing cycle as raw chart data — typically within minutes of iTunes or Spotify publishing their weekly snapshot." },
-  { icon: "🏷️", tag: "LABEL INTELLIGENCE", title: "Label Market Dashboard",
+  { icon: "🏷️", tag: "LABEL INTELLIGENCE", title: "Label",
     desc: "Universal, Sony, Warner, Independent, and Other/Indie compared across 6.34B+ streams. Daily stream curves, week-over-week shifts, and live market share in a rolling 9-day window.",
     stats: ["6.34B Streams", "5 Label Groups", "9-Day Live Window"], color: "#7c6cf6",
     realtime: "The 9-day window rolls forward daily. Each morning's ingest drops the oldest day and adds the newest — trend lines never go stale without anyone touching a date filter." },
@@ -19,11 +19,11 @@ const FEATURES = [
     desc: "14-day rank trajectories for the current top 10 artists rendered as live line charts. Biggest riser (+7), biggest faller (-2), and average position tracked across all artists.",
     stats: ["14-Day Trajectories", "Risers & Fallers", "Avg Position"], color: "#ff6b6b",
     realtime: "Position data is appended on each run rather than overwritten — building a continuous history you can slice by 7, 14, or 30 days without any data loss." },
-  { icon: "🎯", tag: "TRACK INTELLIGENCE", title: "Track Acquisition",
+  { icon: "🎯", tag: "TRACK INTELLIGENCE", title: "Acquisition Track",
     desc: "613 tracks scored 0–100 on an Acquisition Score built from rank, stream momentum, and cross-platform presence. Filter by Rising / Stable / Falling across 7, 14, or 30-day windows.",
     stats: ["613 Tracks", "Acq Score 0–100", "Cross-Platform Signals"], color: "#00c2e0",
     realtime: "Scores are recalculated on every pipeline run — a track that explodes overnight shows an elevated score by morning, not next week." },
-  { icon: "💡", tag: "COMMERCIAL SIGNALS", title: "Acquisition Recommendation",
+  { icon: "💡", tag: "COMMERCIAL SIGNALS", title: "Artist Acquisition",
     desc: "300 ranked artists assessed with composite STRONG BUY / HOLD signals. Pulls from Spotify listeners, iTunes WW rank, tracks in top 200, and listener trajectory over 21-day periods.",
     stats: ["300 Artists", "Strong Buy / Hold", "21-Day Trajectory"], color: "#ff9f43",
     realtime: "The recommendation engine re-scores all 300 artists on every run. A HOLD artist can become STRONG BUY the same day their listener curve inflects." },
@@ -31,7 +31,7 @@ const FEATURES = [
     desc: "Pick 2–5 artists and see rank, monthly listeners, song count, and LATAM country footprint side by side. Visual comparison charts draw from the same live dataset as the leaderboard.",
     stats: ["Up to 5 Artists", "Side-by-Side Metrics", "Visual Charts"], color: "#48dbfb",
     realtime: "All comparison metrics reflect the most recent leaderboard snapshot — comparing Drake vs. Michael Jackson today gives today's numbers, not yesterday's." },
-  { icon: "🤖", tag: "AI ANALYST", title: "AI Data Analyst",
+  { icon: "🤖", tag: "AI ANALYST", title: "Ask Anything",
     desc: "Type a question in plain English. The AI translates it into a live PostgreSQL query against the full artist, track, and chart dataset — returning answers, tables, and charts in seconds.",
     stats: ["Natural Language", "Live PostgreSQL", "Charts + Tables"], color: "#a29bfe",
     realtime: "Queries run against the live database, not a cached export — asking 'Who debuted this week?' returns this week's actual entries, not a PDF from last Friday." },
@@ -318,7 +318,7 @@ export default function App() {
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#7c6cf6", letterSpacing: "0.2em" }}>PLATFORM MODULES</span>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Eight modules.<br /><em style={{ color: "#00e5a0" }}>One live pipeline.</em></h2>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Artist 360 Platform</h2>
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>Hover any module to reveal what "real-time" specifically means for that view.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 18 }}>
