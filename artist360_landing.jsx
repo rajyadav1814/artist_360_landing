@@ -232,7 +232,7 @@ export default function App() {
       {/* HERO */}
       <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center" }}>
         <h1 style={{ fontSize: "clamp(3rem,7.5vw,6.8rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.04, letterSpacing: "-0.03em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
-          The intelligence layer<em style={{ color: "#00e5a0" }}>Latin music never had</em>
+          Intelligence layer<em style={{ color: "#00e5a0" }}>Latin music never had</em>
         </h1>
 
         <p style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.46)", maxWidth: 1080, lineHeight: 1.8, marginTop: 24, marginBottom: 12, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.22s" }}>
