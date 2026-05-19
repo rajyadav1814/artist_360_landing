@@ -1,6 +1,6 @@
-# Artist 360 Landing
+# Artist 360° Landing
 
-A Vite + React landing page project for Artist 360.
+A Vite + React landing page project for Artist 360°.
 
 ## Requirements
 

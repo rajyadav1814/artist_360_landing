@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 const NAV_ITEMS = ["Features", "How It Works", "Glossary", "Pricing"];
 
 const FEATURES = [
-  { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360",
+  { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360°",
     desc: "170+ artists ranked live across 18 Latin American markets. Composite scoring fuses iTunes chart points, Spotify monthly listeners, and global footprint — recalculated every time fresh data lands.",
     stats: ["170 Artists", "18 Markets", "Live Composite Score"], color: "#00e5a0",
     realtime: "Rankings update automatically as Spotify and iTunes push new chart snapshots — no manual refresh or spreadsheet upload required." },
@@ -40,11 +40,11 @@ const FEATURES = [
 const REALTIME_TERMS = [
   { term: "Live", badge: "● LIVE", badgeColor: "#00e5a0", icon: "🟢",
     short: "The dashboard is connected to the source and updates automatically.",
-    long: "When you see LIVE in Artist 360, it means the dashboard is reading from a database that is actively written to by automated pipelines. There is no manual export, no emailed spreadsheet, and no stale screenshot. Every metric — rank, listener count, stream total — reflects the most recently ingested batch of chart data from Spotify and iTunes.",
+    long: "When you see LIVE in Artist 360°, it means the dashboard is reading from a database that is actively written to by automated pipelines. There is no manual export, no emailed spreadsheet, and no stale screenshot. Every metric — rank, listener count, stream total — reflects the most recently ingested batch of chart data from Spotify and iTunes.",
     example: "The Leaderboard header reads '● LIVE' because the rank table is rebuilt each time new chart data arrives — typically within minutes of the platforms publishing it." },
   { term: "Last Run", badge: "LAST RUN 2026-05-19 00:34", badgeColor: "#f5c518", icon: "🕐",
     short: "The exact timestamp when the data pipeline last successfully completed.",
-    long: "Artist 360 runs automated data pipelines — scripts that fetch raw chart data from Spotify and iTunes, clean it, compute scores, and write results to the database. 'Last Run' shows you the moment the most recent pipeline finished. It is a freshness guarantee: you always know how old the data is, down to the minute.",
+    long: "Artist 360° runs automated data pipelines — scripts that fetch raw chart data from Spotify and iTunes, clean it, compute scores, and write results to the database. 'Last Run' shows you the moment the most recent pipeline finished. It is a freshness guarantee: you always know how old the data is, down to the minute.",
     example: "'Last run: 2026-05-19 00:34' on the Chart Tracker means all rank trajectories were computed from data fetched at 12:34 AM today — not cached from a prior day." },
   { term: "Week 20 · May 2026", badge: "WK 20 · MAY 2026", badgeColor: "#7c6cf6", icon: "📅",
     short: "The current reporting week — aligned to iTunes and Spotify chart publish cycles.",
@@ -56,7 +56,7 @@ const REALTIME_TERMS = [
     example: "On May 19, the Label Market Dashboard shows May 11–19. On May 20, it automatically shows May 12–20 — Universal's share and Sony's rank recalculate against the new 9-day total." },
   { term: "WkA → WkB", badge: "WKA → WKB", badgeColor: "#00c2e0", icon: "📊",
     short: "Week-over-week comparison — the first half vs. second half of the current window.",
-    long: "To show momentum without waiting for full calendar weeks, Artist 360 splits the 9-day window into two halves: Week A (May 11–14) and Week B (May 15–19). Comparing WkA→WkB streams gives an early signal on whether a label or artist is accelerating or decelerating inside the current period.",
+    long: "To show momentum without waiting for full calendar weeks, Artist 360° splits the 9-day window into two halves: Week A (May 11–14) and Week B (May 15–19). Comparing WkA→WkB streams gives an early signal on whether a label or artist is accelerating or decelerating inside the current period.",
     example: "Other/Indie went from 288.8M in WkA to 1.1B in WkB — a +270.4% surge. This is an intra-period momentum signal, not a full calendar-week comparison." },
   { term: "Debut Score", badge: "DEBUT SCORE", badgeColor: "#ff6b6b", icon: "⚡",
     short: "A composite metric measuring how strongly a track entered the chart relative to incumbents.",
@@ -219,7 +219,7 @@ export default function App() {
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", background: scrolled ? "rgba(7,10,16,0.92)" : "transparent", backdropFilter: scrolled ? "blur(24px)" : "none", borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none", transition: "all 0.35s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
-          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360</span> Intelligence</span>
+          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360°</span> Intelligence</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 28, fontSize: "0.85rem" }}>
           {NAV_ITEMS.map(n => (
@@ -251,7 +251,7 @@ export default function App() {
         <div style={{ width: "100%", maxWidth: 1020, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 22, overflow: "hidden", opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0) perspective(1200px) rotateX(3.5deg)" : "translateY(60px) perspective(1200px) rotateX(9deg)", transition: "all 1.1s cubic-bezier(0.23,1,0.32,1) 0.55s", boxShadow: "0 50px 140px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,229,160,0.08)" }}>
           <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "12px 20px", display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ display: "flex", gap: 6 }}>{["#ff5f57","#febc2e","#28c840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}</div>
-            <div style={{ flex: 1, background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "4px 14px", fontSize: "0.7rem", color: "rgba(255,255,255,0.26)", fontFamily: "'Space Mono',monospace" }}>chromadata.com · Artist 360 Intelligence</div>
+            <div style={{ flex: 1, background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "4px 14px", fontSize: "0.7rem", color: "rgba(255,255,255,0.26)", fontFamily: "'Space Mono',monospace" }}>chromadata.com · Artist 360° Intelligence</div>
             <div style={{ background: "rgba(0,229,160,0.13)", color: "#00e5a0", border: "1px solid rgba(0,229,160,0.28)", borderRadius: 6, padding: "3px 10px", fontSize: "0.65rem", fontFamily: "'Space Mono',monospace" }}>● LIVE · Last run 00:34</div>
           </div>
           <div style={{ padding: "22px 24px 0", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
@@ -318,7 +318,7 @@ export default function App() {
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#7c6cf6", letterSpacing: "0.2em" }}>PLATFORM MODULES</span>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Artist 360 Platform</h2>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Artist 360° Platform</h2>
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>Hover any module to reveal what "real-time" specifically means for that view.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 18 }}>
@@ -434,7 +434,7 @@ export default function App() {
           <div style={{ position: "absolute", top: -100, right: -100, width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.1) 0%,transparent 70%)", pointerEvents: "none" }} />
           <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#00e5a0", letterSpacing: "0.2em" }}>GET STARTED</span>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,2.8rem)", marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.15 }}>Know your market.<br /><em style={{ color: "#00e5a0" }}>Before anyone else does.</em></h2>
-          <p style={{ color: "rgba(255,255,255,0.44)", marginTop: 16, lineHeight: 1.78, marginBottom: 36, fontSize: "0.9rem" }}>Music labels, A&Rs, and managers across Latin America use Artist 360 Intelligence to act on real data — not last week's spreadsheet. Every metric is live, sourced, and timestamped.</p>
+          <p style={{ color: "rgba(255,255,255,0.44)", marginTop: 16, lineHeight: 1.78, marginBottom: 36, fontSize: "0.9rem" }}>Music labels, A&Rs, and managers across Latin America use Artist 360° Intelligence to act on real data — not last week's spreadsheet. Every metric is live, sourced, and timestamped.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <button className="gbtn" style={{ background: "#00e5a0", color: "#070a10", border: "none", borderRadius: 10, padding: "14px 36px", fontSize: "1rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }}>Request Early Access</button>
             <button className="obtn" style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 10, padding: "14px 28px", fontSize: "1rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Contact Sales</button>
