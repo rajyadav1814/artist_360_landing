@@ -223,7 +223,7 @@ export default function App() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
           {NAV_ITEMS.map(n => (
-            <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} style={{ color: "rgba(255,255,255,0.52)", fontSize: "0.85rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255,255,255,0.52)"}>{n}</a>
+            <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} style={{ color: "rgba(255, 255, 255, 0.91)", fontSize: "0.85rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255, 255, 255, 0.96)"}>{n}</a>
           ))}
         </div>
         <button className="gbtn" style={{ background: "#00e5a0", color: "#070a10", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }}>Request Access</button>
@@ -235,7 +235,7 @@ export default function App() {
           The intelligence layer<em style={{ color: "#00e5a0" }}>Latin music never had</em>
         </h1>
 
-        <p style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.46)", maxWidth: 580, lineHeight: 1.8, marginTop: 24, marginBottom: 12, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.22s" }}>
+        <p style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.46)", maxWidth: 1080, lineHeight: 1.8, marginTop: 24, marginBottom: 12, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.22s" }}>
           Real-time artist rankings, label market share, debut signals, and AI-powered analysis — unified across Spotify and iTunes for 18 LATAM markets. Every number you see is <strong style={{ color: "rgba(255,255,255,0.75)" }}>live, sourced, and timestamped.</strong>
         </p>
 
