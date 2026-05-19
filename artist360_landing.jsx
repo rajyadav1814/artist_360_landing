@@ -305,29 +305,6 @@ export default function App() {
         padding: "100px 2rem 60px",
         textAlign: "center",
       }}>
-        {/* Live badge */}
-        <div style={{
-          display: "inline-flex", alignItems: "center", gap: 8,
-          background: "rgba(0,229,160,0.1)", border: "1px solid rgba(0,229,160,0.25)",
-          borderRadius: 100, padding: "5px 14px", marginBottom: 32,
-          opacity: heroVisible ? 1 : 0,
-          transform: heroVisible ? "translateY(0)" : "translateY(-16px)",
-          transition: "all 0.7s cubic-bezier(0.23, 1, 0.32, 1)",
-        }}>
-          <div style={{
-            width: 7, height: 7, borderRadius: "50%", background: "#00e5a0",
-            position: "relative",
-          }}>
-            <div style={{
-              position: "absolute", inset: 0, borderRadius: "50%", background: "#00e5a0",
-              animation: "pulse-ring 2s ease-out infinite",
-            }} />
-          </div>
-          <span style={{
-            fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.15em",
-            color: "#00e5a0", fontFamily: "'Space Mono', monospace",
-          }}>LIVE · LAST RUN 2026-05-19</span>
-        </div>
 
         <h1 style={{
           fontSize: "clamp(3rem, 7vw, 6.5rem)",
@@ -339,7 +316,7 @@ export default function App() {
           transform: heroVisible ? "translateY(0)" : "translateY(24px)",
           transition: "all 0.8s cubic-bezier(0.23, 1, 0.32, 1) 0.1s",
         }}>
-          The intelligence layer<br />
+          The intelligence layer
           <em style={{ color: "#00e5a0", fontStyle: "italic" }}>Latin music</em> never had
         </h1>
 
