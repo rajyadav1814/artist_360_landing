@@ -219,20 +219,19 @@ export default function App() {
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", background: scrolled ? "rgba(7,10,16,0.92)" : "transparent", backdropFilter: scrolled ? "blur(24px)" : "none", borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none", transition: "all 0.35s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
-          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem" }}>Artist <span style={{ color: "#00e5a0" }}>360</span> Intelligence</span>
+          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360</span> Intelligence</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 28, fontSize: "0.85rem" }}>
           {NAV_ITEMS.map(n => (
             <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} style={{ color: "rgba(255, 255, 255, 0.91)", fontSize: "0.85rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255, 255, 255, 0.96)"}>{n}</a>
           ))}
         </div>
-        <button className="gbtn" style={{ background: "#00e5a0", color: "#070a10", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.85rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }}>Request Access</button>
       </nav>
 
       {/* HERO */}
       <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center" }}>
         <h1 style={{ fontSize: "clamp(3rem,7.5vw,6.8rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.04, letterSpacing: "-0.03em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
-          The Intelligence layer<em style={{ color: "#00e5a0" }}>Latin music never had</em>
+          The Intelligence layer<em style={{ color: "#00e5a0" }}> Latin music never had</em>
         </h1>
 
         <p style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.46)", maxWidth: 1080, lineHeight: 1.8, marginTop: 24, marginBottom: 12, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.22s" }}>
@@ -244,7 +243,7 @@ export default function App() {
         </div>
 
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 70, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.4s" }}>
-          <button className="gbtn" style={{ background: "#00e5a0", color: "#070a10", border: "none", borderRadius: 10, padding: "13px 32px", fontSize: "0.95rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }}>Get Early Access</button>
+          <button className="gbtn" style={{ background: "#00e5a0", color: "#070a10", border: "none", borderRadius: 10, padding: "13px 32px", fontSize: "0.95rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Get Demo</button>
           <button className="obtn" onClick={() => document.getElementById("glossary")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.16)", borderRadius: 10, padding: "13px 28px", fontSize: "0.95rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Explore the Glossary ↓</button>
         </div>
 
