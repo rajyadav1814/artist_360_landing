@@ -356,10 +356,10 @@ export default function App() {
 
       {/* GLOSSARY */}
       <section id="glossary" style={{ position: "relative", zIndex: 1, padding: "80px 2rem 100px" }}>
-        <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <div style={{ maxWidth: 1060, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 44 }}>
             <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#f5c518", letterSpacing: "0.2em" }}>REAL-TIME TERMINOLOGY</span>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>What <em style={{ color: "#f5c518" }}>"real time"</em><br />actually means here</h2>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1, maxWidth: 1060 }}>What <em style={{ color: "#f5c518" }}>"real time"</em><br />actually means here</h2>
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 560, margin: "14px auto 0", lineHeight: 1.8, fontSize: "0.9rem" }}>
               Every badge, label, and signal in Artist 360 has a precise definition. Click any term to see the full explanation and a real example pulled directly from the live data.
             </p>
