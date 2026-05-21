@@ -4,37 +4,37 @@ const NAV_ITEMS = ["Features", "How It Works", "Glossary", "Pricing"];
 
 const FEATURES = [
   { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360°",
-    desc: "200+ artists ranked live across 18 Latin American markets. Composite scoring fuses iTunes chart points, Spotify monthly listeners, and global footprint — recalculated every time fresh data lands.",
-    stats: ["200+ Artists", "18 Markets", "Live Composite Score"], color: "#00e5a0",
-    realtime: "Rankings update automatically as Spotify and iTunes push new chart snapshots — no manual refresh or spreadsheet upload required." },
-  { icon: "⚡", tag: "DEBUT INTELLIGENCE", title: "Debuts/Chart",
-    desc: "Every new chart entry flagged the moment it appears. Strongest debut, multi-track debutants, catalogue re-entries, and debut score vs. incumbents — all surfaced live for Week 20.",
-    stats: ["101 New Entries/Wk", "Debut Score", "Strength vs Field"], color: "#f044b6",
-    realtime: "New entries are detected within the same processing cycle as raw chart data — typically within minutes of iTunes or Spotify publishing their weekly snapshot." },
-  { icon: "🏷️", tag: "LABEL INTELLIGENCE", title: "Label",
-    desc: "Universal, Sony, Warner, Independent, and Other/Indie compared across 6.34B+ streams. Daily stream curves, week-over-week shifts, and live market share in a rolling 9-day window.",
-    stats: ["6.34B Streams", "5 Label Groups", "9-Day Live Window"], color: "#7c6cf6",
-    realtime: "The 9-day window rolls forward daily. Each morning's ingest drops the oldest day and adds the newest — trend lines never go stale without anyone touching a date filter." },
+    desc: "The single source of truth for Latin music power. 200+ artists ranked by a composite score that weighs iTunes chart points, Spotify monthly listeners, and cross-market footprint — rebuilt automatically every time fresh data arrives from either platform.",
+    stats: ["200+ Artists", "18 LATAM Markets", "Live Composite Score"], color: "#00e5a0",
+    realtime: "Rankings are rebuilt on every pipeline run. The moment Spotify or iTunes pushes a new chart snapshot, positions shift — no spreadsheet, no manual trigger, no delay." },
+  { icon: "⚡", tag: "DEBUT INTELLIGENCE", title: "Debuts / Chart",
+    desc: "Catch breakout moments the instant they happen. Every first-time chart appearance is flagged, scored, and stacked against the incumbents it displaced — including Debut Score, Strength vs Field ratio, and multi-track debutant leaders, all live for the current week.",
+    stats: ["101 New Entries / Wk", "Debut Score", "Strength vs Field"], color: "#f472b6",
+    realtime: "Debut detection runs inside the same processing cycle as raw chart ingestion — a track that charts for the first time today surfaces within minutes, not at next week's report." },
+  { icon: "🏷️", tag: "LABEL INTELLIGENCE", title: "Label Market Share",
+    desc: "Universal, Sony, Warner, Independent, and Other/Indie battle for share across 6.34B+ streams in a rolling 9-day window. Daily stream curves and week-over-week momentum shifts reveal exactly who is gaining ground — and who is losing it.",
+    stats: ["6.34B+ Streams", "5 Label Groups", "9-Day Rolling Window"], color: "#818cf8",
+    realtime: "Each morning's ingest automatically drops the oldest day and appends the newest. Trend lines stay perpetually current without anyone touching a date filter." },
   { icon: "📈", tag: "POSITION INTELLIGENCE", title: "Chart Tracker",
-    desc: "14-day rank trajectories for the current top 10 artists rendered as live line charts. Biggest riser (+7), biggest faller (-2), and average position tracked across all artists.",
-    stats: ["14-Day Trajectories", "Risers & Fallers", "Avg Position"], color: "#ff6b6b",
-    realtime: "Position data is appended on each run rather than overwritten — building a continuous history you can slice by 7, 14, or 30 days without any data loss." },
+    desc: "Watch rank momentum unfold over 14 days for the current top 10. Live line charts surface the biggest riser, biggest faller, and average position across the full cohort — giving you a trajectory, not just today's number.",
+    stats: ["14-Day Trajectories", "Risers & Fallers", "Avg Position"], color: "#fb923c",
+    realtime: "Position history is appended on every run rather than overwritten — building a continuously growing timeline you can slice to 7, 14, or 30 days with zero data loss." },
   { icon: "🎯", tag: "TRACK INTELLIGENCE", title: "Acquisition Track",
-    desc: "613 tracks scored 0–100 on an Acquisition Score built from rank, stream momentum, and cross-platform presence. Filter by Rising / Stable / Falling across 7, 14, or 30-day windows.",
-    stats: ["613 Tracks", "Acq Score 0–100", "Cross-Platform Signals"], color: "#00c2e0",
-    realtime: "Scores are recalculated on every pipeline run — a track that explodes overnight shows an elevated score by morning, not next week." },
+    desc: "613 tracks ranked on an Acquisition Score from 0–100 derived from chart rank, stream momentum, and cross-platform signal strength. Filter by Rising / Stable / Falling across three time windows to surface exactly the tracks worth acting on now.",
+    stats: ["613 Tracks Scored", "Acq Score 0–100", "Cross-Platform Signal"], color: "#22d3ee",
+    realtime: "Scores are fully recalculated on every pipeline run. A track that goes viral overnight shows an elevated score by morning — not buried in next week's PDF." },
   { icon: "💡", tag: "COMMERCIAL SIGNALS", title: "Artist Acquisition",
-    desc: "300 ranked artists assessed with composite STRONG BUY / HOLD signals. Pulls from Spotify listeners, iTunes WW rank, tracks in top 200, and listener trajectory over 21-day periods.",
-    stats: ["300 Artists", "Strong Buy / Hold", "21-Day Trajectory"], color: "#992baf",
-    realtime: "The recommendation engine re-scores all 300 artists on every run. A HOLD artist can become STRONG BUY the same day their listener curve inflects." },
+    desc: "300 artists assessed and ranked by a composite STRONG BUY / HOLD signal engine. Draws from Spotify listener counts, iTunes WW rank, tracks in the top 200, and 21-day listener trajectory to surface artists with durable upside before the market catches on.",
+    stats: ["300 Ranked Artists", "Strong Buy / Hold", "21-Day Trajectory"], color: "#c084fc",
+    realtime: "All 300 artists are re-scored on every run. A HOLD can flip to STRONG BUY the same day its listener curve inflects — giving you the edge before the signal becomes obvious." },
   { icon: "⚖️", tag: "COMPARE", title: "Artist Comparison",
-    desc: "Pick 2–5 artists and see rank, monthly listeners, song count, and LATAM country footprint side by side. Visual comparison charts draw from the same live dataset as the leaderboard.",
-    stats: ["Up to 5 Artists", "Side-by-Side Metrics", "Visual Charts"], color: "#48dbfb",
-    realtime: "All comparison metrics reflect the most recent leaderboard snapshot — comparing Drake vs. Michael Jackson today gives today's numbers, not yesterday's." },
+    desc: "Stack any 2–5 artists side by side across rank, monthly listeners, track count, and LATAM country footprint. Visual bar and radar charts draw from the same live dataset as the global leaderboard for instant, apples-to-apples context.",
+    stats: ["Up to 5 Artists", "Side-by-Side Metrics", "Visual Radar Charts"], color: "#34d399",
+    realtime: "All comparison metrics pull from the most recent leaderboard snapshot — every head-to-head reflects today's live numbers, never a cached or stale export." },
   { icon: "🤖", tag: "AI ANALYST", title: "Ask Anything",
-    desc: "Type a question in plain English. The AI translates it into a live PostgreSQL query against the full artist, track, and chart dataset — returning answers, tables, and charts in seconds.",
-    stats: ["Natural Language", "Live PostgreSQL", "Charts + Tables"], color: "#a29bfe",
-    realtime: "Queries run against the live database, not a cached export — asking 'Who debuted this week?' returns this week's actual entries, not a PDF from last Friday." },
+    desc: "No SQL, no dashboards, no waiting. Type a question in plain English and the AI translates it into a live PostgreSQL query across the full artist, track, and chart dataset — surfacing answers, ranked tables, and visual charts in seconds.",
+    stats: ["Natural Language", "Live PostgreSQL", "Charts + Tables"], color: "#a78bfa",
+    realtime: "Every query runs directly against the live database — asking 'Who debuted this week with the highest stream count?' returns today's real answer, not a Friday export." },
 ];
 
 const REALTIME_TERMS = [
@@ -111,24 +111,127 @@ function Counter({ end, suffix }) {
 function FeatureCard({ f, i }) {
   const [ref, vis] = useIO(0.06);
   const [hov, setHov] = useState(false);
+  const num = String(i + 1).padStart(2, "0");
   return (
     <div ref={ref} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{ background: hov ? `linear-gradient(145deg,${f.color}0a,rgba(255,255,255,0.015))` : "rgba(255,255,255,0.022)", border: `1px solid ${hov ? f.color + "55" : "rgba(255,255,255,0.07)"}`, borderRadius: 20, padding: "1.9rem", position: "relative", overflow: "hidden", transform: vis ? (hov ? "translateY(-7px) scale(1.01)" : "translateY(0)") : "translateY(30px)", opacity: vis ? 1 : 0, transition: "all 0.45s cubic-bezier(0.23,1,0.32,1)", transitionDelay: vis ? `${i * 55}ms` : "0ms", boxShadow: hov ? `0 20px 60px rgba(0,0,0,0.35), 0 0 30px ${f.color}14` : "0 4px 20px rgba(0,0,0,0.2)" }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2.5, background: hov ? `linear-gradient(90deg,transparent,${f.color},transparent)` : "transparent", transition: "all 0.45s", boxShadow: hov ? `0 0 12px ${f.color}` : "none" }} />
-      <div style={{ position: "absolute", bottom: 0, right: 0, width: 120, height: 120, borderRadius: "50%", background: `radial-gradient(circle,${f.color}${hov ? "0f" : "06"} 0%,transparent 70%)`, transition: "all 0.45s" }} />
-      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <span style={{ fontSize: 28, filter: hov ? `drop-shadow(0 0 8px ${f.color}80)` : "none", transition: "filter 0.3s" }}>{f.icon}</span>
-        <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.18em", color: f.color, fontFamily: "'Space Mono',monospace" }}>{f.tag}</span>
+      style={{
+        background: hov
+          ? `linear-gradient(145deg,${f.color}0d,rgba(255,255,255,0.02) 60%,transparent)`
+          : "rgba(255,255,255,0.028)",
+        border: `1px solid ${hov ? f.color + "60" : "rgba(255,255,255,0.08)"}`,
+        borderRadius: 22,
+        padding: "1.75rem 1.9rem 1.65rem",
+        position: "relative",
+        overflow: "hidden",
+        transform: vis ? (hov ? "translateY(-8px) scale(1.015)" : "translateY(0)") : "translateY(34px)",
+        opacity: vis ? 1 : 0,
+        transition: "all 0.48s cubic-bezier(0.23,1,0.32,1)",
+        transitionDelay: vis ? `${i * 60}ms` : "0ms",
+        boxShadow: hov
+          ? `0 24px 64px rgba(0,0,0,0.38), 0 0 0 1px ${f.color}22, inset 0 1px 0 rgba(255,255,255,0.06)`
+          : "0 4px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.03)",
+        cursor: "default",
+      }}>
+
+      {/* Top accent bar — always present, glows on hover */}
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0, height: 2,
+        background: hov
+          ? `linear-gradient(90deg,transparent 0%,${f.color} 40%,${f.color}bb 60%,transparent 100%)`
+          : `linear-gradient(90deg,transparent,${f.color}30,transparent)`,
+        transition: "all 0.45s ease",
+        boxShadow: hov ? `0 0 16px ${f.color}90` : "none",
+      }} />
+
+      {/* Background radial glow corner */}
+      <div style={{
+        position: "absolute", bottom: -20, right: -20,
+        width: 160, height: 160, borderRadius: "50%",
+        background: `radial-gradient(circle,${f.color}${hov ? "12" : "07"} 0%,transparent 70%)`,
+        transition: "all 0.5s ease",
+        pointerEvents: "none",
+      }} />
+
+      {/* Card index watermark */}
+      <div style={{
+        position: "absolute", top: 14, right: 18,
+        fontFamily: "'Space Mono',monospace", fontSize: "0.6rem",
+        color: `${f.color}${hov ? "50" : "22"}`,
+        fontWeight: 700, letterSpacing: "0.06em",
+        transition: "color 0.4s",
+        userSelect: "none",
+      }}>{num}</div>
+
+      {/* Icon box + tag */}
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+        <div style={{
+          width: 46, height: 46, borderRadius: 13, flexShrink: 0,
+          background: hov ? `${f.color}1a` : `${f.color}10`,
+          border: `1px solid ${f.color}${hov ? "40" : "22"}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 22,
+          boxShadow: hov ? `0 0 18px ${f.color}30, inset 0 1px 0 ${f.color}20` : "none",
+          transition: "all 0.4s ease",
+          filter: hov ? `drop-shadow(0 0 6px ${f.color}60)` : "none",
+        }}>{f.icon}</div>
+        <span style={{
+          fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.16em",
+          color: hov ? f.color : f.color + "bb",
+          fontFamily: "'Space Mono',monospace",
+          transition: "color 0.3s",
+          lineHeight: 1.3,
+        }}>{f.tag}</span>
       </div>
-      <h3 style={{ fontSize: "1.1rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", marginBottom: 10 }}>{f.title}</h3>
-      <p style={{ fontSize: "0.845rem", color: "rgba(255,255,255,0.52)", lineHeight: 1.75, marginBottom: hov ? 14 : 16 }}>{f.desc}</p>
-      {hov && (
-        <div style={{ marginBottom: 14, padding: "10px 14px", background: `${f.color}0e`, border: `1px solid ${f.color}28`, borderRadius: 10, fontSize: "0.78rem", color: f.color, lineHeight: 1.65, animation: "fadeInUp 0.25s ease" }}>
-          ⏱ <strong>Real-time:</strong> {f.realtime}
+
+      {/* Title */}
+      <h3 style={{
+        fontSize: "1.12rem", fontWeight: 700, fontFamily: "'Playfair Display',serif",
+        marginBottom: 10, lineHeight: 1.25,
+        color: hov ? "#fff" : "rgba(255,255,255,0.92)",
+        transition: "color 0.3s",
+      }}>{f.title}</h3>
+
+      {/* Description */}
+      <p style={{
+        fontSize: "0.845rem", color: "rgba(255,255,255,0.5)",
+        lineHeight: 1.78, marginBottom: 14,
+        transition: "color 0.3s",
+      }}>{f.desc}</p>
+
+      {/* Real-time reveal */}
+      <div style={{
+        overflow: "hidden",
+        maxHeight: hov ? 120 : 0,
+        opacity: hov ? 1 : 0,
+        marginBottom: hov ? 14 : 0,
+        transition: "max-height 0.38s cubic-bezier(0.23,1,0.32,1), opacity 0.3s ease, margin-bottom 0.3s",
+      }}>
+        <div style={{
+          padding: "10px 13px",
+          background: `${f.color}0c`,
+          border: `1px solid ${f.color}30`,
+          borderRadius: 10,
+          fontSize: "0.775rem", color: f.color, lineHeight: 1.68,
+        }}>
+          <span style={{ opacity: 0.7, marginRight: 5 }}>⏱</span>
+          <strong style={{ fontWeight: 600 }}>Real-time:</strong>{" "}{f.realtime}
         </div>
-      )}
+      </div>
+
+      {/* Stats pills */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
-        {f.stats.map((s, j) => <span key={j} style={{ background: `${f.color}10`, border: `1px solid ${f.color}26`, color: f.color, borderRadius: 6, padding: "3px 10px", fontSize: "0.68rem", fontFamily: "'Space Mono',monospace", transition: "all 0.2s" }}>{s}</span>)}
+        {f.stats.map((s, j) => (
+          <span key={j} style={{
+            background: hov ? `${f.color}16` : `${f.color}0c`,
+            border: `1px solid ${hov ? f.color + "40" : f.color + "22"}`,
+            color: hov ? f.color : f.color + "cc",
+            borderRadius: 7, padding: "4px 11px",
+            fontSize: "0.665rem", fontFamily: "'Space Mono',monospace",
+            fontWeight: 600, letterSpacing: "0.04em",
+            boxShadow: hov ? `0 0 8px ${f.color}20` : "none",
+            transition: "all 0.3s ease",
+          }}>{s}</span>
+        ))}
       </div>
     </div>
   );
@@ -269,9 +372,13 @@ export default function App() {
       {/* FEATURES */}
       <section id="features" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Artist 360° Platform</h2>
-            <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>Hover any module to reveal what "real-time" specifically means for that view.</p>
+          <div style={{ textAlign: "center", marginBottom: 60 }}>
+            {/* Section badge */}
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 0, letterSpacing: "-0.025em", lineHeight: 1.08 }}>Artist 360° Platform</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 480, margin: "14px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
+              Eight intelligence modules. One live database.{" "}
+              <span style={{ color: "rgba(255,255,255,0.6)", borderBottom: "1px solid rgba(0,229,160,0.35)" }}>Hover any card</span>{" "}to see exactly what "real-time" means for that view.
+            </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 18 }}>
             {FEATURES.map((f, i) => <FeatureCard key={i} f={f} i={i} />)}
@@ -438,7 +545,6 @@ export default function App() {
         <div style={{ position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)", width: 700, height: 500, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(245,197,24,0.04) 0%,transparent 70%)", pointerEvents: "none", zIndex: 0 }} />
         <div style={{ maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 }}>
           <div style={{ textAlign: "center", marginBottom: 52 }}>
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.68rem", color: "#f5c518", letterSpacing: "0.22em", opacity: 0.8 }}>TRANSPARENCY · GLOSSARY</span>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", marginTop: 14, letterSpacing: "-0.02em", lineHeight: 1.12 }}>What <em style={{ color: "#f5c518" }}>"real time"</em><br />actually means here</h2>
             <p style={{ color: "rgba(255,255,255,0.42)", maxWidth: 520, margin: "16px auto 0", lineHeight: 1.82, fontSize: "0.88rem" }}>
               Every badge, label, and signal in Artist 360 has a precise definition. Click any term to see the full explanation and a real example pulled directly from the live data.
