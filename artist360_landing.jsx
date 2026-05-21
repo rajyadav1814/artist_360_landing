@@ -137,25 +137,76 @@ function FeatureCard({ f, i }) {
 function GlossaryCard({ term, i }) {
   const [ref, vis] = useIO(0.06);
   const [open, setOpen] = useState(false);
+  const [hov, setHov] = useState(false);
   return (
-    <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(20px)", transition: `all 0.5s ease ${i * 65}ms` }}>
-      <div onClick={() => setOpen(!open)} style={{ background: open ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.02)", border: `1px solid ${open ? term.badgeColor + "45" : "rgba(255,255,255,0.08)"}`, borderRadius: open ? "16px 16px 0 0" : 16, padding: "18px 22px", cursor: "pointer", display: "flex", alignItems: "center", gap: 14, transition: "all 0.3s ease" }}>
-        <span style={{ fontSize: 22, flexShrink: 0 }}>{term.icon}</span>
-        <div style={{ flex: 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 4 }}>
-            <span style={{ fontWeight: 700, fontSize: "0.98rem", fontFamily: "'Playfair Display',serif" }}>{term.term}</span>
-            <span style={{ background: `${term.badgeColor}18`, border: `1px solid ${term.badgeColor}35`, color: term.badgeColor, borderRadius: 6, padding: "2px 9px", fontSize: "0.63rem", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em" }}>{term.badge}</span>
+    <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(24px)", transition: `opacity 0.5s ease ${i * 60}ms, transform 0.5s ease ${i * 60}ms` }}>
+      <div
+        onClick={() => setOpen(!open)}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        style={{
+          background: open ? `linear-gradient(135deg,${term.badgeColor}08,rgba(255,255,255,0.03))` : hov ? "rgba(255,255,255,0.035)" : "rgba(255,255,255,0.018)",
+          border: `1px solid ${open || hov ? term.badgeColor + "50" : "rgba(255,255,255,0.09)"}`,
+          borderLeft: `3px solid ${open ? term.badgeColor : hov ? term.badgeColor + "80" : "rgba(255,255,255,0.12)"}`,
+          borderRadius: open ? "14px 14px 0 0" : 14,
+          padding: "16px 20px 16px 18px",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          gap: 16,
+          transition: "all 0.28s ease",
+          boxShadow: open ? `0 4px 24px ${term.badgeColor}12` : hov ? "0 2px 14px rgba(0,0,0,0.18)" : "none",
+        }}
+      >
+        <div style={{
+          width: 42, height: 42, borderRadius: 10, background: `${term.badgeColor}12`,
+          border: `1px solid ${term.badgeColor}28`, display: "flex", alignItems: "center",
+          justifyContent: "center", fontSize: 20, flexShrink: 0,
+          boxShadow: open ? `0 0 12px ${term.badgeColor}30` : "none",
+          transition: "all 0.28s ease",
+        }}>{term.icon}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap", marginBottom: 5 }}>
+            <span style={{ fontWeight: 700, fontSize: "1rem", fontFamily: "'Playfair Display',serif" }}>{term.term}</span>
+            <span style={{
+              background: `${term.badgeColor}1a`, border: `1px solid ${term.badgeColor}40`,
+              color: term.badgeColor, borderRadius: 20, padding: "2px 10px",
+              fontSize: "0.615rem", fontFamily: "'Space Mono',monospace", letterSpacing: "0.12em",
+              fontWeight: 700, boxShadow: open ? `0 0 8px ${term.badgeColor}28` : "none",
+              transition: "box-shadow 0.28s",
+            }}>{term.badge}</span>
           </div>
-          <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.42)" }}>{term.short}</p>
+          <p style={{ fontSize: "0.795rem", color: "rgba(255,255,255,0.44)", lineHeight: 1.55, margin: 0 }}>{term.short}</p>
         </div>
-        <span style={{ color: "rgba(255,255,255,0.28)", fontSize: "1.1rem", transform: open ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.3s", flexShrink: 0 }}>▾</span>
+        <div style={{
+          width: 26, height: 26, borderRadius: "50%", background: open ? `${term.badgeColor}18` : "rgba(255,255,255,0.04)",
+          border: `1px solid ${open ? term.badgeColor + "40" : "rgba(255,255,255,0.1)"}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0, transition: "all 0.28s ease",
+        }}>
+          <span style={{ color: open ? term.badgeColor : "rgba(255,255,255,0.35)", fontSize: "0.75rem", transform: open ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.28s ease", display: "block", lineHeight: 1 }}>▾</span>
+        </div>
       </div>
       {open && (
-        <div style={{ background: "rgba(255,255,255,0.015)", border: `1px solid ${term.badgeColor}28`, borderTop: "none", borderRadius: "0 0 16px 16px", padding: "18px 22px 22px" }}>
-          <p style={{ fontSize: "0.87rem", color: "rgba(255,255,255,0.62)", lineHeight: 1.82, marginBottom: 16 }}>{term.long}</p>
-          <div style={{ background: `${term.badgeColor}0b`, border: `1px solid ${term.badgeColor}22`, borderRadius: 10, padding: "12px 16px" }}>
-            <div style={{ fontSize: "0.68rem", fontWeight: 700, color: term.badgeColor, fontFamily: "'Space Mono',monospace", letterSpacing: "0.12em", marginBottom: 6 }}>EXAMPLE IN ARTIST 360</div>
-            <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.56)", lineHeight: 1.72 }}>{term.example}</p>
+        <div style={{
+          background: `linear-gradient(135deg,${term.badgeColor}06,rgba(255,255,255,0.01))`,
+          border: `1px solid ${term.badgeColor}30`,
+          borderLeft: `3px solid ${term.badgeColor}`,
+          borderTop: "none",
+          borderRadius: "0 0 14px 14px",
+          padding: "20px 20px 22px 20px",
+          animation: "fadeInUp 0.22s ease",
+        }}>
+          <p style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.85, marginBottom: 18 }}>{term.long}</p>
+          <div style={{
+            background: `${term.badgeColor}0d`, border: `1px solid ${term.badgeColor}28`,
+            borderRadius: 10, padding: "13px 16px",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+              <div style={{ width: 4, height: 4, borderRadius: "50%", background: term.badgeColor }} />
+              <span style={{ fontSize: "0.635rem", fontWeight: 700, color: term.badgeColor, fontFamily: "'Space Mono',monospace", letterSpacing: "0.14em" }}>LIVE EXAMPLE — ARTIST 360</span>
+            </div>
+            <p style={{ fontSize: "0.81rem", color: "rgba(255,255,255,0.58)", lineHeight: 1.75, margin: 0 }}>{term.example}</p>
           </div>
         </div>
       )}
@@ -382,89 +433,251 @@ export default function App() {
       </section>
 
       {/* GLOSSARY */}
-      <section id="glossary" style={{ position: "relative", zIndex: 1, padding: "80px 2rem 100px" }}>
-        <div style={{ maxWidth: 1060, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 44 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1, maxWidth: 1060 }}>What <em style={{ color: "#f5c518" }}>"real time"</em><br />actually means here</h2>
-            <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 560, margin: "14px auto 0", lineHeight: 1.8, fontSize: "0.9rem" }}>
+      <section id="glossary" style={{ position: "relative", zIndex: 1, padding: "90px 2rem 110px" }}>
+        {/* subtle radial glow behind the section */}
+        <div style={{ position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)", width: 700, height: 500, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(245,197,24,0.04) 0%,transparent 70%)", pointerEvents: "none", zIndex: 0 }} />
+        <div style={{ maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.68rem", color: "#f5c518", letterSpacing: "0.22em", opacity: 0.8 }}>TRANSPARENCY · GLOSSARY</span>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", marginTop: 14, letterSpacing: "-0.02em", lineHeight: 1.12 }}>What <em style={{ color: "#f5c518" }}>"real time"</em><br />actually means here</h2>
+            <p style={{ color: "rgba(255,255,255,0.42)", maxWidth: 520, margin: "16px auto 0", lineHeight: 1.82, fontSize: "0.88rem" }}>
               Every badge, label, and signal in Artist 360 has a precise definition. Click any term to see the full explanation and a real example pulled directly from the live data.
             </p>
           </div>
 
           {/* Filter pills */}
-          <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
+          <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 38 }}>
             {["All","Time & Freshness","Scores","Signals","Platform"].map(f => (
-              <button key={f} onClick={() => setFilter(f)} style={{ background: filter === f ? "#f5c518" : "rgba(255,255,255,0.04)", color: filter === f ? "#070a10" : "rgba(255,255,255,0.52)", border: `1px solid ${filter === f ? "#f5c518" : "rgba(255,255,255,0.12)"}`, borderRadius: 100, padding: "6px 16px", fontSize: "0.76rem", fontWeight: filter === f ? 700 : 500, cursor: "pointer", transition: "all 0.25s ease", fontFamily: "'Space Mono',monospace", letterSpacing: "0.05em" }}>{f}</button>
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                style={{
+                  background: filter === f ? "#f5c518" : "rgba(255,255,255,0.04)",
+                  color: filter === f ? "#070a10" : "rgba(255,255,255,0.55)",
+                  border: `1px solid ${filter === f ? "#f5c518" : "rgba(255,255,255,0.13)"}`,
+                  borderRadius: 100,
+                  padding: "7px 18px",
+                  fontSize: "0.74rem",
+                  fontWeight: filter === f ? 700 : 500,
+                  cursor: "pointer",
+                  transition: "all 0.22s ease",
+                  fontFamily: "'Space Mono',monospace",
+                  letterSpacing: "0.06em",
+                  boxShadow: filter === f ? "0 0 16px rgba(245,197,24,0.28)" : "none",
+                }}
+              >{f}</button>
             ))}
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(FILTER_MAP[filter] || REALTIME_TERMS).map((term, i) => <GlossaryCard key={term.term} term={term} i={i} />)}
           </div>
         </div>
       </section>
 
       {/* AI SECTION */}
-      <section style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px" }}>
-        <div style={{ maxWidth: 940, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56, alignItems: "center" }}>
+      <section style={{ position: "relative", zIndex: 1, padding: "80px 2rem 110px", overflow: "hidden" }}>
+        {/* Background glow */}
+        <div style={{ position: "absolute", top: "20%", right: "5%", width: 480, height: 480, borderRadius: "50%", background: "radial-gradient(circle,rgba(162,155,254,0.07) 0%,transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "10%", left: "0%", width: 320, height: 320, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.05) 0%,transparent 70%)", pointerEvents: "none" }} />
+
+        <div style={{ maxWidth: 980, margin: "0 auto", position: "relative", zIndex: 1 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+
+            {/* Left: copy */}
             <div>
-              <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#a29bfe", letterSpacing: "0.2em" }}>AI DATA ANALYST</span>
-              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,3.5vw,2.8rem)", marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.15 }}>Ask questions.<br /><em style={{ color: "#a29bfe" }}>Get live answers.</em></h2>
-              <p style={{ color: "rgba(255,255,255,0.44)", lineHeight: 1.8, marginTop: 16, fontSize: "0.87rem" }}>Type any question in plain English — the AI translates it to a live PostgreSQL query against the full artist, track, and chart database. Results include prose, tables, and charts.</p>
-              <div style={{ marginTop: 22, display: "flex", flexDirection: "column", gap: 12 }}>
+              <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.68rem", color: "#a29bfe", letterSpacing: "0.22em", opacity: 0.9 }}>AI DATA ANALYST</span>
+              <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.9rem,3.5vw,2.9rem)", marginTop: 14, letterSpacing: "-0.02em", lineHeight: 1.12 }}>Ask questions.<br /><em style={{ color: "#a29bfe" }}>Get live answers.</em></h2>
+              <p style={{ color: "rgba(255,255,255,0.46)", lineHeight: 1.82, marginTop: 18, fontSize: "0.875rem", maxWidth: 420 }}>
+                Type any question in plain English — the AI translates it to a live PostgreSQL query against the full artist, track, and chart database. Results include prose, tables, and charts.
+              </p>
+              <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 10 }}>
                 {[
-                  { q: "Natural Language Input", d: "No SQL, no filters — type what you want to know." },
-                  { q: "Live Database Query", d: "Runs against the real-time DB, not a cached snapshot." },
-                  { q: "Instant Visual Output", d: "Returns prose, sortable tables, or rendered charts in seconds." },
+                  { icon: "💬", q: "Natural Language Input", d: "No SQL, no filters — type what you want to know." },
+                  { icon: "⚡", q: "Live Database Query", d: "Runs against the real-time DB, not a cached snapshot." },
+                  { icon: "📊", q: "Instant Visual Output", d: "Returns prose, sortable tables, or rendered charts in seconds." },
                 ].map((p, i) => (
-                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <div style={{ width: 7, height: 7, borderRadius: "50%", background: "#a29bfe", marginTop: 6, flexShrink: 0 }} />
-                    <div><span style={{ fontSize: "0.85rem", fontWeight: 600 }}>{p.q} </span><span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.4)" }}>— {p.d}</span></div>
+                  <div key={i} style={{
+                    display: "flex", gap: 14, alignItems: "flex-start",
+                    background: "rgba(162,155,254,0.04)", border: "1px solid rgba(162,155,254,0.12)",
+                    borderRadius: 12, padding: "13px 16px", transition: "border-color 0.2s",
+                  }}>
+                    <span style={{ fontSize: 17, flexShrink: 0, marginTop: 1 }}>{p.icon}</span>
+                    <div>
+                      <span style={{ fontSize: "0.855rem", fontWeight: 700, color: "rgba(255,255,255,0.88)" }}>{p.q}</span>
+                      <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.38)", marginTop: 3, lineHeight: 1.55 }}>{p.d}</p>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-            <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 20, overflow: "hidden" }}>
-              <div style={{ padding: "16px 20px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: 16 }}>🤖</span>
-                <span style={{ fontWeight: 600, fontSize: "0.88rem" }}>AI Data Analyst</span>
-                <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 5 }}>
+
+            {/* Right: chat window */}
+            <div style={{
+              background: "rgba(10,12,26,0.7)", backdropFilter: "blur(12px)",
+              border: "1px solid rgba(162,155,254,0.18)", borderRadius: 22,
+              overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(162,155,254,0.06), 0 0 40px rgba(162,155,254,0.06)",
+            }}>
+              {/* Window chrome */}
+              <div style={{
+                padding: "14px 18px",
+                borderBottom: "1px solid rgba(255,255,255,0.07)",
+                display: "flex", alignItems: "center", gap: 10,
+                background: "rgba(255,255,255,0.02)",
+              }}>
+                <div style={{ display: "flex", gap: 6, marginRight: 4 }}>
+                  {["#ff5f57","#ffbd2e","#28c840"].map(c => (
+                    <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c, opacity: 0.7 }} />
+                  ))}
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, justifyContent: "center" }}>
+                  <div style={{ width: 24, height: 24, borderRadius: 6, background: "linear-gradient(135deg,#a29bfe,#7c6cf6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>🤖</div>
+                  <span style={{ fontWeight: 600, fontSize: "0.85rem", color: "rgba(255,255,255,0.85)" }}>AI Data Analyst</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
                   <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#00e5a0", animation: "ring 2s ease-out infinite" }} />
-                  <span style={{ fontSize: "0.63rem", color: "#00e5a0", fontFamily: "'Space Mono',monospace" }}>LIVE DB</span>
+                  <span style={{ fontSize: "0.6rem", color: "#00e5a0", fontFamily: "'Space Mono',monospace", letterSpacing: "0.08em" }}>LIVE DB</span>
                 </div>
               </div>
-              <div style={{ padding: "18px", display: "flex", flexDirection: "column", gap: 14 }}>
+
+              {/* Messages */}
+              <div style={{ padding: "20px 18px", display: "flex", flexDirection: "column", gap: 16 }}>
                 {[
-                  { q: "Which label is growing fastest this week?", a: "Other/Indie is up +270.4% WkA→WkB, moving from 288.8M to 1.1B streams and now holding 21.4% market share — the largest intra-period surge of any label group." },
-                  { q: "Who debuted strongest in Week 20?", a: "Drake's 'Make Them Cry' debuted at #1 with entry score 42.9M — the highest single-track debut of Week 20, and 76% as strong as the average incumbent track." },
+                  {
+                    q: "Which label is growing fastest this week?",
+                    a: "Other/Indie is up +270.4% WkA→WkB, moving from 288.8M to 1.1B streams and now holding 21.4% market share — the largest intra-period surge of any label group.",
+                    stat: "+270.4%",
+                  },
+                  {
+                    q: "Who debuted strongest in Week 20?",
+                    a: "Drake's 'Make Them Cry' debuted at #1 with entry score 42.9M — the highest single-track debut of Week 20, and 76% as strong as the average incumbent track.",
+                    stat: "#1 Debut",
+                  },
                 ].map((m, i) => (
-                  <div key={i}>
-                    <div style={{ background: "rgba(162,155,254,0.1)", border: "1px solid rgba(162,155,254,0.18)", borderRadius: "12px 12px 4px 12px", padding: "10px 14px", fontSize: "0.8rem", color: "rgba(255,255,255,0.8)", maxWidth: "78%", marginLeft: "auto" }}>{m.q}</div>
-                    <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "4px 12px 12px 12px", padding: "10px 14px", fontSize: "0.78rem", color: "rgba(255,255,255,0.58)", lineHeight: 1.65, maxWidth: "88%", marginTop: 7 }}>{m.a}</div>
+                  <div key={i} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    {/* User bubble */}
+                    <div style={{ alignSelf: "flex-end", maxWidth: "76%" }}>
+                      <div style={{
+                        background: "linear-gradient(135deg,rgba(162,155,254,0.22),rgba(124,108,246,0.16))",
+                        border: "1px solid rgba(162,155,254,0.28)",
+                        borderRadius: "14px 14px 3px 14px",
+                        padding: "10px 14px",
+                        fontSize: "0.8rem",
+                        color: "rgba(255,255,255,0.88)",
+                        lineHeight: 1.55,
+                      }}>{m.q}</div>
+                    </div>
+                    {/* AI bubble */}
+                    <div style={{ alignSelf: "flex-start", maxWidth: "90%", display: "flex", gap: 9, alignItems: "flex-start" }}>
+                      <div style={{ width: 26, height: 26, borderRadius: 7, background: "linear-gradient(135deg,#a29bfe,#7c6cf6)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, flexShrink: 0, marginTop: 2 }}>🤖</div>
+                      <div>
+                        <div style={{
+                          background: "rgba(255,255,255,0.04)",
+                          border: "1px solid rgba(255,255,255,0.09)",
+                          borderRadius: "3px 14px 14px 14px",
+                          padding: "10px 14px",
+                          fontSize: "0.775rem",
+                          color: "rgba(255,255,255,0.62)",
+                          lineHeight: 1.7,
+                        }}>{m.a}</div>
+                        <div style={{ marginTop: 6, display: "flex", gap: 6, alignItems: "center" }}>
+                          <span style={{ background: "rgba(162,155,254,0.12)", border: "1px solid rgba(162,155,254,0.22)", color: "#a29bfe", borderRadius: 20, padding: "2px 9px", fontSize: "0.6rem", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{m.stat}</span>
+                          <span style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.2)", fontFamily: "'Space Mono',monospace" }}>from live DB · Week 20</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ))}
-                <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 10, padding: "10px 14px", display: "flex", gap: 10, alignItems: "center" }}>
-                  <span style={{ flex: 1, fontSize: "0.76rem", color: "rgba(255,255,255,0.18)" }}>Ask about artists, listeners, rankings, trends…</span>
-                  <div style={{ width: 26, height: 26, borderRadius: 6, background: "#a29bfe", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11 }}>↑</div>
+
+                {/* Input bar */}
+                <div style={{
+                  marginTop: 4,
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(162,155,254,0.18)",
+                  borderRadius: 12, padding: "10px 12px",
+                  display: "flex", gap: 10, alignItems: "center",
+                }}>
+                  <span style={{ flex: 1, fontSize: "0.75rem", color: "rgba(255,255,255,0.2)" }}>Ask about artists, listeners, rankings, trends…</span>
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 8,
+                    background: "linear-gradient(135deg,#a29bfe,#7c6cf6)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 12, boxShadow: "0 0 10px rgba(162,155,254,0.3)", flexShrink: 0,
+                  }}>↑</div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section id="pricing" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 120px" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center", background: "linear-gradient(135deg,rgba(0,229,160,0.07) 0%,rgba(0,194,224,0.04) 50%,rgba(124,108,246,0.07) 100%)", border: "1px solid rgba(0,229,160,0.18)", borderRadius: 32, padding: "72px 52px", position: "relative", overflow: "hidden", boxShadow: "0 0 0 1px rgba(0,229,160,0.06), 0 40px 100px rgba(0,0,0,0.4), 0 0 60px rgba(0,229,160,0.06)" }}>
-          <div style={{ position: "absolute", top: -100, right: -100, width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.1) 0%,transparent 70%)", pointerEvents: "none" }} />
-          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#00e5a0", letterSpacing: "0.2em" }}>GET STARTED</span>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,2.8rem)", marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.15 }}>Know your market.<br /><em style={{ color: "#00e5a0" }}>Before anyone else does.</em></h2>
-          <p style={{ color: "rgba(255,255,255,0.44)", marginTop: 16, lineHeight: 1.78, marginBottom: 36, fontSize: "0.9rem" }}>Music labels, A&Rs, and managers across Latin America use Artist 360° Intelligence to act on real data — not last week's spreadsheet. Every metric is live, sourced, and timestamped.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10", border: "none", borderRadius: 12, padding: "15px 40px", fontSize: "1rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", boxShadow: "0 4px 24px rgba(0,229,160,0.35)" }}>Request Early Access</button>
-            <button className="obtn" style={{ background: "rgba(255,255,255,0.04)", color: "#fff", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 12, padding: "15px 32px", fontSize: "1rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Contact Sales</button>
+      <section id="pricing" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 130px", overflow: "hidden" }}>
+        {/* Outer ambient glows */}
+        <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 700, height: 300, background: "radial-gradient(ellipse,rgba(0,229,160,0.07) 0%,transparent 70%)", pointerEvents: "none" }} />
+
+        <div style={{
+          maxWidth: 740, margin: "0 auto", textAlign: "center",
+          background: "linear-gradient(160deg,rgba(0,229,160,0.06) 0%,rgba(0,194,224,0.03) 40%,rgba(124,108,246,0.06) 100%)",
+          border: "1px solid rgba(0,229,160,0.2)",
+          borderRadius: 36, padding: "80px 60px 72px",
+          position: "relative", overflow: "hidden",
+          boxShadow: "0 0 0 1px rgba(0,229,160,0.05), 0 48px 120px rgba(0,0,0,0.5), 0 0 80px rgba(0,229,160,0.07)",
+        }}>
+          {/* Inner corner glows */}
+          <div style={{ position: "absolute", top: -120, right: -120, width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.1) 0%,transparent 65%)", pointerEvents: "none" }} />
+          <div style={{ position: "absolute", bottom: -80, left: -80, width: 280, height: 280, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.07) 0%,transparent 65%)", pointerEvents: "none" }} />
+
+          {/* Top "live" status bar */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 28 }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#00e5a0", animation: "ring 2s ease-out infinite" }} />
+            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.67rem", color: "#00e5a0", letterSpacing: "0.22em" }}>LIVE PLATFORM · GET STARTED</span>
           </div>
+
+          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.1rem,4.5vw,3.1rem)", marginTop: 0, letterSpacing: "-0.025em", lineHeight: 1.1 }}>
+            Know your market.<br /><em style={{ color: "#00e5a0" }}>Before anyone else does.</em>
+          </h2>
+
+          <p style={{ color: "rgba(255,255,255,0.46)", marginTop: 20, lineHeight: 1.82, marginBottom: 0, fontSize: "0.9rem", maxWidth: 520, margin: "20px auto 0" }}>
+            Music labels, A&Rs, and managers across Latin America use Artist 360° Intelligence to act on real data — not last week's spreadsheet. Every metric is live, sourced, and timestamped.
+          </p>
+
+          {/* Social proof strip */}
+          <div style={{ display: "flex", gap: 28, justifyContent: "center", flexWrap: "wrap", margin: "32px 0 36px" }}>
+            {[
+              { val: "6.34B", label: "Streams tracked" },
+              { val: "18", label: "LATAM markets" },
+              { val: "9-day", label: "rolling window" },
+            ].map((s, i) => (
+              <div key={i} style={{ textAlign: "center" }}>
+                <div style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.55rem", fontWeight: 700, color: "#00e5a0", lineHeight: 1 }}>{s.val}</div>
+                <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", marginTop: 4, letterSpacing: "0.06em" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+            <button className="gbtn" style={{
+              background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10",
+              border: "none", borderRadius: 14, padding: "16px 44px",
+              fontSize: "1rem", fontWeight: 700, cursor: "pointer",
+              transition: "all 0.3s ease",
+              boxShadow: "0 6px 28px rgba(0,229,160,0.38), 0 2px 8px rgba(0,0,0,0.3)",
+              letterSpacing: "0.01em",
+            }}>Request Early Access →</button>
+            <button className="obtn" style={{
+              background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.82)",
+              border: "1px solid rgba(255,255,255,0.18)", borderRadius: 14,
+              padding: "16px 34px", fontSize: "1rem", fontWeight: 500,
+              cursor: "pointer", transition: "all 0.3s ease",
+              backdropFilter: "blur(6px)",
+            }}>Contact Sales</button>
+          </div>
+
+          <p style={{ marginTop: 22, fontSize: "0.72rem", color: "rgba(255,255,255,0.22)", fontFamily: "'Space Mono',monospace" }}>
+            No credit card required · Invite-only beta
+          </p>
         </div>
       </section>
 
