@@ -9,7 +9,7 @@ const FEATURES = [
     realtime: "Rankings update automatically as Spotify and iTunes push new chart snapshots — no manual refresh or spreadsheet upload required." },
   { icon: "⚡", tag: "DEBUT INTELLIGENCE", title: "Debuts/Chart",
     desc: "Every new chart entry flagged the moment it appears. Strongest debut, multi-track debutants, catalogue re-entries, and debut score vs. incumbents — all surfaced live for Week 20.",
-    stats: ["101 New Entries/Wk", "Debut Score", "Strength vs Field"], color: "#f5c518",
+    stats: ["101 New Entries/Wk", "Debut Score", "Strength vs Field"], color: "#f044b6",
     realtime: "New entries are detected within the same processing cycle as raw chart data — typically within minutes of iTunes or Spotify publishing their weekly snapshot." },
   { icon: "🏷️", tag: "LABEL INTELLIGENCE", title: "Label",
     desc: "Universal, Sony, Warner, Independent, and Other/Indie compared across 6.34B+ streams. Daily stream curves, week-over-week shifts, and live market share in a rolling 9-day window.",
@@ -25,7 +25,7 @@ const FEATURES = [
     realtime: "Scores are recalculated on every pipeline run — a track that explodes overnight shows an elevated score by morning, not next week." },
   { icon: "💡", tag: "COMMERCIAL SIGNALS", title: "Artist Acquisition",
     desc: "300 ranked artists assessed with composite STRONG BUY / HOLD signals. Pulls from Spotify listeners, iTunes WW rank, tracks in top 200, and listener trajectory over 21-day periods.",
-    stats: ["300 Artists", "Strong Buy / Hold", "21-Day Trajectory"], color: "#ff9f43",
+    stats: ["300 Artists", "Strong Buy / Hold", "21-Day Trajectory"], color: "#992baf",
     realtime: "The recommendation engine re-scores all 300 artists on every run. A HOLD artist can become STRONG BUY the same day their listener curve inflects." },
   { icon: "⚖️", tag: "COMPARE", title: "Artist Comparison",
     desc: "Pick 2–5 artists and see rank, monthly listeners, song count, and LATAM country footprint side by side. Visual comparison charts draw from the same live dataset as the leaderboard.",
@@ -73,9 +73,9 @@ const REALTIME_TERMS = [
 ];
 
 const METRICS = [
-  { value: "170", suffix: "+", label: "Artists Tracked", color: "#00e5a0" },
+  { value: "200", suffix: "+", label: "Artists Tracked", color: "#00e5a0" },
   { value: "18", suffix: "", label: "LATAM Markets", color: "#7c6cf6" },
-  { value: "6.34", suffix: "B", label: "Streams Monitored", color: "#f5c518" },
+  { value: "6.34", suffix: "B", label: "Streams Monitored", color: "#db6b9a" },
   { value: "613", suffix: "", label: "Tracks Scored Daily", color: "#00c2e0" },
 ];
 
@@ -353,7 +353,8 @@ export default function App() {
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>This is what makes every LIVE badge and Last Run timestamp meaningful.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0, position: "relative" }}>
-            <div style={{ position: "absolute", top: 35, left: "12.5%", right: "12.5%", height: 2, background: "linear-gradient(90deg,#00e5a0,#7c6cf6,#00c2e0,#a29bfe)", opacity: 0.4, zIndex: 0, borderRadius: 2 }} />
+            {/* Connector line through the center of circles (circle height=84px → center=42px) */}
+            <div style={{ position: "absolute", top: 42, left: "12.5%", right: "12.5%", height: 1, background: "linear-gradient(90deg,#00e5a040,#7c6cf660,#00c2e060,#a29bfe40)", zIndex: 0 }} />
             {[
               { step: "01", icon: "📡", title: "Data Ingest", desc: "Automated scrapers fetch Spotify Global and iTunes WW chart snapshots daily — artist listener counts, track ranks, stream totals, and label attribution.", color: "#00e5a0" },
               { step: "02", icon: "⚙️", title: "Processing", desc: "Raw data is cleaned, normalized across 18 LATAM markets, and enriched with history. Debut detection, cross-platform matching, and label grouping happen here.", color: "#7c6cf6" },
@@ -361,9 +362,18 @@ export default function App() {
               { step: "04", icon: "🟢", title: "Live Dashboards", desc: "All views read directly from the live database. The LIVE badge and Last Run timestamp confirm the pipeline completed successfully and the data is fresh.", color: "#a29bfe" },
             ].map((s, i) => (
               <div key={i} style={{ padding: "0 18px", textAlign: "center", position: "relative", zIndex: 1 }}>
-                <div className="step-circle" style={{ width: 72, height: 72, borderRadius: "50%", background: `radial-gradient(circle,${s.color}20,${s.color}06)`, border: `2px solid ${s.color}45`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, margin: "0 auto 18px", transition: "transform 0.3s ease", boxShadow: `0 0 24px ${s.color}18` }}>{s.icon}</div>
+                <div className="step-circle" style={{
+                  width: 84, height: 84, borderRadius: "50%",
+                  background: "radial-gradient(circle at 40% 38%, rgba(255,255,255,0.06) 0%, rgba(8,12,28,0.95) 70%)",
+                  border: `2px solid ${s.color}80`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 32, margin: "0 auto 20px",
+                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  boxShadow: `0 0 0 5px ${s.color}14, 0 0 28px ${s.color}28, inset 0 0 18px ${s.color}0a`,
+                  cursor: "default"
+                }}>{s.icon}</div>
                 <div style={{ fontSize: "0.63rem", fontFamily: "'Space Mono',monospace", color: s.color, letterSpacing: "0.18em", marginBottom: 8 }}>STEP {s.step}</div>
-                <h4 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", marginBottom: 10 }}>{s.title}</h4>
+                <h4 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem", marginBottom: 10 }}>{s.title}</h4>
                 <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.44)", lineHeight: 1.75 }}>{s.desc}</p>
               </div>
             ))}
