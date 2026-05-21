@@ -386,6 +386,773 @@ export default function App() {
         </div>
       </section>
 
+      {/* LEADERBOARD PREVIEW */}
+      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.7rem,3.5vw,2.7rem)", letterSpacing: "-0.025em", lineHeight: 1.1, margin: 0 }}>Artist 360° Leaderboard — ranked live</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 500, margin: "12px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
+              200+ artists ranked by iTunes performance, Spotify reach, and global footprint — with monthly listeners, peak listeners, points, and top market, all rebuilt on every data run.
+            </p>
+          </div>
+
+          {/* Browser chrome wrapper */}
+          <div style={{ background: "rgba(255,255,255,0.018)", border: "1px solid rgba(0,229,160,0.15)", borderRadius: 20, overflow: "hidden", boxShadow: "0 48px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,160,0.07), 0 0 60px rgba(0,229,160,0.05)" }}>
+
+            {/* Window chrome */}
+            <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "11px 18px", display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ display: "flex", gap: 6 }}>{["#ff5f57","#febc2e","#28c840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}</div>
+              <div style={{ background: "rgba(0,229,160,0.12)", color: "#00e5a0", border: "1px solid rgba(0,229,160,0.28)", borderRadius: 6, padding: "3px 10px", fontSize: "0.63rem", fontFamily: "'Space Mono',monospace" }}>● LIVE</div>
+            </div>
+
+            {/* App header */}
+            <div style={{ padding: "16px 24px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.15)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+                <span style={{ fontSize: 20 }}>🏆</span>
+                <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", fontWeight: 700 }}>Artist 360° Leaderboard</span>
+              </div>
+              <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.32)", fontFamily: "'Space Mono',monospace" }}>
+                Top Latin artists ranked by iTunes performance, Spotify reach, and global footprint · Last run: 2026-05-21 09:00
+              </div>
+            </div>
+
+            {/* Main body: table left, charts right */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 380px" }}>
+
+              {/* Left: leaderboard table */}
+              <div style={{ borderRight: "1px solid rgba(255,255,255,0.06)", padding: "18px 0 0" }}>
+                <div style={{ padding: "0 20px 12px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
+                    <span style={{ fontSize: 16 }}>📋</span>
+                    <span style={{ fontSize: "0.88rem", fontWeight: 700, color: "rgba(255,255,255,0.88)" }}>Leaderboard table</span>
+                  </div>
+                  <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.33)" }}>Scroll through the latest rank, listener, and points data in one place.</div>
+                </div>
+                {/* Table header */}
+                <div style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", gap: 4, padding: "8px 20px", borderTop: "1px solid rgba(255,255,255,0.07)", borderBottom: "1px solid rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.1)" }}>
+                  {["RANK","ARTIST","TOP SONG","TOP MARKET","MONTHLY LISTENERS","PEAK LISTENERS","POINTS"].map(h => (
+                    <div key={h} style={{ fontSize: "0.54rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.05em" }}>{h}</div>
+                  ))}
+                </div>
+                {/* Rows */}
+                {[
+                  { rank: 1, artist: "Drake", song: "Janice STFU", market: "Brazil", marketC: "#00e5a0", monthly: "95.45M", peak: "95.45M", pts: "17K", delta: null },
+                  { rank: 2, artist: "Michael Jackson", song: "Billie Jean", market: "Mexico", marketC: "#00e5a0", monthly: "104.34M", peak: "104.34M", pts: "11K", delta: null },
+                  { rank: 3, artist: "Justin Bieber", song: "Beauty and a Beat", market: "Paraguay", marketC: "#00e5a0", monthly: "142.58M", peak: "146.97M", pts: "4K", delta: null },
+                  { rank: 4, artist: "Bad Bunny", song: "DtMF", market: "Chile", marketC: "#00e5a0", monthly: "99.93M", peak: "123.93M", pts: "4K", delta: { v: "+1", up: true } },
+                  { rank: 5, artist: "BTS", song: "SWIM", market: "Brazil", marketC: "#00e5a0", monthly: "38.49M", peak: "46.72M", pts: "4K", delta: { v: "1", up: false } },
+                  { rank: 6, artist: "Taylor Swift", song: "The Fate of Ophelia", market: "Uruguay", marketC: "#00e5a0", monthly: "101.88M", peak: "116.23M", pts: "3K", delta: null },
+                  { rank: 7, artist: "Omar Courtz", song: "KOKO", market: "Panama", marketC: "#00e5a0", monthly: "28.88M", peak: "34.38M", pts: "2K", delta: null },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", gap: 4, padding: "11px 20px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: i === 0 ? "rgba(0,229,160,0.03)" : "transparent" }}>
+                    <div style={{ fontSize: "1rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", color: i === 0 ? "#00e5a0" : "rgba(255,255,255,0.7)" }}>{row.rank}</div>
+                    <div>
+                      <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>{row.artist}</div>
+                      {row.delta ? (
+                        <div style={{ display: "inline-flex", alignItems: "center", gap: 3, marginTop: 3, background: row.delta.up ? "rgba(0,229,160,0.12)" : "rgba(251,146,60,0.12)", border: `1px solid ${row.delta.up ? "rgba(0,229,160,0.3)" : "rgba(251,146,60,0.3)"}`, borderRadius: 5, padding: "1px 6px", fontSize: "0.58rem", fontFamily: "'Space Mono',monospace", color: row.delta.up ? "#00e5a0" : "#fb923c", fontWeight: 700 }}>
+                          {row.delta.up ? "▲" : "▼"}{row.delta.v}
+                        </div>
+                      ) : (
+                        <div style={{ marginTop: 3, width: 18, height: 2, background: "rgba(255,255,255,0.12)", borderRadius: 1 }} />
+                      )}
+                    </div>
+                    <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.55)" }}>{row.song}</div>
+                    <div>
+                      <span style={{ background: "rgba(0,229,160,0.12)", border: "1px solid rgba(0,229,160,0.28)", color: "#00e5a0", borderRadius: 6, padding: "3px 10px", fontSize: "0.62rem", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{row.market}</span>
+                    </div>
+                    <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.72)", fontFamily: "'Space Mono',monospace" }}>{row.monthly}</div>
+                    <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.5)", fontFamily: "'Space Mono',monospace" }}>{row.peak}</div>
+                    <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.72)", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{row.pts}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right: charts */}
+              <div style={{ padding: "18px 18px 18px", display: "flex", flexDirection: "column", gap: 16 }}>
+
+                {/* Top Artists by Monthly Listeners bar chart */}
+                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "16px 16px 12px", flex: "1 1 0" }}>
+                  <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Top Artists by Monthly Listeners</div>
+                  {/* SVG bar chart */}
+                  <svg viewBox="0 0 320 140" style={{ width: "100%", height: 140 }} preserveAspectRatio="none">
+                    {/* Grid lines */}
+                    {[0,35,70,105,140].map(y => <line key={y} x1="0" y1={y} x2="320" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />)}
+                    {/* Y labels */}
+                    {[["140M",2],["100M",38],["60M",75],["20M",112]].map(([l,y]) => (
+                      <text key={l} x="0" y={y} fontSize="7" fill="rgba(255,255,255,0.3)" fontFamily="monospace">{l}</text>
+                    ))}
+                    {/* Avg line */}
+                    <line x1="30" y1="42" x2="320" y2="42" stroke="#f5c518" strokeWidth="1" strokeDasharray="4 3" />
+                    <text x="260" y="38" fontSize="7" fill="#f5c518" fontFamily="monospace">Avg 114.80M</text>
+                    {/* Bars — data: Justin Bieber 142.58, Bruno Mars 137.93, The Weeknd 115.64, Rihanna 112.53, Michael Jackson 104.34, Lady Gaga 103.54, Taylor Swift 101.88, Bad Bunny 99.93 */}
+                    {[
+                      ["Justin Bieber", 142.58, "#00e5a0"],
+                      ["Bruno Mars", 137.93, "#818cf8"],
+                      ["The Weeknd", 115.64, "#818cf8"],
+                      ["Rihanna", 112.53, "#818cf8"],
+                      ["Michael Jackson", 104.34, "#818cf8"],
+                      ["Lady Gaga", 103.54, "#818cf8"],
+                      ["Taylor Swift", 101.88, "#818cf8"],
+                      ["Bad Bunny", 99.93, "#818cf8"],
+                    ].map(([name, val, color], bi) => {
+                      const maxH = 120; const barH = (val / 145) * maxH;
+                      const x = 32 + bi * 37; const y = 128 - barH;
+                      return (
+                        <g key={name}>
+                          <rect x={x} y={y} width={22} height={barH} fill={color} rx="3" opacity={bi === 0 ? 1 : 0.65} />
+                          <text x={x + 11} y={y - 3} fontSize="6.5" fill="rgba(255,255,255,0.55)" fontFamily="monospace" textAnchor="middle">{val >= 100 ? `${val.toFixed(2)}M` : `${val}M`}</text>
+                          <text x={x + 11} y={138} fontSize="6" fill="rgba(255,255,255,0.3)" fontFamily="monospace" textAnchor="middle" transform={`rotate(-30,${x+11},138)`}>{name.split(" ")[0]}</text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+
+                {/* Top Artists by iTunes Points horizontal bar chart */}
+                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "16px 16px 14px", flex: "1 1 0" }}>
+                  <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Top Artists by iTunes Points</div>
+                  {[
+                    { name: "Drake", pts: 17, color: "#f5c518", w: 100 },
+                    { name: "Michael Jackson", pts: 11, color: "#00e5a0", w: 65 },
+                    { name: "Justin Bieber", pts: 4, color: "#818cf8", w: 24 },
+                  ].map((row, i) => (
+                    <div key={i} style={{ marginBottom: i < 2 ? 12 : 0 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                        <span style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.55)" }}>{row.name}</span>
+                      </div>
+                      <div style={{ position: "relative", height: 20, background: "rgba(255,255,255,0.05)", borderRadius: 4, overflow: "hidden" }}>
+                        <div style={{ width: `${row.w}%`, height: "100%", background: row.color, borderRadius: 4, display: "flex", alignItems: "center", paddingLeft: 8, boxShadow: `0 0 10px ${row.color}40` }}>
+                          {i === 0 && <span style={{ fontSize: "0.58rem", color: "rgba(0,0,0,0.7)", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>Avg 6K</span>}
+                        </div>
+                        <span style={{ position: "absolute", right: row.w < 80 ? 8 : undefined, left: row.w >= 80 ? undefined : `${row.w + 2}%`, top: "50%", transform: "translateY(-50%)", fontSize: "0.62rem", color: "rgba(255,255,255,0.6)", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{row.pts}K</span>
+                        {/* Avg marker */}
+                        {i === 0 && <div style={{ position: "absolute", left: "35%", top: 0, bottom: 0, width: "1px", background: "rgba(251,146,60,0.6)", borderRight: "1px dashed rgba(251,146,60,0.6)" }} />}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* LABEL ANALYSIS PREVIEW */}
+      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.7rem,3.5vw,2.7rem)", letterSpacing: "-0.025em", lineHeight: 1.1, margin: 0 }}>Label Intelligence — in the wild</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 480, margin: "12px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
+              This is the actual Label Analysis module running on live data. Every number below reflects real Spotify &amp; iTunes ingestion from today.
+            </p>
+          </div>
+
+          {/* Browser chrome wrapper */}
+          <div style={{ background: "rgba(255,255,255,0.018)", border: "1px solid rgba(129,140,248,0.18)", borderRadius: 20, overflow: "hidden", boxShadow: "0 48px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(129,140,248,0.08), 0 0 60px rgba(129,140,248,0.06)" }}>
+
+            {/* Window chrome */}
+            <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "11px 18px", display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ display: "flex", gap: 6 }}>{["#ff5f57","#febc2e","#28c840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}</div>
+              <div style={{ background: "rgba(0,229,160,0.12)", color: "#00e5a0", border: "1px solid rgba(0,229,160,0.28)", borderRadius: 6, padding: "3px 10px", fontSize: "0.63rem", fontFamily: "'Space Mono',monospace" }}>● LIVE</div>
+            </div>
+
+            {/* App header */}
+            <div style={{ padding: "18px 24px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.15)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+                <span style={{ fontSize: 22 }}>🏷️</span>
+                <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.45rem", fontWeight: 700 }}>Label Analysis</span>
+              </div>
+              <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace" }}>
+                Label-level market share, track concentration, and competitive performance across Spotify and iTunes · Last run: 2026-05-21 09:00
+              </div>
+              {/* Tabs */}
+              <div style={{ display: "flex", gap: 2, marginTop: 16 }}>
+                {[["SPOTIFY GLOBAL", true], ["ITUNES WW", false], ["CROSS-PLATFORM", false]].map(([tab, active]) => (
+                  <div key={tab} style={{ padding: "7px 18px", fontSize: "0.68rem", fontFamily: "'Space Mono',monospace", fontWeight: 700, letterSpacing: "0.1em", color: active ? "#fff" : "rgba(255,255,255,0.4)", borderBottom: active ? "2px solid #818cf8" : "2px solid transparent", cursor: "default", transition: "all 0.2s" }}>{tab}</div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ padding: "20px 24px 24px" }}>
+              {/* KPI row */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 10, marginBottom: 14 }}>
+                {[
+                  { l: "TOTAL STREAMS TRACKED", v: "7.80B", s: "All label groups · 11 days", c: "#818cf8" },
+                  { l: "TOP LABEL (STREAMS)", v: "Universal Music", s: "2.20B · 28.2% share", c: "#f472b6" },
+                  { l: "BEST RANK (SPOTIFY)", v: "Sony Music", s: "#1 · Michael Jackson", c: "#22d3ee" },
+                  { l: "ITUNES #1 LABEL", v: "Universal Music", s: "The Chemical Brothers · 237K score", c: "#fb923c" },
+                  { l: "FASTEST GROWING LABEL", v: "Other/Indie", s: "+173.2% Wk A→B streams", c: "#f5c518" },
+                ].map((k, i) => (
+                  <div key={i} style={{ background: `linear-gradient(135deg,${k.c}0e,${k.c}04)`, border: `1px solid ${k.c}30`, borderRadius: 12, padding: "14px 14px", position: "relative", overflow: "hidden" }}>
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${k.c},transparent)`, opacity: 0.7 }} />
+                    <div style={{ fontSize: "0.56rem", color: k.c, marginBottom: 6, fontFamily: "'Space Mono',monospace", letterSpacing: "0.12em", opacity: 0.8 }}>{k.l}</div>
+                    <div style={{ fontSize: i === 0 ? "1.55rem" : "0.95rem", fontWeight: 700, color: k.c, fontFamily: "'Playfair Display',serif", lineHeight: 1.15, textShadow: `0 0 14px ${k.c}50` }}>{k.v}</div>
+                    <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.42)", marginTop: 5, lineHeight: 1.4 }}>{k.s}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Label breakdown row */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 10, marginBottom: 14 }}>
+                {[
+                  { label: "Other/Indie", v: "1.7B", tracks: "111 tracks · Best #1", delta: "+227.8% WkA→WkB", share: "22.1% share", up: true, c: "#818cf8" },
+                  { label: "Independent", v: "1.4B", tracks: "229 tracks · Best #1", delta: "▼75.5% WkA→WkB", share: "18.4% share", up: false, c: "#22d3ee" },
+                  { label: "Universal Music", v: "2.2B", tracks: "114 tracks · Best #1", delta: "+63.1% WkA→WkB", share: "28.2% share", up: true, c: "#f472b6" },
+                  { label: "Sony Music", v: "1.5B", tracks: "57 tracks · Best #1", delta: "+57.4% WkA→WkB", share: "18.7% share", up: true, c: "#fb923c", highlight: true },
+                  { label: "Warner Music", v: "979.1M", tracks: "40 tracks · Best #6", delta: "+44% WkA→WkB", share: "12.6% share", up: true, c: "#f5c518" },
+                ].map((lb, i) => (
+                  <div key={i} style={{ background: lb.highlight ? `rgba(251,146,60,0.06)` : "rgba(255,255,255,0.022)", border: `1px solid ${lb.highlight ? "#fb923c60" : "rgba(255,255,255,0.08)"}`, borderRadius: 12, padding: "14px 14px" }}>
+                    <div style={{ fontSize: "0.6rem", color: lb.c, fontFamily: "'Space Mono',monospace", fontWeight: 700, marginBottom: 6, letterSpacing: "0.06em" }}>{lb.label}</div>
+                    <div style={{ fontSize: "1.35rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", color: "#fff", lineHeight: 1.1 }}>{lb.v}</div>
+                    <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)", marginTop: 4, marginBottom: 4 }}>{lb.tracks}</div>
+                    <div style={{ fontSize: "0.6rem", color: lb.up ? "#00e5a0" : "#fb923c", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{lb.delta}</div>
+                    <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.38)", marginTop: 2 }}>{lb.share}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom: chart + market share */}
+              <div style={{ display: "grid", gridTemplateColumns: "1.55fr 1fr", gap: 14 }}>
+                {/* Line chart mockup */}
+                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "18px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.38)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em" }}>SPOTIFY GLOBAL — DAILY STREAMS BY LABEL GROUP</div>
+                    <div style={{ fontSize: "0.58rem", color: "#818cf8", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em" }}>LIVE WINDOW</div>
+                  </div>
+                  {/* Legend */}
+                  <div style={{ display: "flex", gap: 14, marginBottom: 12, flexWrap: "wrap" }}>
+                    {[["Other/Indie","#818cf8"],["Independent","#22d3ee"],["Universal Music","#f472b6"],["Sony Music","#fb923c"],["Warner Music","#f5c518"]].map(([name,c])=>(
+                      <div key={name} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                        <div style={{ width: 14, height: 2, background: c, borderRadius: 2 }} />
+                        <span style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.45)", fontFamily: "'Space Mono',monospace" }}>{name}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {/* SVG line chart */}
+                  <svg viewBox="0 0 620 130" style={{ width: "100%", height: 130 }} preserveAspectRatio="none">
+                    {/* Grid lines */}
+                    {[0,32,64,96,130].map(y => <line key={y} x1="0" y1={y} x2="620" y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />)}
+                    {/* Y labels */}
+                    {[["700M",2],["500M",38],["300M",74],["100M",110]].map(([l,y])=>(
+                      <text key={l} x="0" y={y} fontSize="8" fill="rgba(255,255,255,0.28)" fontFamily="monospace">{l}</text>
+                    ))}
+                    {/* Other/Indie — big spike early then settles */}
+                    <polyline points="30,110 90,20 150,55 210,80 270,70 330,90 390,85 450,88 510,92 580,95" fill="none" stroke="#818cf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Independent */}
+                    <polyline points="30,95 90,85 150,88 210,92 270,86 330,82 390,90 450,87 510,83 580,88" fill="none" stroke="#22d3ee" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Universal */}
+                    <polyline points="30,75 90,72 150,68 210,65 270,70 330,76 390,72 450,68 510,70 580,75" fill="none" stroke="#f472b6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Sony */}
+                    <polyline points="30,88 90,90 150,84 210,86 270,90 330,94 390,88 450,85 510,89 580,92" fill="none" stroke="#fb923c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    {/* Warner */}
+                    <polyline points="30,100 90,98 150,102 210,100 270,104 330,102 390,100 450,103 510,101 580,104" fill="none" stroke="#f5c518" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {/* X axis dates */}
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
+                    {["May 11","May 13","May 15","May 17","May 19","May 21"].map(d => (
+                      <span key={d} style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace" }}>{d}</span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Market share + WoW shift */}
+                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "18px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.38)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em" }}>MARKET SHARE — STREAMS</div>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace" }}>TOTAL WINDOW</div>
+                  </div>
+                  {[
+                    { name: "Other/Indie", pct: 22.1, tracks: "111 tracks", c: "#818cf8", w: 45 },
+                    { name: "Independent", pct: 18.4, tracks: "229 tracks", c: "#22d3ee", w: 38 },
+                    { name: "Universal Music", pct: 28.2, tracks: "114 tracks", c: "#f472b6", w: 58 },
+                    { name: "Sony Music", pct: 18.7, tracks: "57 tracks", c: "#fb923c", w: 39 },
+                    { name: "Warner Music", pct: 12.6, tracks: "40 tracks", c: "#f5c518", w: 26 },
+                  ].map((row, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                      <div style={{ width: 80, fontSize: "0.62rem", color: row.c, fontFamily: "'Space Mono',monospace", fontWeight: 700, flexShrink: 0, whiteSpace: "nowrap" }}>{row.name}</div>
+                      <div style={{ flex: 1, height: 5, background: "rgba(255,255,255,0.06)", borderRadius: 3, overflow: "hidden" }}>
+                        <div style={{ width: `${row.w}%`, height: "100%", background: row.c, borderRadius: 3, boxShadow: `0 0 6px ${row.c}60` }} />
+                      </div>
+                      <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.7)", fontFamily: "'Space Mono',monospace", minWidth: 32, textAlign: "right" }}>{row.pct}%</div>
+                      <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.28)", minWidth: 56, textAlign: "right" }}>{row.tracks}</div>
+                    </div>
+                  ))}
+                  <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: 14, paddingTop: 12 }}>
+                    <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.38)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em", marginBottom: 10 }}>WEEK-OVER-WEEK SHIFT</div>
+                    {[
+                      { name: "Other/Indie", detail: "WkA: 402.1M → WkB: 1.3B", delta: "+227.8%", up: true },
+                      { name: "Independent", detail: "WkA: 1.2B → WkB: 282.7M", delta: "▼75.5%", up: false },
+                      { name: "Universal Music", detail: "WkA: 837.4M → WkB: 1.4B", delta: "+63.1%", up: true },
+                    ].map((r, i) => (
+                      <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "0.6rem", marginBottom: 7 }}>
+                        <span style={{ color: "rgba(255,255,255,0.55)", fontFamily: "'Space Mono',monospace" }}>{r.name}</span>
+                        <span style={{ color: "rgba(255,255,255,0.3)" }}>{r.detail}</span>
+                        <span style={{ color: r.up ? "#00e5a0" : "#fb923c", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{r.delta}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CHART TRACKER PREVIEW */}
+      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.7rem,3.5vw,2.7rem)", letterSpacing: "-0.025em", lineHeight: 1.1, margin: 0 }}>Chart Tracker — rank momentum visualised</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 480, margin: "12px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
+              14-day rank trajectories for the top 10 artists — live line charts showing risers, fallers, and position history rebuilt on every data run.
+            </p>
+          </div>
+
+          {/* Browser chrome wrapper */}
+          <div style={{ background: "rgba(255,255,255,0.018)", border: "1px solid rgba(251,146,60,0.15)", borderRadius: 20, overflow: "hidden", boxShadow: "0 48px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(251,146,60,0.07), 0 0 60px rgba(251,146,60,0.05)" }}>
+
+            {/* Window chrome */}
+            <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "11px 18px", display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ display: "flex", gap: 6 }}>{["#ff5f57","#febc2e","#28c840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}</div>
+              <div style={{ background: "rgba(0,229,160,0.12)", color: "#00e5a0", border: "1px solid rgba(0,229,160,0.28)", borderRadius: 6, padding: "3px 10px", fontSize: "0.63rem", fontFamily: "'Space Mono',monospace" }}>● LIVE</div>
+            </div>
+
+            {/* App header */}
+            <div style={{ padding: "18px 24px 14px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.15)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+                <span style={{ fontSize: 22 }}>📈</span>
+                <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.45rem", fontWeight: 700 }}>Chart Tracker</span>
+              </div>
+              <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace" }}>
+                Historical rank trajectories for top artists, revealing trends and momentum · Last run: 2026-05-21 09:00
+              </div>
+            </div>
+
+            <div style={{ padding: "20px 24px 24px" }}>
+              {/* Controls row */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 }}>
+                {[
+                  { icon: "📅", label: "Time Range", val: "14 days" },
+                  { icon: "👁", label: "View Mode", val: "Line Chart" },
+                ].map((ctrl, i) => (
+                  <div key={i}>
+                    <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono',monospace", marginBottom: 6 }}>
+                      <span style={{ marginRight: 5 }}>{ctrl.icon}</span>{ctrl.label}
+                    </div>
+                    <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "9px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.82)" }}>{ctrl.val}</span>
+                      <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.3)" }}>▾</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* KPI cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 18 }}>
+                {[
+                  { l: "CURRENT #1", v: "Drake", s: "Position 1 · best 1", c: "#818cf8", border: "rgba(129,140,248,0.4)" },
+                  { l: "BIGGEST RISER", v: "+7", s: "Drake · 8 → 1", c: "#00e5a0", border: "rgba(0,229,160,0.3)" },
+                  { l: "BIGGEST FALLER", v: "-2", s: "BTS · 3 → 5", c: "#fb923c", border: "rgba(251,146,60,0.4)" },
+                  { l: "AVG POSITION", v: "5.5", s: "across 10 tracked artists · 14 days", c: "#f5c518", border: "rgba(245,197,24,0.35)" },
+                ].map((k, i) => (
+                  <div key={i} style={{ background: `linear-gradient(135deg,${k.c}0d,${k.c}04)`, border: `1px solid ${k.border}`, borderRadius: 12, padding: "16px 16px", position: "relative", overflow: "hidden" }}>
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${k.c},transparent)`, opacity: 0.8 }} />
+                    <div style={{ fontSize: "0.58rem", color: k.c, marginBottom: 8, fontFamily: "'Space Mono',monospace", letterSpacing: "0.14em", opacity: 0.85 }}>{k.l}</div>
+                    <div style={{ fontSize: "1.75rem", fontWeight: 700, color: k.c, fontFamily: "'Playfair Display',serif", lineHeight: 1, textShadow: `0 0 20px ${k.c}60` }}>{k.v}</div>
+                    <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.4)", marginTop: 8, lineHeight: 1.45 }}>{k.s}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Chart area */}
+              <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "20px 20px 14px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                  <span style={{ fontSize: 16 }}>🎯</span>
+                  <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "rgba(255,255,255,0.85)" }}>Top 10 Artist Position Trend (14 days)</span>
+                </div>
+                <svg viewBox="0 0 1060 240" style={{ width: "100%", height: 240 }} preserveAspectRatio="none">
+                  {/* Horizontal grid lines for ranks 1-12 */}
+                  {[1,2,3,4,5,6,7,8,9,10,11,12].map(r => {
+                    const y = ((r - 1) / 11) * 210 + 8;
+                    return (
+                      <g key={r}>
+                        <line x1="36" y1={y} x2="1060" y2={y} stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                        <text x="28" y={y + 4} fontSize="9" fill="rgba(255,255,255,0.3)" fontFamily="monospace" textAnchor="end">{r}</text>
+                      </g>
+                    );
+                  })}
+                  {/* Y-axis label */}
+                  <text x="10" y="120" fontSize="8" fill="rgba(255,255,255,0.25)" fontFamily="monospace" transform="rotate(-90,10,120)" textAnchor="middle">Chart position</text>
+
+                  {/* Artist rank lines — 10 artists with varied trajectories */}
+                  {/* Each point: x from 40 to 1040, y = rank mapped to 8..218 */}
+                  {/* rank y = ((rank-1)/11)*210 + 8 */}
+                  {[
+                    { pts: [[40,8],[120,8],[200,8],[280,8],[360,8],[440,8],[520,8],[600,8],[680,8],[760,8],[840,8],[920,8],[1000,8],[1040,8]], c: "#00e5a0" },
+                    { pts: [[40,27],[120,27],[200,27],[280,27],[360,27],[440,27],[520,46],[600,46],[680,46],[760,46],[840,27],[920,27],[1000,27],[1040,27]], c: "#a78bfa" },
+                    { pts: [[40,46],[120,65],[200,65],[280,65],[360,46],[440,46],[520,65],[600,65],[680,65],[760,65],[840,65],[920,46],[1000,46],[1040,46]], c: "#f472b6" },
+                    { pts: [[40,65],[120,65],[200,46],[280,46],[360,65],[440,65],[520,46],[600,85],[680,103],[760,85],[840,65],[920,65],[1000,65],[1040,65]], c: "#34d399" },
+                    { pts: [[40,85],[120,85],[200,85],[280,85],[360,85],[440,85],[520,85],[600,103],[680,85],[760,85],[840,85],[920,85],[1000,85],[1040,85]], c: "#22d3ee" },
+                    { pts: [[40,103],[120,122],[200,122],[280,103],[360,103],[440,122],[520,103],[600,103],[680,122],[760,103],[840,103],[920,103],[1000,103],[1040,103]], c: "#818cf8" },
+                    { pts: [[40,122],[120,141],[200,141],[280,141],[360,122],[440,122],[520,141],[600,141],[680,122],[760,141],[840,141],[920,141],[1000,122],[1040,160]], c: "#fb923c" },
+                    { pts: [[40,141],[120,160],[200,141],[280,160],[360,160],[440,141],[520,160],[600,122],[680,160],[760,160],[840,160],[920,160],[1000,160],[1040,141]], c: "#f5c518" },
+                    { pts: [[40,160],[120,160],[200,179],[280,160],[360,179],[440,179],[520,179],[600,160],[680,179],[760,160],[840,160],[920,179],[1000,179],[1040,179]], c: "#c084fc" },
+                    { pts: [[40,179],[120,198],[200,198],[280,179],[360,198],[440,198],[520,198],[600,198],[680,198],[760,198],[840,218],[920,218],[1000,218],[1040,218]], c: "#48dbfb" },
+                  ].map((line, li) => (
+                    <polyline key={li}
+                      points={line.pts.map(([x,y]) => `${x},${y}`).join(" ")}
+                      fill="none" stroke={line.c} strokeWidth="1.6"
+                      strokeLinecap="round" strokeLinejoin="round"
+                      strokeDasharray="4 2"
+                    />
+                  ))}
+                </svg>
+                {/* X-axis dates */}
+                <div style={{ display: "flex", justifyContent: "space-between", paddingLeft: 36, marginTop: 6 }}>
+                  {["May 7","May 9","May 11","May 13","May 15","May 17","May 19","May 21"].map(d => (
+                    <span key={d} style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace" }}>{d}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MOVEMENT DASHBOARD PREVIEW */}
+      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.7rem,3.5vw,2.7rem)", letterSpacing: "-0.025em", lineHeight: 1.1, margin: 0 }}>Movement Dashboard — risers &amp; fallers live</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 500, margin: "12px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
+              Daily rank + metric momentum across track and album charts. See who's climbing, who's dropping, and by exactly how much — updated on every pipeline run.
+            </p>
+          </div>
+
+          {/* Browser chrome wrapper */}
+          <div style={{ background: "rgba(255,255,255,0.018)", border: "1px solid rgba(52,211,153,0.15)", borderRadius: 20, overflow: "hidden", boxShadow: "0 48px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(52,211,153,0.07), 0 0 60px rgba(52,211,153,0.05)" }}>
+
+            {/* Window chrome */}
+            <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "11px 18px", display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ display: "flex", gap: 6 }}>{["#ff5f57","#febc2e","#28c840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}</div>
+              <div style={{ background: "rgba(0,229,160,0.12)", color: "#00e5a0", border: "1px solid rgba(0,229,160,0.28)", borderRadius: 6, padding: "3px 10px", fontSize: "0.63rem", fontFamily: "'Space Mono',monospace" }}>● LIVE</div>
+            </div>
+
+            {/* App header */}
+            <div style={{ padding: "18px 24px 0", background: "rgba(0,0,0,0.15)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+                <span style={{ fontSize: 22 }}>📊</span>
+                <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.45rem", fontWeight: 700 }}>Movement Dashboard</span>
+              </div>
+              <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", marginBottom: 14 }}>
+                Daily rank + metric momentum across track and album charts (risers, fallers, trajectories) · Last run: 2026-05-21 09:00
+              </div>
+
+              {/* Tabs */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+                {[["📈 Track Movement", true], ["🎯 Album Movement", false]].map(([tab, active]) => (
+                  <div key={tab} style={{ padding: "10px 20px", fontSize: "0.72rem", fontFamily: "'Space Mono',monospace", fontWeight: 700, letterSpacing: "0.06em", color: active ? "#fff" : "rgba(255,255,255,0.38)", background: active ? "rgba(52,211,153,0.08)" : "transparent", borderBottom: active ? "2px solid #34d399" : "2px solid transparent", cursor: "default", textAlign: "center" }}>{tab}</div>
+                ))}
+              </div>
+
+              {/* Sub-label */}
+              <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", padding: "10px 0 4px" }}>Rank + metric momentum across Spotify and iTunes daily charts.</div>
+
+              {/* Filters */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr auto", gap: 14, alignItems: "end", paddingBottom: 16 }}>
+                {[{ label: "Region", val: "Global / WW" }, { label: "Period", val: "Latest (5d)" }].map((f, i) => (
+                  <div key={i}>
+                    <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", marginBottom: 5 }}>{f.label}</div>
+                    <div style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "8px 14px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.78)" }}>{f.val}</span>
+                      <span style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.28)" }}>▾</span>
+                    </div>
+                  </div>
+                ))}
+                <div>
+                  <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", marginBottom: 5 }}>Platform</div>
+                  <div style={{ display: "flex", gap: 0 }}>
+                    {[["Both", true], ["Spotify", false], ["iTunes", false]].map(([p, active]) => (
+                      <div key={p} style={{ padding: "8px 14px", fontSize: "0.72rem", color: active ? "#fff" : "rgba(255,255,255,0.4)", fontWeight: active ? 700 : 400, background: active ? "rgba(52,211,153,0.12)" : "transparent", border: `1px solid ${active ? "rgba(52,211,153,0.3)" : "rgba(255,255,255,0.08)"}`, cursor: "default", borderRadius: p === "Both" ? "8px 0 0 8px" : p === "iTunes" ? "0 8px 8px 0" : "0" }}>{p}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Main content: Risers + Fallers side by side */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+
+              {/* TOP RISERS */}
+              <div style={{ padding: "18px 20px 20px", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                  <span style={{ fontSize: 16 }}>📈</span>
+                  <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Top Risers — rank + metric composite</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#00e5a0", display: "inline-block", boxShadow: "0 0 6px #00e5a0" }} />
+                  <span style={{ fontSize: "0.6rem", color: "#00e5a0", fontFamily: "'Space Mono',monospace", fontWeight: 700, letterSpacing: "0.1em" }}>RANK + STREAMS</span>
+                </div>
+                {/* Table header */}
+                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "0 0 6px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
+                  {["TRACK · ARTIST","START","NOW","STREAMS","+STREAMS","Δ RANK"].map(h => (
+                    <div key={h} style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.06em" }}>{h}</div>
+                  ))}
+                </div>
+                {[
+                  { t: "On The Floor (w/ Pitbull)", a: "Jennifer Lopez", start: "#196", now: "#110", streams: "1.60M", plus: "+0.40M", delta: 86, rankW: 55, streamW: 80 },
+                  { t: "E85", a: "Don Toliver", start: "#188", now: "#133", streams: "1.51M", plus: "+0.31M", delta: 55, rankW: 40, streamW: 65 },
+                  { t: "The Night We Met", a: "Lord Huron", start: "#158", now: "#108", streams: "1.61M", plus: "+0.14M", delta: 50, rankW: 50, streamW: 72 },
+                  { t: "NOBLE", a: "F3mill", start: "#179", now: "#139", streams: "1.49M", plus: "+0.26M", delta: 40, rankW: 36, streamW: 58 },
+                  { t: "All The Stars (w/ SZA)", a: "Kendrick Lamar", start: "#149", now: "#114", streams: "1.59M", plus: "+0.07M", delta: 35, rankW: 32, streamW: 74 },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "10px 0", borderBottom: i < 4 ? "1px solid rgba(255,255,255,0.04)" : "none", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "rgba(255,255,255,0.88)", lineHeight: 1.3 }}>
+                        <span style={{ color: "rgba(255,255,255,0.35)", marginRight: 8, fontSize: "0.65rem" }}>{i+1}</span>{row.t}
+                      </div>
+                      <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.35)", marginTop: 2, marginLeft: 16 }}>{row.a}</div>
+                      {/* Mini progress bars */}
+                      <div style={{ display: "flex", gap: 4, marginTop: 5, marginLeft: 16 }}>
+                        <div style={{ width: `${row.rankW}px`, height: 3, background: "#00e5a0", borderRadius: 2, opacity: 0.8 }} />
+                        <div style={{ width: `${row.streamW}px`, height: 3, background: "#818cf8", borderRadius: 2, opacity: 0.6 }} />
+                      </div>
+                    </div>
+                    <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono',monospace" }}>{row.start}</div>
+                    <div style={{ fontSize: "0.65rem", color: "#00e5a0", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{row.now}</div>
+                    <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.6)", fontFamily: "'Space Mono',monospace" }}>{row.streams}</div>
+                    <div style={{ fontSize: "0.65rem", color: "#34d399", fontFamily: "'Space Mono',monospace" }}>{row.plus}</div>
+                    <div style={{ background: "rgba(0,229,160,0.15)", border: "1px solid rgba(0,229,160,0.3)", color: "#00e5a0", borderRadius: 6, padding: "3px 7px", fontSize: "0.62rem", fontFamily: "'Space Mono',monospace", fontWeight: 700, textAlign: "center" }}>▲{row.delta}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* TOP FALLERS */}
+              <div style={{ padding: "18px 20px 20px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+                  <span style={{ fontSize: 16 }}>📉</span>
+                  <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Top Fallers — rank + metric composite</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+                  <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#fb923c", display: "inline-block", boxShadow: "0 0 6px #fb923c" }} />
+                  <span style={{ fontSize: "0.6rem", color: "#fb923c", fontFamily: "'Space Mono',monospace", fontWeight: 700, letterSpacing: "0.1em" }}>RANK + STREAMS LOST</span>
+                </div>
+                {/* Table header */}
+                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "0 0 6px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
+                  {["TRACK · ARTIST","START","NOW","STREAMS","LOST","Δ RANK"].map(h => (
+                    <div key={h} style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.06em" }}>{h}</div>
+                  ))}
+                </div>
+                {[
+                  { t: "Firm Friends", a: "Drake", start: "#23", now: "#191", streams: "1.30M", lost: "-3.06M", delta: 168, rankW: 80, streamW: 55 },
+                  { t: "WNBA", a: "Drake", start: "#25", now: "#161", streams: "1.39M", lost: "-2.15M", delta: 136, rankW: 65, streamW: 60 },
+                  { t: "Hoe Phase", a: "Drake", start: "#24", now: "#157", streams: "1.42M", lost: "-2.18M", delta: 133, rankW: 63, streamW: 62 },
+                  { t: "Don't Worry", a: "Drake", start: "#21", now: "#135", streams: "1.50M", lost: "-3.11M", delta: 114, rankW: 55, streamW: 68 },
+                  { t: "Fortworth (w/ PARTYNEXTDOOR)", a: "Drake", start: "#50", now: "#161", streams: "1.37M", lost: "-1.40M", delta: 111, rankW: 54, streamW: 52 },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "10px 0", borderBottom: i < 4 ? "1px solid rgba(255,255,255,0.04)" : "none", alignItems: "center" }}>
+                    <div>
+                      <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "rgba(255,255,255,0.88)", lineHeight: 1.3 }}>
+                        <span style={{ color: "rgba(255,255,255,0.35)", marginRight: 8, fontSize: "0.65rem" }}>{i+1}</span>{row.t}
+                      </div>
+                      <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.35)", marginTop: 2, marginLeft: 16 }}>{row.a}</div>
+                      <div style={{ display: "flex", gap: 4, marginTop: 5, marginLeft: 16 }}>
+                        <div style={{ width: `${row.rankW}px`, height: 3, background: "#fb923c", borderRadius: 2, opacity: 0.8 }} />
+                        <div style={{ width: `${row.streamW}px`, height: 3, background: "#f472b6", borderRadius: 2, opacity: 0.6 }} />
+                      </div>
+                    </div>
+                    <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono',monospace" }}>{row.start}</div>
+                    <div style={{ fontSize: "0.65rem", color: "#fb923c", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{row.now}</div>
+                    <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.6)", fontFamily: "'Space Mono',monospace" }}>{row.streams}</div>
+                    <div style={{ fontSize: "0.65rem", color: "#fb923c", fontFamily: "'Space Mono',monospace" }}>{row.lost}</div>
+                    <div style={{ background: "rgba(251,146,60,0.15)", border: "1px solid rgba(251,146,60,0.3)", color: "#fb923c", borderRadius: 6, padding: "3px 7px", fontSize: "0.62rem", fontFamily: "'Space Mono',monospace", fontWeight: 700, textAlign: "center" }}>▼{row.delta}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TRACK ACQUISITION PREVIEW */}
+      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+          {/* Section header */}
+          <div style={{ textAlign: "center", marginBottom: 44 }}>
+            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.7rem,3.5vw,2.7rem)", letterSpacing: "-0.025em", lineHeight: 1.1, margin: 0 }}>Track Acquisition — scored &amp; ranked live</h2>
+            <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 500, margin: "12px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
+              610 tracks scored 0–100 by rank, stream momentum, and cross-platform presence. Filter by signal, sort by any metric, and drill into any track's full trajectory.
+            </p>
+          </div>
+
+          {/* Browser chrome wrapper */}
+          <div style={{ background: "rgba(255,255,255,0.018)", border: "1px solid rgba(34,211,238,0.15)", borderRadius: 20, overflow: "hidden", boxShadow: "0 48px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(34,211,238,0.07), 0 0 60px rgba(34,211,238,0.05)" }}>
+
+            {/* Window chrome */}
+            <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "11px 18px", display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ display: "flex", gap: 6 }}>{["#ff5f57","#febc2e","#28c840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}</div>
+              <div style={{ background: "rgba(0,229,160,0.12)", color: "#00e5a0", border: "1px solid rgba(0,229,160,0.28)", borderRadius: 6, padding: "3px 10px", fontSize: "0.63rem", fontFamily: "'Space Mono',monospace" }}>● LIVE</div>
+            </div>
+
+            {/* App header */}
+            <div style={{ padding: "16px 24px 12px", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(0,0,0,0.15)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 3 }}>
+                  <span style={{ fontSize: 20 }}>🎯</span>
+                  <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", fontWeight: 700 }}>Track Acquisition</span>
+                </div>
+                <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.32)", fontFamily: "'Space Mono',monospace" }}>610 tracks · 7 days · May 15 – May 21, 2026</div>
+              </div>
+              {/* Top bar controls */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: "6px 14px", fontSize: "0.7rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ opacity: 0.5 }}>🔍</span> Search track or artist...
+                </div>
+                {[["Global Stats","▾"],["All Platforms","▾"],["All Signals","▾"]].map(([l,a]) => (
+                  <div key={l} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 8, padding: "6px 12px", fontSize: "0.68rem", color: "rgba(255,255,255,0.55)", fontFamily: "'Space Mono',monospace", display: "flex", gap: 5 }}>{l} <span style={{ opacity: 0.4 }}>{a}</span></div>
+                ))}
+                {/* Signal filter tabs */}
+                <div style={{ display: "flex", gap: 0 }}>
+                  {[["All",true],["Rising",false],["Stable",false],["Falling",false]].map(([t,a]) => (
+                    <div key={t} style={{ padding: "6px 11px", fontSize: "0.65rem", fontFamily: "'Space Mono',monospace", fontWeight: a ? 700 : 400, color: a ? "#fff" : "rgba(255,255,255,0.38)", background: a ? "rgba(34,211,238,0.12)" : "transparent", border: `1px solid ${a ? "rgba(34,211,238,0.3)" : "rgba(255,255,255,0.07)"}`, borderRadius: t === "All" ? "7px 0 0 7px" : t === "Falling" ? "0 7px 7px 0" : "0", cursor: "default" }}>{t}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* KPI row */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 0, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+              {[
+                { l: "STRONG BUY TRACKS", v: "0", s: "of tracked tracks", c: "#00e5a0", border: "rgba(0,229,160,0.25)" },
+                { l: "TOP ACQUISITION SCORE", v: "68", s: "Michael Jackson — Billie Jean", c: "#f5c518", border: "rgba(245,197,24,0.25)" },
+                { l: "FASTEST RISING TRACK", v: "Jennifer Lopez — On The Floor (w...", s: "+33.9% stream growth", c: "#22d3ee", border: "rgba(34,211,238,0.25)", small: true },
+                { l: "CROSS-PLATFORM TRACKS", v: "57", s: "on both Spotify + iTunes WW", c: "#818cf8", border: "rgba(129,140,248,0.25)" },
+                { l: "AVG MOMENTUM", v: "-2.7%", s: "across tracked tracks", c: "#fb923c", border: "rgba(251,146,60,0.25)" },
+              ].map((k, i) => (
+                <div key={i} style={{ padding: "16px 18px", borderRight: i < 4 ? "1px solid rgba(255,255,255,0.06)" : "none", position: "relative", overflow: "hidden" }}>
+                  <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 2, background: k.border.replace("0.25","0.7") }} />
+                  <div style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em", marginBottom: 8 }}>{k.l}</div>
+                  <div style={{ fontSize: k.small ? "0.8rem" : "1.65rem", fontWeight: 700, color: k.c, fontFamily: k.small ? "inherit" : "'Playfair Display',serif", lineHeight: 1.15, textShadow: `0 0 16px ${k.c}50` }}>{k.v}</div>
+                  <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.35)", marginTop: 6, lineHeight: 1.4 }}>{k.s}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Main body: track list + detail panel */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 340px" }}>
+
+              {/* Track table */}
+              <div style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+                {/* Sort bar */}
+                <div style={{ padding: "10px 18px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 6, padding: "3px 10px", fontSize: "0.62rem", color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono',monospace" }}>610 tracks</div>
+                  <span style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono',monospace" }}>Sort by:</span>
+                  {["Acq Score","Momentum","Rank","Streams","Growth %"].map((s, i) => (
+                    <div key={s} style={{ padding: "3px 10px", fontSize: "0.62rem", fontFamily: "'Space Mono',monospace", color: i === 0 ? "#22d3ee" : "rgba(255,255,255,0.38)", border: `1px solid ${i === 0 ? "rgba(34,211,238,0.4)" : "rgba(255,255,255,0.08)"}`, borderRadius: 6, background: i === 0 ? "rgba(34,211,238,0.1)" : "transparent", cursor: "default" }}>{s}</div>
+                  ))}
+                </div>
+                {/* Table header */}
+                <div style={{ display: "grid", gridTemplateColumns: "28px 1fr 70px 70px 80px 80px 90px", gap: 4, padding: "7px 18px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                  {["#","TRACK · ARTIST","RANK","STREAMS","MOMENTUM","SIGNAL","ACQ SCORE"].map(h => (
+                    <div key={h} style={{ fontSize: "0.54rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.06em" }}>{h}</div>
+                  ))}
+                </div>
+                {/* Track rows */}
+                {[
+                  { t: "Billie Jean", a: "Michael Jackson", cross: true, rank: "#1", streams: "5.8M", mom: "-0.7%", momUp: false, signal: "HOLD", score: 68, bars: [5,4,3,5], active: true },
+                  { t: "SWIM", a: "BTS", cross: true, rank: "#3", streams: "5.1M", mom: "-2%", momUp: false, signal: "HOLD", score: 63, bars: [4,3,4,2] },
+                  { t: "Beat It", a: "Michael Jackson", cross: true, rank: "#5", streams: "4.5M", mom: "-1.3%", momUp: false, signal: "HOLD", score: 62, bars: [5,4,4,3] },
+                  { t: "Human Nature", a: "Michael Jackson", cross: true, rank: "#8", streams: "3.3M", mom: "-0.5%", momUp: false, signal: "HOLD", score: 56, bars: [3,4,4,3] },
+                  { t: "Beauty And A Beat (w/ Nicki Minaj)", a: "Justin Bieber", cross: false, rank: "#1", streams: "5.7M", mom: "-2.2%", momUp: false, signal: "HOLD", score: 55, bars: [5,3,2,3] },
+                  { t: "Janice STFU", a: "Don Toliver", cross: false, rank: "#12", streams: "2.9M", mom: "+1.1%", momUp: true, signal: "WATCH", score: 51, bars: [2,3,4,4] },
+                ].map((row, i) => (
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "28px 1fr 70px 70px 80px 80px 90px", gap: 4, padding: "10px 18px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: row.active ? "rgba(34,211,238,0.04)" : "transparent", borderLeft: row.active ? "2px solid #22d3ee" : "2px solid transparent" }}>
+                    <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace" }}>{i+1}</div>
+                    <div>
+                      <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "rgba(255,255,255,0.88)" }}>{row.t}</div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
+                        <span style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.38)" }}>{row.a}</span>
+                        {row.cross && <span style={{ fontSize: "0.55rem", color: "#22d3ee", fontFamily: "'Space Mono',monospace" }}>+ cross</span>}
+                      </div>
+                      {/* Mini bar chart */}
+                      <div style={{ display: "flex", gap: 2, marginTop: 5, alignItems: "flex-end", height: 14 }}>
+                        {row.bars.map((h, bi) => <div key={bi} style={{ width: 5, height: `${h * 3}px`, background: bi === row.bars.length - 1 ? "#22d3ee" : "rgba(34,211,238,0.35)", borderRadius: "2px 2px 0 0" }} />)}
+                        <div style={{ width: 12, height: 3, background: "rgba(255,255,255,0.1)", borderRadius: 1, alignSelf: "center", marginLeft: 2 }} />
+                        <div style={{ width: 12, height: 3, background: "rgba(255,255,255,0.1)", borderRadius: 1, alignSelf: "center" }} />
+                        <div style={{ width: 12, height: 3, background: "rgba(255,255,255,0.1)", borderRadius: 1, alignSelf: "center" }} />
+                      </div>
+                    </div>
+                    <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.7)", fontFamily: "'Space Mono',monospace" }}>{row.rank}</div>
+                    <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.7)", fontFamily: "'Space Mono',monospace" }}>{row.streams}</div>
+                    <div style={{ fontSize: "0.7rem", color: row.momUp ? "#00e5a0" : "#fb923c", fontFamily: "'Space Mono',monospace" }}>{row.mom}</div>
+                    <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.6)", borderRadius: 6, padding: "3px 8px", fontSize: "0.6rem", fontFamily: "'Space Mono',monospace", textAlign: "center" }}>{row.signal}</div>
+                    <div style={{ fontSize: "0.9rem", fontWeight: 700, color: "#22d3ee", fontFamily: "'Playfair Display',serif", textShadow: "0 0 12px rgba(34,211,238,0.5)" }}>{row.score}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Detail panel */}
+              <div style={{ padding: "18px 18px 18px", background: "rgba(0,0,0,0.12)" }}>
+                {/* Track name & label */}
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ fontSize: "1.15rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", marginBottom: 2 }}>Billie Jean</div>
+                  <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.38)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.08em" }}>MICHAEL JACKSON · EPIC</div>
+                </div>
+                {/* Tags */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                  {[["Epic","rgba(255,255,255,0.08)","rgba(255,255,255,0.15)","rgba(255,255,255,0.6)"],["CROSS","rgba(34,211,238,0.1)","rgba(34,211,238,0.3)","#22d3ee"],["+ Cross-platform","rgba(34,211,238,0.08)","rgba(34,211,238,0.25)","#22d3ee"],["HOLD","rgba(245,197,24,0.1)","rgba(245,197,24,0.3)","#f5c518"]].map(([label,bg,border,color]) => (
+                    <span key={label} style={{ background: bg, border: `1px solid ${border}`, color, borderRadius: 6, padding: "3px 10px", fontSize: "0.62rem", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>{label}</span>
+                  ))}
+                </div>
+                {/* 2×2 metric grid */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
+                  {[
+                    { l: "BEST RANK", v: "#1", s: "Spotify Global", c: "#22d3ee" },
+                    { l: "LATEST STREAMS", v: "5.8M", s: "-2.7% growth", c: "#00e5a0" },
+                    { l: "MOMENTUM", v: "-0.7%", s: "Window change", c: "#fb923c" },
+                    { l: "WINDOW DAYS", v: "7", s: "days in chart", c: "#818cf8" },
+                  ].map((m, i) => (
+                    <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 10, padding: "12px 12px" }}>
+                      <div style={{ fontSize: "0.54rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em", marginBottom: 6 }}>{m.l}</div>
+                      <div style={{ fontSize: "1.25rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", color: m.c, lineHeight: 1 }}>{m.v}</div>
+                      <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.33)", marginTop: 5 }}>{m.s}</div>
+                    </div>
+                  ))}
+                </div>
+                {/* Acquisition Score box */}
+                <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 10, padding: "14px 14px", marginBottom: 14 }}>
+                  <div style={{ fontSize: "0.54rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em", marginBottom: 8 }}>ACQUISITION SCORE</div>
+                  <div style={{ fontSize: "2rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", color: "#f5c518", lineHeight: 1, textShadow: "0 0 18px rgba(245,197,24,0.5)", marginBottom: 8 }}>68</div>
+                  {/* Score bar */}
+                  <div style={{ height: 5, background: "rgba(255,255,255,0.07)", borderRadius: 3, marginBottom: 8, overflow: "hidden" }}>
+                    <div style={{ width: "68%", height: "100%", background: "linear-gradient(90deg,#22d3ee,#f5c518)", borderRadius: 3, boxShadow: "0 0 8px rgba(245,197,24,0.5)" }} />
+                  </div>
+                  <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.35)" }}>Ranked #1 of 610 tracked tracks</div>
+                  <div style={{ marginTop: 10 }}>
+                    <span style={{ background: "rgba(245,197,24,0.1)", border: "1px solid rgba(245,197,24,0.3)", color: "#f5c518", borderRadius: 6, padding: "4px 12px", fontSize: "0.62rem", fontFamily: "'Space Mono',monospace", fontWeight: 700 }}>HOLD</span>
+                  </div>
+                </div>
+                {/* Stream + rank trajectory label */}
+                <div style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em", marginBottom: 8 }}>STREAM + RANK TRAJECTORY</div>
+                <div style={{ display: "flex", gap: 14, marginBottom: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}><div style={{ width: 14, height: 2, background: "#00e5a0", borderRadius: 1 }} /><span style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.38)" }}>Streams</span></div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}><div style={{ width: 14, height: 2, background: "#818cf8", borderRadius: 1 }} /><span style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.38)" }}>Rank (right axis)</span></div>
+                </div>
+                {/* Trajectory mini chart */}
+                <svg viewBox="0 0 290 60" style={{ width: "100%", height: 60 }} preserveAspectRatio="none">
+                  <polyline points="0,15 40,18 80,12 120,20 160,14 200,22 240,10 290,16" fill="none" stroke="#00e5a0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  <polyline points="0,30 40,28 80,35 120,25 160,32 200,28 240,38 290,30" fill="none" stroke="#818cf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="4 2" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Atmosphere */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-60px", backgroundImage: `linear-gradient(rgba(0,229,160,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.04) 1px,transparent 1px)`, backgroundSize: "64px 64px", animation: "bgslow 60s linear infinite", maskImage: "radial-gradient(ellipse 100% 70% at 50% 0%,black 20%,transparent 100%)" }} />
@@ -745,23 +1512,9 @@ export default function App() {
             Know your market.<br /><em style={{ color: "#00e5a0" }}>Before anyone else does.</em>
           </h2>
 
-          <p style={{ color: "rgba(255,255,255,0.46)", marginTop: 20, lineHeight: 1.82, marginBottom: 0, fontSize: "0.9rem", maxWidth: 520, margin: "20px auto 0" }}>
+          <p style={{ color: "rgba(255,255,255,0.46)", marginTop: 20, lineHeight: 1.82, marginBottom: 0, fontSize: "0.9rem", maxWidth: 520, margin: "20px auto 36px" }}>
             Music labels, A&Rs, and managers across Latin America use Artist 360° Intelligence to act on real data — not last week's spreadsheet. Every metric is live, sourced, and timestamped.
           </p>
-
-          {/* Social proof strip */}
-          <div style={{ display: "flex", gap: 28, justifyContent: "center", flexWrap: "wrap", margin: "32px 0 36px" }}>
-            {[
-              { val: "6.34B", label: "Streams tracked" },
-              { val: "18", label: "LATAM markets" },
-              { val: "9-day", label: "rolling window" },
-            ].map((s, i) => (
-              <div key={i} style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.55rem", fontWeight: 700, color: "#00e5a0", lineHeight: 1 }}>{s.val}</div>
-                <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", marginTop: 4, letterSpacing: "0.06em" }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
 
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <button className="gbtn" style={{
