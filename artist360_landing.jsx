@@ -4,8 +4,8 @@ const NAV_ITEMS = ["Features", "How It Works", "Glossary", "Pricing"];
 
 const FEATURES = [
   { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360°",
-    desc: "170+ artists ranked live across 18 Latin American markets. Composite scoring fuses iTunes chart points, Spotify monthly listeners, and global footprint — recalculated every time fresh data lands.",
-    stats: ["170 Artists", "18 Markets", "Live Composite Score"], color: "#00e5a0",
+    desc: "200+ artists ranked live across 18 Latin American markets. Composite scoring fuses iTunes chart points, Spotify monthly listeners, and global footprint — recalculated every time fresh data lands.",
+    stats: ["200+ Artists", "18 Markets", "Live Composite Score"], color: "#00e5a0",
     realtime: "Rankings update automatically as Spotify and iTunes push new chart snapshots — no manual refresh or spreadsheet upload required." },
   { icon: "⚡", tag: "DEBUT INTELLIGENCE", title: "Debuts/Chart",
     desc: "Every new chart entry flagged the moment it appears. Strongest debut, multi-track debutants, catalogue re-entries, and debut score vs. incumbents — all surfaced live for Week 20.",
@@ -42,10 +42,6 @@ const REALTIME_TERMS = [
     short: "The dashboard is connected to the source and updates automatically.",
     long: "When you see LIVE in Artist 360°, it means the dashboard is reading from a database that is actively written to by automated pipelines. There is no manual export, no emailed spreadsheet, and no stale screenshot. Every metric — rank, listener count, stream total — reflects the most recently ingested batch of chart data from Spotify and iTunes.",
     example: "The Leaderboard header reads '● LIVE' because the rank table is rebuilt each time new chart data arrives — typically within minutes of the platforms publishing it." },
-  { term: "Last Run", badge: "LAST RUN 2026-05-19 00:34", badgeColor: "#f5c518", icon: "🕐",
-    short: "The exact timestamp when the data pipeline last successfully completed.",
-    long: "Artist 360° runs automated data pipelines — scripts that fetch raw chart data from Spotify and iTunes, clean it, compute scores, and write results to the database. 'Last Run' shows you the moment the most recent pipeline finished. It is a freshness guarantee: you always know how old the data is, down to the minute.",
-    example: "'Last run: 2026-05-19 00:34' on the Chart Tracker means all rank trajectories were computed from data fetched at 12:34 AM today — not cached from a prior day." },
   { term: "Week 20 · May 2026", badge: "WK 20 · MAY 2026", badgeColor: "#7c6cf6", icon: "📅",
     short: "The current reporting week — aligned to iTunes and Spotify chart publish cycles.",
     long: "iTunes WW charts and Spotify global snapshots are published on a weekly cycle. Week 20 of 2026 runs May 12–19. Artist 360 aligns all debut reports, position changes, and acquisition scores to this same cycle — so when a label asks 'what debuted this week?' the answer maps exactly to data the platforms themselves have published.",
@@ -223,7 +219,6 @@ export default function App() {
       <section id="features" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#7c6cf6", letterSpacing: "0.2em" }}>PLATFORM MODULES</span>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>Artist 360° Platform</h2>
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>Hover any module to reveal what "real-time" specifically means for that view.</p>
           </div>
@@ -250,7 +245,7 @@ export default function App() {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 28, fontSize: "0.85rem" }}>
           {NAV_ITEMS.map(n => (
-            <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} className="nav-link" style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.85rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.03em", transition: "all 0.25s" }}>{n}</a>
+            <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} className="nav-link" style={{ color: "rgba(255,255,255,0.6)", fontSize: "1.00rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.03em", transition: "all 0.25s" }}>{n}</a>
           ))}
           <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
         </div>
@@ -259,10 +254,6 @@ export default function App() {
       {/* HERO */}
       <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center" }}>
         {/* Hero badge */}
-        <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,229,160,0.08)", border: "1px solid rgba(0,229,160,0.25)", borderRadius: 100, padding: "7px 18px", marginBottom: 28, opacity: heroVis ? 1 : 0, transition: "opacity 0.6s ease 0.05s" }}>
-          <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#00e5a0", display: "inline-block", boxShadow: "0 0 8px #00e5a0" }} />
-          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.68rem", color: "#00e5a0", letterSpacing: "0.15em" }}>LIVE · 18 LATAM MARKETS · 170+ ARTISTS</span>
-        </div>
 
         <h1 style={{ fontSize: "clamp(3rem,7.5vw,7rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.02, letterSpacing: "-0.035em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.9s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
           The Intelligence layer<em style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}> Latin music never had</em>
@@ -358,7 +349,6 @@ export default function App() {
       <section id="how-it-works" style={{ position: "relative", zIndex: 1, padding: "80px 2rem 100px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#00c2e0", letterSpacing: "0.2em" }}>PIPELINE ARCHITECTURE</span>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>From raw chart data<br /><em style={{ color: "#00c2e0" }}>to live dashboard</em> in minutes</h2>
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>This is what makes every LIVE badge and Last Run timestamp meaningful.</p>
           </div>
@@ -385,7 +375,6 @@ export default function App() {
       <section id="glossary" style={{ position: "relative", zIndex: 1, padding: "80px 2rem 100px" }}>
         <div style={{ maxWidth: 1060, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 44 }}>
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#f5c518", letterSpacing: "0.2em" }}>REAL-TIME TERMINOLOGY</span>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1, maxWidth: 1060 }}>What <em style={{ color: "#f5c518" }}>"real time"</em><br />actually means here</h2>
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 560, margin: "14px auto 0", lineHeight: 1.8, fontSize: "0.9rem" }}>
               Every badge, label, and signal in Artist 360 has a precise definition. Click any term to see the full explanation and a real example pulled directly from the live data.
