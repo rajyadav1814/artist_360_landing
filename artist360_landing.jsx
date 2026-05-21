@@ -101,7 +101,7 @@ function Counter({ end, suffix }) {
     if (!vis) return;
     let cur = 0;
     const target = parseFloat(end);
-    const inc = target / 60;
+    const inc = target / 80;
     const t = setInterval(() => {
       cur += inc;
       if (cur >= target) { setVal(target); clearInterval(t); }
@@ -109,7 +109,7 @@ function Counter({ end, suffix }) {
     }, 1000 / 60);
     return () => clearInterval(t);
   }, [vis, end]);
-  return <span ref={ref}>{vis ? val : 0}{suffix}</span>;
+  return <span ref={ref} style={{ fontVariantNumeric: "tabular-nums" }}>{vis ? val : 0}{suffix}</span>;
 }
 
 function FeatureCard({ f, i }) {
@@ -117,21 +117,22 @@ function FeatureCard({ f, i }) {
   const [hov, setHov] = useState(false);
   return (
     <div ref={ref} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{ background: hov ? `linear-gradient(145deg,rgba(255,255,255,0.045),rgba(255,255,255,0.01))` : "rgba(255,255,255,0.025)", border: `1px solid ${hov ? f.color + "60" : "rgba(255,255,255,0.08)"}`, borderRadius: 18, padding: "1.75rem", position: "relative", overflow: "hidden", transform: vis ? (hov ? "translateY(-5px)" : "translateY(0)") : "translateY(28px)", opacity: vis ? 1 : 0, transition: "all 0.45s cubic-bezier(0.23,1,0.32,1)", transitionDelay: vis ? `${i * 55}ms` : "0ms" }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: hov ? `linear-gradient(90deg,transparent,${f.color},transparent)` : "transparent", transition: "all 0.4s" }} />
+      style={{ background: hov ? `linear-gradient(145deg,${f.color}0a,rgba(255,255,255,0.015))` : "rgba(255,255,255,0.022)", border: `1px solid ${hov ? f.color + "55" : "rgba(255,255,255,0.07)"}`, borderRadius: 20, padding: "1.9rem", position: "relative", overflow: "hidden", transform: vis ? (hov ? "translateY(-7px) scale(1.01)" : "translateY(0)") : "translateY(30px)", opacity: vis ? 1 : 0, transition: "all 0.45s cubic-bezier(0.23,1,0.32,1)", transitionDelay: vis ? `${i * 55}ms` : "0ms", boxShadow: hov ? `0 20px 60px rgba(0,0,0,0.35), 0 0 30px ${f.color}14` : "0 4px 20px rgba(0,0,0,0.2)" }}>
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2.5, background: hov ? `linear-gradient(90deg,transparent,${f.color},transparent)` : "transparent", transition: "all 0.45s", boxShadow: hov ? `0 0 12px ${f.color}` : "none" }} />
+      <div style={{ position: "absolute", bottom: 0, right: 0, width: 120, height: 120, borderRadius: "50%", background: `radial-gradient(circle,${f.color}${hov ? "0f" : "06"} 0%,transparent 70%)`, transition: "all 0.45s" }} />
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-        <span style={{ fontSize: 26 }}>{f.icon}</span>
+        <span style={{ fontSize: 28, filter: hov ? `drop-shadow(0 0 8px ${f.color}80)` : "none", transition: "filter 0.3s" }}>{f.icon}</span>
         <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: "0.18em", color: f.color, fontFamily: "'Space Mono',monospace" }}>{f.tag}</span>
       </div>
-      <h3 style={{ fontSize: "1.08rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", marginBottom: 10 }}>{f.title}</h3>
-      <p style={{ fontSize: "0.845rem", color: "rgba(255,255,255,0.52)", lineHeight: 1.72, marginBottom: hov ? 14 : 16 }}>{f.desc}</p>
+      <h3 style={{ fontSize: "1.1rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", marginBottom: 10 }}>{f.title}</h3>
+      <p style={{ fontSize: "0.845rem", color: "rgba(255,255,255,0.52)", lineHeight: 1.75, marginBottom: hov ? 14 : 16 }}>{f.desc}</p>
       {hov && (
-        <div style={{ marginBottom: 14, padding: "10px 13px", background: `${f.color}0d`, border: `1px solid ${f.color}22`, borderRadius: 10, fontSize: "0.78rem", color: f.color, lineHeight: 1.62 }}>
+        <div style={{ marginBottom: 14, padding: "10px 14px", background: `${f.color}0e`, border: `1px solid ${f.color}28`, borderRadius: 10, fontSize: "0.78rem", color: f.color, lineHeight: 1.65, animation: "fadeInUp 0.25s ease" }}>
           ⏱ <strong>Real-time:</strong> {f.realtime}
         </div>
       )}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
-        {f.stats.map((s, j) => <span key={j} style={{ background: `${f.color}12`, border: `1px solid ${f.color}28`, color: f.color, borderRadius: 6, padding: "3px 9px", fontSize: "0.7rem", fontFamily: "'Space Mono',monospace" }}>{s}</span>)}
+        {f.stats.map((s, j) => <span key={j} style={{ background: `${f.color}10`, border: `1px solid ${f.color}26`, color: f.color, borderRadius: 6, padding: "3px 10px", fontSize: "0.68rem", fontFamily: "'Space Mono',monospace", transition: "all 0.2s" }}>{s}</span>)}
       </div>
     </div>
   );
@@ -192,19 +193,30 @@ export default function App() {
   const [mRef, mVis] = useIO(0.2);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#2d2e2d", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#060810", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
         *{margin:0;padding:0;box-sizing:border-box;}
-        ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:#070a10;}::-webkit-scrollbar-thumb{background:#00e5a033;border-radius:2px;}
-        .gbtn:hover{box-shadow:0 0 36px rgba(0,229,160,0.38)!important;transform:translateY(-2px)!important;}
-        .obtn:hover{background:rgba(255,255,255,0.07)!important;}
-        @keyframes bgslow{0%{transform:translateY(0);}100%{transform:translateY(-60px);}}
-        @keyframes ring{0%{transform:scale(1);opacity:.6;}100%{transform:scale(2.6);opacity:0;}}
-        @keyframes ticker{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+        ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#070a10;}::-webkit-scrollbar-thumb{background:linear-gradient(#00e5a0,#7c6cf6);border-radius:4px;}
+        .gbtn:hover{box-shadow:0 0 48px rgba(0,229,160,0.55),0 8px 32px rgba(0,229,160,0.25)!important;transform:translateY(-3px) scale(1.02)!important;}
+        .obtn:hover{background:rgba(255,255,255,0.09)!important;border-color:rgba(255,255,255,0.35)!important;box-shadow:0 0 20px rgba(255,255,255,0.06)!important;}
+        .nav-link:hover{color:#00e5a0!important;text-shadow:0 0 14px rgba(0,229,160,0.5);}
+        @keyframes bgslow{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(-60px) rotate(0.5deg);}}
+        @keyframes ring{0%{transform:scale(1);opacity:.7;}100%{transform:scale(2.8);opacity:0;}}
+        @keyframes ticker{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
         @keyframes orbit{0%{transform:rotate(0deg) translateX(128px) rotate(0deg);}100%{transform:rotate(360deg) translateX(128px) rotate(-360deg);}}
         @keyframes orbit2{0%{transform:rotate(190deg) translateX(192px) rotate(-190deg);}100%{transform:rotate(550deg) translateX(192px) rotate(-550deg);}}
-        @keyframes pulse{0%,100%{opacity:.7;transform:scale(1);}50%{opacity:1;transform:scale(1.04);}}
+        @keyframes pulse{0%,100%{opacity:.7;transform:scale(1);}50%{opacity:1;transform:scale(1.06);}}
+        @keyframes floatY{0%,100%{transform:translateY(0px);}50%{transform:translateY(-12px);}}
+        @keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+        @keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(0,229,160,0.2);}50%{box-shadow:0 0 40px rgba(0,229,160,0.45),0 0 80px rgba(0,229,160,0.15);}}
+        @keyframes scanline{0%{top:-10%;}100%{top:110%;}}
+        .metric-card:hover .metric-val{text-shadow:0 0 30px currentColor;}
+        .step-circle:hover{transform:scale(1.1)!important;}
+        .hero-badge{animation:fadeInUp 0.6s ease both;}
+        .live-dot{animation:ring 1.8s ease-out infinite;}
       `}</style>
 
       {/* FEATURES */}
@@ -223,33 +235,41 @@ export default function App() {
 
       {/* Atmosphere */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: "-60px", backgroundImage: `linear-gradient(rgba(0,229,160,0.032) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.032) 1px,transparent 1px)`, backgroundSize: "56px 56px", animation: "bgslow 50s linear infinite", maskImage: "radial-gradient(ellipse 90% 65% at 50% 0%,black 30%,transparent 100%)" }} />
-        <div style={{ position: "absolute", top: "6%", left: "50%", transform: "translateX(-50%)", width: 860, height: 860, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.052) 0%,transparent 65%)" }} />
-        <div style={{ position: "absolute", top: "58%", left: "4%", width: 480, height: 480, borderRadius: "50%", background: "radial-gradient(circle,rgba(124,108,246,0.07) 0%,transparent 70%)" }} />
-        <div style={{ position: "absolute", top: "38%", right: "3%", width: 340, height: 340, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.06) 0%,transparent 70%)" }} />
+        <div style={{ position: "absolute", inset: "-60px", backgroundImage: `linear-gradient(rgba(0,229,160,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.04) 1px,transparent 1px)`, backgroundSize: "64px 64px", animation: "bgslow 60s linear infinite", maskImage: "radial-gradient(ellipse 100% 70% at 50% 0%,black 20%,transparent 100%)" }} />
+        <div style={{ position: "absolute", top: "3%", left: "50%", transform: "translateX(-50%)", width: 1100, height: 1100, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.11) 0%,rgba(0,194,224,0.04) 40%,transparent 65%)", animation: "pulse 8s ease-in-out infinite" }} />
+        <div style={{ position: "absolute", top: "55%", left: "2%", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle,rgba(124,108,246,0.14) 0%,transparent 70%)", animation: "pulse 10s ease-in-out infinite 2s" }} />
+        <div style={{ position: "absolute", top: "35%", right: "2%", width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.12) 0%,transparent 70%)", animation: "pulse 7s ease-in-out infinite 1s" }} />
+        <div style={{ position: "absolute", bottom: "10%", left: "30%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle,rgba(245,197,24,0.07) 0%,transparent 70%)" }} />
       </div>
 
       {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", background: scrolled ? "rgba(7,10,16,0.92)" : "transparent", backdropFilter: scrolled ? "blur(24px)" : "none", borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "none", transition: "all 0.35s ease" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", background: scrolled ? "rgba(6,8,16,0.94)" : "transparent", backdropFilter: scrolled ? "blur(32px) saturate(1.8)" : "none", borderBottom: scrolled ? "1px solid rgba(0,229,160,0.1)" : "none", transition: "all 0.4s ease", boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.4)" : "none" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
           <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360°</span> Intelligence</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 28, fontSize: "0.85rem" }}>
           {NAV_ITEMS.map(n => (
-            <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} style={{ color: "rgba(255, 255, 255, 0.91)", fontSize: "0.85rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255, 255, 255, 0.96)"}>{n}</a>
+            <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} className="nav-link" style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.85rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.03em", transition: "all 0.25s" }}>{n}</a>
           ))}
+          <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
         </div>
       </nav>
 
       {/* HERO */}
       <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "clamp(3rem,7.5vw,6.8rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.04, letterSpacing: "-0.03em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
-          The Intelligence layer<em style={{ color: "#00e5a0" }}> Latin music never had</em>
+        {/* Hero badge */}
+        <div className="hero-badge" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,229,160,0.08)", border: "1px solid rgba(0,229,160,0.25)", borderRadius: 100, padding: "7px 18px", marginBottom: 28, opacity: heroVis ? 1 : 0, transition: "opacity 0.6s ease 0.05s" }}>
+          <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#00e5a0", display: "inline-block", boxShadow: "0 0 8px #00e5a0" }} />
+          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.68rem", color: "#00e5a0", letterSpacing: "0.15em" }}>LIVE · 18 LATAM MARKETS · 170+ ARTISTS</span>
+        </div>
+
+        <h1 style={{ fontSize: "clamp(3rem,7.5vw,7rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.02, letterSpacing: "-0.035em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.9s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
+          The Intelligence layer<em style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}> Latin music never had</em>
         </h1>
 
-        <p style={{ fontSize: "1.08rem", color: "rgba(255,255,255,0.46)", maxWidth: 1080, lineHeight: 1.8, marginTop: 24, marginBottom: 12, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.22s" }}>
-          Real-time artist rankings, label market share, debut signals, and AI-powered analysis — unified across Spotify and iTunes for 18 LATAM markets. Every number you see is <strong style={{ color: "rgba(255,255,255,0.75)" }}>live, sourced, and timestamped.</strong>
+        <p style={{ fontSize: "1.1rem", color: "rgba(255,255,255,0.48)", maxWidth: 680, lineHeight: 1.85, marginTop: 24, marginBottom: 12, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.22s" }}>
+          Real-time artist rankings, label market share, debut signals, and AI-powered analysis — unified across Spotify and iTunes for 18 LATAM markets. Every number you see is <strong style={{ color: "rgba(255,255,255,0.82)", borderBottom: "1px solid rgba(0,229,160,0.4)" }}>live, sourced, and timestamped.</strong>
         </p>
 
         <div style={{ height: 30, overflow: "hidden", marginBottom: 36, opacity: heroVis ? 1 : 0, transition: "opacity 0.8s ease 0.35s" }}>
@@ -257,12 +277,12 @@ export default function App() {
         </div>
 
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 70, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.4s" }}>
-          <button className="gbtn" style={{ background: "#00e5a0", color: "#070a10", border: "none", borderRadius: 10, padding: "13px 32px", fontSize: "0.95rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Get Demo</button>
-          <button className="obtn" onClick={() => document.getElementById("glossary")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.16)", borderRadius: 10, padding: "13px 28px", fontSize: "0.95rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Explore the Glossary ↓</button>
+          <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10", border: "none", borderRadius: 12, padding: "14px 36px", fontSize: "1rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", boxShadow: "0 4px 24px rgba(0,229,160,0.3)" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Get Demo →</button>
+          <button className="obtn" onClick={() => document.getElementById("glossary")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "rgba(255,255,255,0.04)", color: "#fff", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 12, padding: "14px 28px", fontSize: "1rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Explore the Glossary ↓</button>
         </div>
 
         {/* Dashboard mockup */}
-        <div style={{ width: "100%", maxWidth: 1020, background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 22, overflow: "hidden", opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0) perspective(1200px) rotateX(3.5deg)" : "translateY(60px) perspective(1200px) rotateX(9deg)", transition: "all 1.1s cubic-bezier(0.23,1,0.32,1) 0.55s", boxShadow: "0 50px 140px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,229,160,0.08)" }}>
+        <div style={{ width: "100%", maxWidth: 1020, background: "rgba(255,255,255,0.022)", border: "1px solid rgba(0,229,160,0.12)", borderRadius: 24, overflow: "hidden", opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0) perspective(1400px) rotateX(2.5deg)" : "translateY(60px) perspective(1400px) rotateX(10deg)", transition: "all 1.2s cubic-bezier(0.23,1,0.32,1) 0.55s", boxShadow: "0 60px 160px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,229,160,0.1), 0 0 80px rgba(0,229,160,0.05)" }}>
           <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "12px 20px", display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ display: "flex", gap: 6 }}>{["#ff5f57","#febc2e","#28c840"].map(c => <div key={c} style={{ width: 10, height: 10, borderRadius: "50%", background: c }} />)}</div>
             <div style={{ flex: 1, background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "4px 14px", fontSize: "0.7rem", color: "rgba(255,255,255,0.26)", fontFamily: "'Space Mono',monospace" }}>chromadata.com · Artist 360° Intelligence</div>
@@ -275,39 +295,41 @@ export default function App() {
               { l: "TOP LABEL · STREAMS", v: "Universal", s: "1.74B · 27.4% share", c: "#7c6cf6" },
               { l: "STRONG BUY", v: "Michael J.", s: "102.1M · iTunes #1", c: "#ff9f43" },
             ].map((k, i) => (
-              <div key={i} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${k.c}1e`, borderRadius: 12, padding: "14px" }}>
-                <div style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.35)", marginBottom: 5, fontFamily: "'Space Mono',monospace", letterSpacing: "0.1em" }}>{k.l}</div>
-                <div style={{ fontSize: "1.15rem", fontWeight: 700, color: k.c, fontFamily: "'Playfair Display',serif" }}>{k.v}</div>
-                <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.34)", marginTop: 4 }}>{k.s}</div>
+              <div key={i} style={{ background: `linear-gradient(135deg,${k.c}10,${k.c}04)`, border: `1px solid ${k.c}38`, borderRadius: 14, padding: "18px 16px", position: "relative", overflow: "hidden" }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${k.c},transparent)`, opacity: 0.7 }} />
+                <div style={{ fontSize: "0.62rem", color: k.c, marginBottom: 7, fontFamily: "'Space Mono',monospace", letterSpacing: "0.14em", opacity: 0.75 }}>{k.l}</div>
+                <div style={{ fontSize: "1.38rem", fontWeight: 700, color: k.c, fontFamily: "'Playfair Display',serif", textShadow: `0 0 18px ${k.c}60`, lineHeight: 1.1 }}>{k.v}</div>
+                <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.48)", marginTop: 6, fontWeight: 500 }}>{k.s}</div>
               </div>
             ))}
           </div>
           <div style={{ padding: "16px 24px 24px", display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16 }}>
-            <div style={{ background: "rgba(255,255,255,0.02)", borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: "16px" }}>
-              <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", marginBottom: 12 }}>SPOTIFY GLOBAL · DAILY STREAMS BY LABEL · MAY 11–19</div>
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 80 }}>
+            <div style={{ background: "rgba(255,255,255,0.02)", borderRadius: 14, border: "1px solid rgba(0,229,160,0.1)", padding: "18px" }}>
+              <div style={{ fontSize: "0.62rem", color: "rgba(0,229,160,0.55)", fontFamily: "'Space Mono',monospace", marginBottom: 14, letterSpacing: "0.1em" }}>SPOTIFY GLOBAL · DAILY STREAMS BY LABEL · MAY 11–19</div>
+              <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 100 }}>
                 {[38,55,80,42,95,68,100,58,72,44,88,62,76,50,92,38,65,55,80].map((h,i) => (
-                  <div key={i} style={{ flex: 1, borderRadius: "3px 3px 0 0", background: i===14 ? "#00e5a0" : `rgba(0,229,160,${0.1+(h/100)*0.22})`, height: `${h}%` }} />
+                  <div key={i} style={{ flex: 1, borderRadius: "3px 3px 0 0", background: i===14 ? "linear-gradient(180deg,#00e5a0,#00c2e0)" : `rgba(0,229,160,${0.08+(h/100)*0.28})`, height: `${h}%`, boxShadow: i===14 ? "0 0 10px rgba(0,229,160,0.5)" : "none" }} />
                 ))}
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
-                {["May 11","","","","May 15","","","","May 19"].map((d,i) => <span key={i} style={{ fontSize: "0.56rem", color: "rgba(255,255,255,0.2)" }}>{d}</span>)}
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10 }}>
+                {["May 11","","","","May 15","","","","May 19"].map((d,i) => <span key={i} style={{ fontSize: "0.58rem", color: "rgba(255,255,255,0.28)" }}>{d}</span>)}
               </div>
             </div>
-            <div style={{ background: "rgba(255,255,255,0.02)", borderRadius: 12, border: "1px solid rgba(255,255,255,0.05)", padding: "16px" }}>
-              <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", marginBottom: 12 }}>TOP TRACKS · ACQ SCORE</div>
+            <div style={{ background: "rgba(255,255,255,0.02)", borderRadius: 14, border: "1px solid rgba(255,255,255,0.07)", padding: "18px" }}>
+              <div style={{ fontSize: "0.62rem", color: "rgba(255,255,255,0.38)", fontFamily: "'Space Mono',monospace", marginBottom: 14, letterSpacing: "0.1em" }}>TOP TRACKS · ACQ SCORE</div>
               {[
                 { t: "Billie Jean", a: "Michael Jackson", s: 68, c: "#00e5a0", sig: "WATCH" },
                 { t: "SWIM", a: "BTS", s: 62, c: "#f5c518", sig: "HOLD" },
                 { t: "Africa", a: "TOTO", s: 55, c: "#7c6cf6", sig: "RISING" },
               ].map((r, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0", borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 0", borderBottom: i < 2 ? `1px solid ${r.c}12` : "none" }}>
+                  <div style={{ width: 30, height: 30, borderRadius: 8, background: `${r.c}14`, border: `1px solid ${r.c}28`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.78rem", fontWeight: 700, color: r.c, fontFamily: "'Playfair Display',serif", flexShrink: 0 }}>{i+1}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: "0.76rem", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{r.t}</div>
-                    <div style={{ fontSize: "0.64rem", color: "rgba(255,255,255,0.34)" }}>{r.a}</div>
+                    <div style={{ fontSize: "0.82rem", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", color: "rgba(255,255,255,0.9)" }}>{r.t}</div>
+                    <div style={{ fontSize: "0.66rem", color: "rgba(255,255,255,0.38)", marginTop: 2 }}>{r.a}</div>
                   </div>
-                  <div style={{ fontSize: "1rem", fontWeight: 700, color: r.c, fontFamily: "'Playfair Display',serif", minWidth: 26, textAlign: "right" }}>{r.s}</div>
-                  <div style={{ background: `${r.c}18`, border: `1px solid ${r.c}30`, color: r.c, borderRadius: 5, padding: "2px 7px", fontSize: "0.6rem", fontFamily: "'Space Mono',monospace" }}>{r.sig}</div>
+                  <div style={{ fontSize: "1.2rem", fontWeight: 700, color: r.c, fontFamily: "'Playfair Display',serif", minWidth: 28, textAlign: "right", textShadow: `0 0 12px ${r.c}70` }}>{r.s}</div>
+                  <div style={{ background: `${r.c}18`, border: `1px solid ${r.c}40`, color: r.c, borderRadius: 6, padding: "3px 8px", fontSize: "0.62rem", fontFamily: "'Space Mono',monospace", letterSpacing: "0.06em" }}>{r.sig}</div>
                 </div>
               ))}
             </div>
@@ -318,12 +340,15 @@ export default function App() {
       
 
       {/* METRICS */}
-      <section ref={mRef} style={{ position: "relative", zIndex: 1, padding: "40px 2rem 80px" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 28 }}>
+      <section ref={mRef} style={{ position: "relative", zIndex: 1, padding: "20px 2rem 80px" }}>
+        <div style={{ maxWidth: 1060, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 }}>
           {METRICS.map((m, i) => (
-            <div key={i} style={{ textAlign: "center", opacity: mVis ? 1 : 0, transform: mVis ? "translateY(0)" : "translateY(20px)", transition: `all 0.6s ease ${i*100}ms` }}>
-              <div style={{ fontSize: "clamp(2rem,4vw,3rem)", fontFamily: "'Playfair Display',serif", color: m.color }}><Counter end={m.value} suffix={m.suffix} /></div>
-              <div style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.38)", marginTop: 6, letterSpacing: "0.04em" }}>{m.label}</div>
+            <div key={i} className="metric-card" style={{ textAlign: "center", opacity: mVis ? 1 : 0, transform: mVis ? "translateY(0)" : "translateY(28px)", transition: `all 0.75s cubic-bezier(0.23,1,0.32,1) ${i*120}ms`, background: `linear-gradient(145deg,${m.color}10,${m.color}04)`, border: `1px solid ${m.color}30`, borderRadius: 22, padding: "38px 20px 32px", position: "relative", overflow: "hidden", boxShadow: `0 8px 40px ${m.color}0d` }}>
+              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,transparent,${m.color},transparent)`, opacity: 0.6 }} />
+              <div style={{ position: "absolute", bottom: -30, right: -30, width: 110, height: 110, borderRadius: "50%", background: `radial-gradient(circle,${m.color}18,transparent 70%)` }} />
+              <div className="metric-val" style={{ fontSize: "clamp(3rem,5.5vw,4.2rem)", fontFamily: "'Playfair Display',serif", color: m.color, transition: "text-shadow 0.3s", lineHeight: 1, letterSpacing: "-0.02em" }}><Counter end={m.value} suffix={m.suffix} /></div>
+              <div style={{ width: 36, height: 2, background: `linear-gradient(90deg,transparent,${m.color},transparent)`, margin: "14px auto 12px", opacity: 0.5 }} />
+              <div style={{ fontSize: "0.67rem", color: "rgba(255,255,255,0.5)", letterSpacing: "0.14em", fontFamily: "'Space Mono',monospace", textTransform: "uppercase" }}>{m.label}</div>
             </div>
           ))}
         </div>
@@ -338,7 +363,7 @@ export default function App() {
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>This is what makes every LIVE badge and Last Run timestamp meaningful.</p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0, position: "relative" }}>
-            <div style={{ position: "absolute", top: 35, left: "12.5%", right: "12.5%", height: 2, background: "linear-gradient(90deg,#00e5a0,#7c6cf6,#00c2e0,#a29bfe)", opacity: 0.3, zIndex: 0 }} />
+            <div style={{ position: "absolute", top: 35, left: "12.5%", right: "12.5%", height: 2, background: "linear-gradient(90deg,#00e5a0,#7c6cf6,#00c2e0,#a29bfe)", opacity: 0.4, zIndex: 0, borderRadius: 2 }} />
             {[
               { step: "01", icon: "📡", title: "Data Ingest", desc: "Automated scrapers fetch Spotify Global and iTunes WW chart snapshots daily — artist listener counts, track ranks, stream totals, and label attribution.", color: "#00e5a0" },
               { step: "02", icon: "⚙️", title: "Processing", desc: "Raw data is cleaned, normalized across 18 LATAM markets, and enriched with history. Debut detection, cross-platform matching, and label grouping happen here.", color: "#7c6cf6" },
@@ -346,10 +371,10 @@ export default function App() {
               { step: "04", icon: "🟢", title: "Live Dashboards", desc: "All views read directly from the live database. The LIVE badge and Last Run timestamp confirm the pipeline completed successfully and the data is fresh.", color: "#a29bfe" },
             ].map((s, i) => (
               <div key={i} style={{ padding: "0 18px", textAlign: "center", position: "relative", zIndex: 1 }}>
-                <div style={{ width: 70, height: 70, borderRadius: "50%", background: `${s.color}14`, border: `2px solid ${s.color}38`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26, margin: "0 auto 16px" }}>{s.icon}</div>
-                <div style={{ fontSize: "0.63rem", fontFamily: "'Space Mono',monospace", color: s.color, letterSpacing: "0.15em", marginBottom: 8 }}>STEP {s.step}</div>
-                <h4 style={{ fontFamily: "'Playfair Display',serif", fontSize: "0.98rem", marginBottom: 10 }}>{s.title}</h4>
-                <p style={{ fontSize: "0.77rem", color: "rgba(255,255,255,0.42)", lineHeight: 1.72 }}>{s.desc}</p>
+                <div className="step-circle" style={{ width: 72, height: 72, borderRadius: "50%", background: `radial-gradient(circle,${s.color}20,${s.color}06)`, border: `2px solid ${s.color}45`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, margin: "0 auto 18px", transition: "transform 0.3s ease", boxShadow: `0 0 24px ${s.color}18` }}>{s.icon}</div>
+                <div style={{ fontSize: "0.63rem", fontFamily: "'Space Mono',monospace", color: s.color, letterSpacing: "0.18em", marginBottom: 8 }}>STEP {s.step}</div>
+                <h4 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1rem", marginBottom: 10 }}>{s.title}</h4>
+                <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.44)", lineHeight: 1.75 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -432,24 +457,30 @@ export default function App() {
 
       {/* CTA */}
       <section id="pricing" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 120px" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center", background: "linear-gradient(135deg,rgba(0,229,160,0.06) 0%,rgba(124,108,246,0.06) 100%)", border: "1px solid rgba(0,229,160,0.14)", borderRadius: 28, padding: "64px 48px", position: "relative", overflow: "hidden" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center", background: "linear-gradient(135deg,rgba(0,229,160,0.07) 0%,rgba(0,194,224,0.04) 50%,rgba(124,108,246,0.07) 100%)", border: "1px solid rgba(0,229,160,0.18)", borderRadius: 32, padding: "72px 52px", position: "relative", overflow: "hidden", boxShadow: "0 0 0 1px rgba(0,229,160,0.06), 0 40px 100px rgba(0,0,0,0.4), 0 0 60px rgba(0,229,160,0.06)" }}>
           <div style={{ position: "absolute", top: -100, right: -100, width: 360, height: 360, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.1) 0%,transparent 70%)", pointerEvents: "none" }} />
           <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.7rem", color: "#00e5a0", letterSpacing: "0.2em" }}>GET STARTED</span>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,2.8rem)", marginTop: 12, letterSpacing: "-0.02em", lineHeight: 1.15 }}>Know your market.<br /><em style={{ color: "#00e5a0" }}>Before anyone else does.</em></h2>
           <p style={{ color: "rgba(255,255,255,0.44)", marginTop: 16, lineHeight: 1.78, marginBottom: 36, fontSize: "0.9rem" }}>Music labels, A&Rs, and managers across Latin America use Artist 360° Intelligence to act on real data — not last week's spreadsheet. Every metric is live, sourced, and timestamped.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <button className="gbtn" style={{ background: "#00e5a0", color: "#070a10", border: "none", borderRadius: 10, padding: "14px 36px", fontSize: "1rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }}>Request Early Access</button>
-            <button className="obtn" style={{ background: "transparent", color: "#fff", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 10, padding: "14px 28px", fontSize: "1rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Contact Sales</button>
+            <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10", border: "none", borderRadius: 12, padding: "15px 40px", fontSize: "1rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", boxShadow: "0 4px 24px rgba(0,229,160,0.35)" }}>Request Early Access</button>
+            <button className="obtn" style={{ background: "rgba(255,255,255,0.04)", color: "#fff", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 12, padding: "15px 32px", fontSize: "1rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Contact Sales</button>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid rgba(255,255,255,0.06)", padding: "32px 2.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-        <div style={{ fontSize: "0.82rem", color: "#fff", fontFamily: "'Space Mono',monospace" }}>info@chromadata.com · © 2026 Chromadata</div>
+      <footer style={{ position: "relative", zIndex: 1, borderTop: "1px solid rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.2)", padding: "36px 2.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div style={{ width: 28, height: 28, borderRadius: 8, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>🎵</div>
+          <div>
+            <div style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.55)", fontFamily: "'Space Mono',monospace" }}>info@chromadata.com</div>
+            <div style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace" }}>© 2026 Chromadata</div>
+          </div>
+        </div>
         <div style={{ display: "flex", gap: 20 }}>
           {["Privacy","Terms","Docs","Glossary"].map(l => (
-            <a key={l} href="#" style={{ fontSize: "0.82rem", color: "rgba(255, 255, 255, 0.97)", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="#fff"} onMouseLeave={e => e.target.style.color="rgba(255, 255, 255, 0.95)"}>{l}</a>
+            <a key={l} href="#" style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.42)", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color="rgba(255,255,255,0.9)"} onMouseLeave={e => e.target.style.color="rgba(255,255,255,0.42)"}>{l}</a>
           ))}
         </div>
       </footer>
