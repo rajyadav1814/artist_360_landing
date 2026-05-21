@@ -343,11 +343,11 @@ export default function App() {
   const [mRef, mVis] = useIO(0.2);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#060810", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: "#0b0e1a", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
         *{margin:0;padding:0;box-sizing:border-box;}
-        ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#070a10;}::-webkit-scrollbar-thumb{background:linear-gradient(#00e5a0,#7c6cf6);border-radius:4px;}
+        ::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:#0b0e1a;}::-webkit-scrollbar-thumb{background:linear-gradient(#00e5a0,#7c6cf6);border-radius:4px;}
         .gbtn:hover{box-shadow:0 0 48px rgba(0,229,160,0.55),0 8px 32px rgba(0,229,160,0.25)!important;transform:translateY(-3px) scale(1.02)!important;}
         .obtn:hover{background:rgba(255,255,255,0.09)!important;border-color:rgba(255,255,255,0.35)!important;box-shadow:0 0 20px rgba(255,255,255,0.06)!important;}
         .nav-link:hover{color:#00e5a0!important;text-shadow:0 0 14px rgba(0,229,160,0.5);}
@@ -1163,7 +1163,7 @@ export default function App() {
       </div>
 
       {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", background: scrolled ? "rgba(6,8,16,0.94)" : "transparent", backdropFilter: scrolled ? "blur(32px) saturate(1.8)" : "none", borderBottom: scrolled ? "1px solid rgba(0,229,160,0.1)" : "none", transition: "all 0.4s ease", boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.4)" : "none" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", background: scrolled ? "rgba(11,14,26,0.94)" : "transparent", backdropFilter: scrolled ? "blur(32px) saturate(1.8)" : "none", borderBottom: scrolled ? "1px solid rgba(0,229,160,0.1)" : "none", transition: "all 0.4s ease", boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.4)" : "none" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
           <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360°</span> Intelligence</span>
@@ -1172,7 +1172,7 @@ export default function App() {
           {NAV_ITEMS.map(n => (
             <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} className="nav-link" style={{ color: "rgba(255,255,255,0.6)", fontSize: "1.00rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.03em", transition: "all 0.25s" }}>{n}</a>
           ))}
-          <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
+          <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
         </div>
       </nav>
 
@@ -1193,7 +1193,7 @@ export default function App() {
         </div>
 
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center", marginBottom: 70, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)", transition: "all 0.85s cubic-bezier(0.23,1,0.32,1) 0.4s" }}>
-          <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10", border: "none", borderRadius: 12, padding: "14px 36px", fontSize: "1rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", boxShadow: "0 4px 24px rgba(0,229,160,0.3)" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Get Demo →</button>
+          <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a", border: "none", borderRadius: 12, padding: "14px 36px", fontSize: "1rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", boxShadow: "0 4px 24px rgba(0,229,160,0.3)" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Get Demo →</button>
           <button className="obtn" onClick={() => document.getElementById("glossary")?.scrollIntoView({ behavior: "smooth" })} style={{ background: "rgba(255,255,255,0.04)", color: "#fff", border: "1px solid rgba(255,255,255,0.18)", borderRadius: 12, padding: "14px 28px", fontSize: "1rem", fontWeight: 500, cursor: "pointer", transition: "all 0.3s ease" }}>Explore the Glossary ↓</button>
         </div>
 
@@ -1326,7 +1326,7 @@ export default function App() {
                 onClick={() => setFilter(f)}
                 style={{
                   background: filter === f ? "#f5c518" : "rgba(255,255,255,0.04)",
-                  color: filter === f ? "#070a10" : "rgba(255,255,255,0.55)",
+                  color: filter === f ? "#0b0e1a" : "rgba(255,255,255,0.55)",
                   border: `1px solid ${filter === f ? "#f5c518" : "rgba(255,255,255,0.13)"}`,
                   borderRadius: 100,
                   padding: "7px 18px",
@@ -1387,7 +1387,7 @@ export default function App() {
 
             {/* Right: chat window */}
             <div style={{
-              background: "rgba(10,12,26,0.7)", backdropFilter: "blur(12px)",
+              background: "rgba(11,14,26,0.7)", backdropFilter: "blur(12px)",
               border: "1px solid rgba(162,155,254,0.18)", borderRadius: 22,
               overflow: "hidden", boxShadow: "0 24px 80px rgba(0,0,0,0.45), 0 0 0 1px rgba(162,155,254,0.06), 0 0 40px rgba(162,155,254,0.06)",
             }}>
@@ -1518,7 +1518,7 @@ export default function App() {
 
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <button className="gbtn" style={{
-              background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#070a10",
+              background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a",
               border: "none", borderRadius: 14, padding: "16px 44px",
               fontSize: "1rem", fontWeight: 700, cursor: "pointer",
               transition: "all 0.3s ease",
