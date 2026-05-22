@@ -341,6 +341,11 @@ export default function App() {
   }, []);
 
   const [mRef, mVis] = useIO(0.2);
+  const [lbRef, lbVis] = useIO(0.12);
+  const [laRef, laVis] = useIO(0.12);
+  const [ctRef, ctVis] = useIO(0.12);
+  const [mvRef, mvVis] = useIO(0.12);
+  const [taRef, taVis] = useIO(0.12);
 
   return (
     <div style={{ minHeight: "100vh", background: "#0b0e1a", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
@@ -387,10 +392,10 @@ export default function App() {
       </section>
 
       {/* LEADERBOARD PREVIEW */}
-      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+      <section ref={lbRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
-          <div style={{ textAlign: "center", marginBottom: 44 }}>
+          <div style={{ textAlign: "center", marginBottom: 44, opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(14px)", transition: "opacity 0.56s ease 70ms, transform 0.56s ease 70ms" }}>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.7rem,3.5vw,2.7rem)", letterSpacing: "-0.025em", lineHeight: 1.1, margin: 0 }}>Artist 360° Leaderboard — ranked live</h2>
             <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 500, margin: "12px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
               200+ artists ranked by iTunes performance, Spotify reach, and global footprint — with monthly listeners, peak listeners, points, and top market, all rebuilt on every data run.
@@ -398,7 +403,7 @@ export default function App() {
           </div>
 
           {/* Browser chrome wrapper */}
-          <div style={{ background: "rgba(255,255,255,0.018)", border: "1px solid rgba(0,229,160,0.15)", borderRadius: 20, overflow: "hidden", boxShadow: "0 48px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,160,0.07), 0 0 60px rgba(0,229,160,0.05)" }}>
+          <div style={{ background: "rgba(255,255,255,0.018)", border: "1px solid rgba(0,229,160,0.15)", borderRadius: 20, overflow: "hidden", boxShadow: "0 48px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,229,160,0.07), 0 0 60px rgba(0,229,160,0.05)", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(22px)", transition: "opacity 0.66s ease 140ms, transform 0.66s ease 140ms" }}>
 
             {/* Window chrome */}
             <div style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.06)", padding: "11px 18px", display: "flex", alignItems: "center", gap: 12 }}>
@@ -418,10 +423,10 @@ export default function App() {
             </div>
 
             {/* Main body: table left, charts right */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 380px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", opacity: lbVis ? 1 : 0, transition: "opacity 0.5s ease 190ms" }}>
 
               {/* Left: leaderboard table */}
-              <div style={{ borderRight: "1px solid rgba(255,255,255,0.06)", padding: "18px 0 0" }}>
+              <div style={{ borderRight: "1px solid rgba(255,255,255,0.06)", padding: "18px 0 0", transform: lbVis ? "translateX(0)" : "translateX(-16px)", transition: "transform 0.58s ease 210ms" }}>
                 <div style={{ padding: "0 20px 12px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
                     <span style={{ fontSize: 16 }}>📋</span>
@@ -445,7 +450,7 @@ export default function App() {
                   { rank: 6, artist: "Taylor Swift", song: "The Fate of Ophelia", market: "Uruguay", marketC: "#00e5a0", monthly: "101.88M", peak: "116.23M", pts: "3K", delta: null },
                   { rank: 7, artist: "Omar Courtz", song: "KOKO", market: "Panama", marketC: "#00e5a0", monthly: "28.88M", peak: "34.38M", pts: "2K", delta: null },
                 ].map((row, i) => (
-                  <div key={i} style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", gap: 4, padding: "11px 20px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: i === 0 ? "rgba(0,229,160,0.03)" : "transparent" }}>
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", gap: 4, padding: "11px 20px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: i === 0 ? "rgba(0,229,160,0.03)" : "transparent", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateX(0)" : "translateX(-10px)", transition: `opacity 0.44s ease ${220 + i * 55}ms, transform 0.44s ease ${220 + i * 55}ms` }}>
                     <div style={{ fontSize: "1rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", color: i === 0 ? "#00e5a0" : "rgba(255,255,255,0.7)" }}>{row.rank}</div>
                     <div>
                       <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>{row.artist}</div>
@@ -469,10 +474,10 @@ export default function App() {
               </div>
 
               {/* Right: charts */}
-              <div style={{ padding: "18px 18px 18px", display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ padding: "18px 18px 18px", display: "flex", flexDirection: "column", gap: 16, transform: lbVis ? "translateX(0)" : "translateX(16px)", transition: "transform 0.58s ease 250ms" }}>
 
                 {/* Top Artists by Monthly Listeners bar chart */}
-                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "16px 16px 12px", flex: "1 1 0" }}>
+                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "16px 16px 12px", flex: "1 1 0", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(10px)", transition: "opacity 0.5s ease 290ms, transform 0.5s ease 290ms" }}>
                   <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Top Artists by Monthly Listeners</div>
                   {/* SVG bar chart */}
                   <svg viewBox="0 0 320 140" style={{ width: "100%", height: 140 }} preserveAspectRatio="none">
@@ -510,7 +515,7 @@ export default function App() {
                 </div>
 
                 {/* Top Artists by iTunes Points horizontal bar chart */}
-                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "16px 16px 14px", flex: "1 1 0" }}>
+                <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "16px 16px 14px", flex: "1 1 0", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(10px)", transition: "opacity 0.5s ease 340ms, transform 0.5s ease 340ms" }}>
                   <div style={{ fontSize: "0.8rem", fontWeight: 700, color: "rgba(255,255,255,0.85)", marginBottom: 14 }}>Top Artists by iTunes Points</div>
                   {[
                     { name: "Drake", pts: 17, color: "#f5c518", w: 100 },
@@ -539,7 +544,7 @@ export default function App() {
       </section>
 
       {/* LABEL ANALYSIS PREVIEW */}
-      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+      <section ref={laRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: laVis ? 1 : 0, transform: laVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -701,7 +706,7 @@ export default function App() {
       </section>
 
       {/* CHART TRACKER PREVIEW */}
-      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+      <section ref={ctRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: ctVis ? 1 : 0, transform: ctVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -823,7 +828,7 @@ export default function App() {
       </section>
 
       {/* MOVEMENT DASHBOARD PREVIEW */}
-      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+      <section ref={mvRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: mvVis ? 1 : 0, transform: mvVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -979,7 +984,7 @@ export default function App() {
       </section>
 
       {/* TRACK ACQUISITION PREVIEW */}
-      <section style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px" }}>
+      <section ref={taRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: taVis ? 1 : 0, transform: taVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
