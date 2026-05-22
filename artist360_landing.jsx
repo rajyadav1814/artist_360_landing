@@ -322,6 +322,16 @@ export default function App() {
   const [heroVis, setHeroVis] = useState(false);
   const [ticker, setTicker] = useState(0);
   const [filter, setFilter] = useState("All");
+  const SECTION_BACKGROUNDS = {
+    app: "radial-gradient(130% 160% at 50% -20%, #16284f 0%, #0b1123 42%, #070b14 100%)",
+    hero: "linear-gradient(180deg, rgba(18,31,58,0.92) 0%, rgba(13,22,42,0.82) 55%, rgba(10,17,33,0.72) 100%)",
+    features: "linear-gradient(180deg, rgba(13,24,47,0.88) 0%, rgba(10,18,36,0.84) 100%)",
+    workflow: "linear-gradient(180deg, rgba(9,25,42,0.9) 0%, rgba(8,18,30,0.85) 100%)",
+    glossary: "linear-gradient(180deg, rgba(32,24,12,0.88) 0%, rgba(22,17,10,0.84) 100%)",
+    ai: "linear-gradient(180deg, rgba(28,20,46,0.9) 0%, rgba(17,13,31,0.84) 100%)",
+    cta: "linear-gradient(180deg, rgba(8,33,31,0.9) 0%, rgba(7,22,26,0.86) 100%)",
+  };
+  const SECTION_DIVIDER = "1px solid rgba(255,255,255,0.08)";
   const PLATFORMS = ["Spotify Global · Daily Snapshots", "iTunes WW · Weekly Chart Cycle", "Cross-Platform Signal Engine"];
   const FILTERS = ["All", "Time & Freshness", "Scores", "Signals", "Platform"];
   const FILTER_MAP = {
@@ -348,7 +358,7 @@ export default function App() {
   const [taRef, taVis] = useIO(0.12);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0b0e1a", color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
+    <div style={{ minHeight: "100vh", background: SECTION_BACKGROUNDS.app, color: "#fff", fontFamily: "'DM Sans',sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
         *{margin:0;padding:0;box-sizing:border-box;}
@@ -375,7 +385,7 @@ export default function App() {
       `}</style>
 
       {/* FEATURES */}
-      <section id="features" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px" }}>
+      <section id="features" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px", background: SECTION_BACKGROUNDS.features, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
             {/* Section badge */}
@@ -1182,7 +1192,7 @@ export default function App() {
       </nav>
 
       {/* HERO */}
-      <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center" }}>
+      <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center", background: SECTION_BACKGROUNDS.hero, borderBottom: SECTION_DIVIDER }}>
         {/* Hero badge */}
 
         <h1 style={{ fontSize: "clamp(3rem,7.5vw,7rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.02, letterSpacing: "-0.035em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.9s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
@@ -1276,7 +1286,7 @@ export default function App() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how-it-works" style={{ position: "relative", zIndex: 1, padding: "80px 2rem 100px" }}>
+      <section id="how-it-works" style={{ position: "relative", zIndex: 1, padding: "80px 2rem 100px", background: SECTION_BACKGROUNDS.workflow, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>From raw chart data<br /><em style={{ color: "#00c2e0" }}>to live dashboard</em> in minutes</h2>
@@ -1312,7 +1322,7 @@ export default function App() {
       </section>
 
       {/* GLOSSARY */}
-      <section id="glossary" style={{ position: "relative", zIndex: 1, padding: "90px 2rem 110px" }}>
+      <section id="glossary" style={{ position: "relative", zIndex: 1, padding: "90px 2rem 110px", background: SECTION_BACKGROUNDS.glossary, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         {/* subtle radial glow behind the section */}
         <div style={{ position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)", width: 700, height: 500, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(245,197,24,0.04) 0%,transparent 70%)", pointerEvents: "none", zIndex: 0 }} />
         <div style={{ maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 }}>
@@ -1354,7 +1364,7 @@ export default function App() {
       </section>
 
       {/* AI SECTION */}
-      <section style={{ position: "relative", zIndex: 1, padding: "80px 2rem 110px", overflow: "hidden" }}>
+      <section style={{ position: "relative", zIndex: 1, padding: "80px 2rem 110px", overflow: "hidden", background: SECTION_BACKGROUNDS.ai, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         {/* Background glow */}
         <div style={{ position: "absolute", top: "20%", right: "5%", width: 480, height: 480, borderRadius: "50%", background: "radial-gradient(circle,rgba(162,155,254,0.07) 0%,transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "10%", left: "0%", width: 320, height: 320, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.05) 0%,transparent 70%)", pointerEvents: "none" }} />
@@ -1491,7 +1501,7 @@ export default function App() {
       </section>
 
       {/* CTA */}
-      <section id="pricing" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 130px", overflow: "hidden" }}>
+      <section id="pricing" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 130px", overflow: "hidden", background: SECTION_BACKGROUNDS.cta, borderTop: SECTION_DIVIDER }}>
         {/* Outer ambient glows */}
         <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 700, height: 300, background: "radial-gradient(ellipse,rgba(0,229,160,0.07) 0%,transparent 70%)", pointerEvents: "none" }} />
 
