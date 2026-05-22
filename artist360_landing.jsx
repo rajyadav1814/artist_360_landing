@@ -758,7 +758,7 @@ export default function App() {
               {/* KPI cards */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 18 }}>
                 {[
-                  { l: "CURRENT #1", v: "Drake", s: "Position 1 · best 1", c: "#818cf8", border: "rgba(129,140,248,0.4)" },
+                  { l: "CURRENT 1", v: "Drake", s: "Position 1 · best 1", c: "#818cf8", border: "rgba(129,140,248,0.4)" },
                   { l: "BIGGEST RISER", v: "+7", s: "Drake · 8 → 1", c: "#00e5a0", border: "rgba(0,229,160,0.3)" },
                   { l: "BIGGEST FALLER", v: "-2", s: "BTS · 3 → 5", c: "#fb923c", border: "rgba(251,146,60,0.4)" },
                   { l: "AVG POSITION", v: "5.5", s: "across 10 tracked artists · 14 days", c: "#f5c518", border: "rgba(245,197,24,0.35)" },
@@ -1211,10 +1211,10 @@ export default function App() {
           </div>
           <div style={{ padding: "22px 24px 0", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
             {[
-              { l: "CURRENTLY #1", v: "Drake", s: "94.26M listeners", c: "#00e5a0" },
-              { l: "STRONGEST DEBUT", v: "#1 Entry", s: "Make Them Cry · 42.9M", c: "#f5c518" },
+              { l: "CURRENTLY 1", v: "Drake", s: "94.26M listeners", c: "#00e5a0" },
+              { l: "STRONGEST DEBUT", v: "1 Entry", s: "Make Them Cry · 42.9M", c: "#f5c518" },
               { l: "TOP LABEL · STREAMS", v: "Universal", s: "1.74B · 27.4% share", c: "#7c6cf6" },
-              { l: "STRONG BUY", v: "Michael J.", s: "102.1M · iTunes #1", c: "#ff9f43" },
+              { l: "STRONG BUY", v: "Michael J.", s: "102.1M · iTunes 1", c: "#ff9f43" },
             ].map((k, i) => (
               <div key={i} style={{ background: `linear-gradient(135deg,${k.c}10,${k.c}04)`, border: `1px solid ${k.c}38`, borderRadius: 14, padding: "18px 16px", position: "relative", overflow: "hidden" }}>
                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${k.c},transparent)`, opacity: 0.7 }} />
