@@ -508,7 +508,7 @@ export default function App() {
                 <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", fontWeight: 700 }}>Artist 360° Leaderboard</span>
               </div>
               <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.32)", fontFamily: "'Space Mono',monospace" }}>
-                Top Latin artists ranked by iTunes performance, Spotify reach, and global footprint · Last run: 2026-05-21 09:00
+                Top Latin artists ranked by iTunes performance, Spotify reach, and global footprint.
               </div>
             </div>
 
@@ -660,7 +660,7 @@ export default function App() {
                 <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.45rem", fontWeight: 700 }}>Label Analysis</span>
               </div>
               <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace" }}>
-                Label-level market share, track concentration, and competitive performance across Spotify and iTunes · Last run: 2026-05-21 09:00
+                Label-level market share, track concentration, and competitive performance across Spotify and iTunes.
               </div>
               {/* Tabs */}
               <div style={{ display: "flex", gap: 2, marginTop: 16 }}>
@@ -822,7 +822,7 @@ export default function App() {
                 <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.45rem", fontWeight: 700 }}>Chart Tracker</span>
               </div>
               <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace" }}>
-                Historical rank trajectories for top artists, revealing trends and momentum · Last run: 2026-05-21 09:00
+                Historical rank trajectories for top artists, revealing trends and momentum.
               </div>
             </div>
 
@@ -944,7 +944,7 @@ export default function App() {
                 <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.45rem", fontWeight: 700 }}>Movement Dashboard</span>
               </div>
               <div style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", marginBottom: 14 }}>
-                Daily rank + metric momentum across track and album charts (risers, fallers, trajectories) · Last run: 2026-05-21 09:00
+                Daily rank + metric momentum across track and album charts (risers, fallers, trajectories).
               </div>
 
               {/* Tabs */}
