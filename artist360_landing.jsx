@@ -1,6 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 
-const NAV_ITEMS = ["Features", "How It Works", "Glossary", "Pricing"];
+const NAV_ITEMS = [
+  { id: "features", label: "Features" },
+  { id: "leaderboard", label: "Leaderboard" },
+  { id: "label-intelligence", label: "Label Intel" },
+  { id: "chart-tracker", label: "Chart Tracker" },
+  { id: "movement-dashboard", label: "Movement" },
+  { id: "track-acquisition", label: "Track Acquisition" },
+  { id: "metrics", label: "Metrics" },
+  { id: "how-it-works", label: "How It Works" },
+  { id: "glossary", label: "Glossary" },
+  { id: "ai-analyst", label: "AI Analyst" },
+];
 
 const FEATURES = [
   { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360°",
@@ -322,6 +333,8 @@ export default function App() {
   const [heroVis, setHeroVis] = useState(false);
   const [ticker, setTicker] = useState(0);
   const [filter, setFilter] = useState("All");
+  const [activeNav, setActiveNav] = useState("features");
+  const [viewportWidth, setViewportWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1280);
   const SECTION_BACKGROUNDS = {
     app: "radial-gradient(130% 160% at 50% -20%, #16284f 0%, #0b1123 42%, #070b14 100%)",
     hero: "linear-gradient(180deg, rgba(18,31,58,0.92) 0%, rgba(13,22,42,0.82) 55%, rgba(10,17,33,0.72) 100%)",
@@ -329,7 +342,6 @@ export default function App() {
     workflow: "linear-gradient(180deg, rgba(9,25,42,0.9) 0%, rgba(8,18,30,0.85) 100%)",
     glossary: "linear-gradient(180deg, rgba(32,24,12,0.88) 0%, rgba(22,17,10,0.84) 100%)",
     ai: "linear-gradient(180deg, rgba(28,20,46,0.9) 0%, rgba(17,13,31,0.84) 100%)",
-    cta: "linear-gradient(180deg, rgba(8,33,31,0.9) 0%, rgba(7,22,26,0.86) 100%)",
   };
   const SECTION_DIVIDER = "1px solid rgba(255,255,255,0.08)";
   const PLATFORMS = ["Spotify Global · Daily Snapshots", "iTunes WW · Weekly Chart Cycle", "Cross-Platform Signal Engine"];
@@ -350,6 +362,53 @@ export default function App() {
     return () => { window.removeEventListener("scroll", onS); clearInterval(t); };
   }, []);
 
+  useEffect(() => {
+    const onResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    const sections = NAV_ITEMS
+      .map(item => document.getElementById(item.id))
+      .filter(Boolean);
+
+    if (!sections.length) return undefined;
+
+    const obs = new IntersectionObserver(
+      entries => {
+        const visible = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible[0]?.target?.id) {
+          setActiveNav(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-35% 0px -55% 0px",
+        threshold: [0.2, 0.35, 0.55, 0.75],
+      }
+    );
+
+    sections.forEach(section => obs.observe(section));
+    return () => obs.disconnect();
+  }, []);
+
+  const scrollToSection = (id) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    setActiveNav(id);
+    const y = target.getBoundingClientRect().top + window.scrollY - 118;
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
+
+  const isMd = viewportWidth <= 992;
+  const isSm = viewportWidth <= 768;
+  const twoColGrid = isMd ? "1fr" : "1fr 1fr";
+  const fourColGrid = isSm ? "1fr" : isMd ? "repeat(2,1fr)" : "repeat(4,1fr)";
+  const fiveColGrid = isSm ? "1fr" : isMd ? "repeat(2,1fr)" : "repeat(5,1fr)";
+
   const [mRef, mVis] = useIO(0.2);
   const [lbRef, lbVis] = useIO(0.12);
   const [laRef, laVis] = useIO(0.12);
@@ -366,8 +425,18 @@ export default function App() {
         .gbtn:hover{box-shadow:0 0 48px rgba(0,229,160,0.55),0 8px 32px rgba(0,229,160,0.25)!important;transform:translateY(-3px) scale(1.02)!important;}
         .obtn:hover{background:rgba(255,255,255,0.09)!important;border-color:rgba(255,255,255,0.35)!important;box-shadow:0 0 20px rgba(255,255,255,0.06)!important;}
         .nav-link:hover{color:#00e5a0!important;text-shadow:0 0 14px rgba(0,229,160,0.5);}
+        .top-nav-shell{width:100%;display:flex;justify-content:center;flex-wrap:wrap;gap:10px;overflow:visible;padding:4px 2px 2px;}
+        .top-nav-shell::-webkit-scrollbar{display:none;}
+        .top-nav-btn{position:relative;isolation:isolate;border:1px solid rgba(255,255,255,0.15);background:linear-gradient(155deg,rgba(255,255,255,0.055),rgba(255,255,255,0.015));color:rgba(255,255,255,0.7);padding:8px 15px;border-radius:999px;font-size:.74rem;font-family:'Space Mono',monospace;letter-spacing:.06em;cursor:pointer;white-space:nowrap;transition:color .28s ease,border-color .28s ease,transform .28s ease,box-shadow .3s ease;backdrop-filter:blur(10px);animation:navSlideIn .52s cubic-bezier(0.23,1,0.32,1) both;}
+        .top-nav-btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(130deg,rgba(0,229,160,0.18),rgba(0,194,224,0.12));opacity:0;transition:opacity .28s ease;}
+        .top-nav-btn span{position:relative;z-index:1;}
+        .top-nav-btn:hover{transform:translateY(-2px);color:rgba(255,255,255,0.92);border-color:rgba(0,229,160,0.42);box-shadow:0 8px 24px rgba(0,0,0,0.35),0 0 18px rgba(0,229,160,0.2);}
+        .top-nav-btn:hover::before{opacity:1;}
+        .top-nav-btn.active{color:#0b0e1a;border-color:rgba(0,229,160,0.66);box-shadow:0 6px 16px rgba(0,229,160,0.24),0 0 10px rgba(0,229,160,0.18);}
+        .top-nav-btn.active::before{opacity:1;background:linear-gradient(130deg,#00e5a0,#00c2e0);}
         @keyframes bgslow{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(-60px) rotate(0.5deg);}}
         @keyframes ring{0%{transform:scale(1);opacity:.7;}100%{transform:scale(2.8);opacity:0;}}
+        @keyframes navSlideIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
         @keyframes ticker{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
         @keyframes orbit{0%{transform:rotate(0deg) translateX(128px) rotate(0deg);}100%{transform:rotate(360deg) translateX(128px) rotate(-360deg);}}
         @keyframes orbit2{0%{transform:rotate(190deg) translateX(192px) rotate(-190deg);}100%{transform:rotate(550deg) translateX(192px) rotate(-550deg);}}
@@ -382,10 +451,21 @@ export default function App() {
         .step-circle:hover{transform:scale(1.1)!important;}
         .hero-badge{animation:fadeInUp 0.6s ease both;}
         .live-dot{animation:ring 1.8s ease-out infinite;}
+        @media (max-width:1220px){
+          .top-nav-shell{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+          .top-nav-shell::-webkit-scrollbar{display:none;}
+        }
+        @media (max-width:900px){
+          .nav-brand-title{font-size:1.02rem!important;}
+          .top-nav-btn{font-size:.68rem;padding:7px 12px;}
+        }
+        @media (max-width:640px){
+          .nav-demo-btn{display:none;}
+        }
       `}</style>
 
       {/* FEATURES */}
-      <section id="features" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 100px", background: SECTION_BACKGROUNDS.features, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
+      <section id="features" style={{ position: "relative", zIndex: 1, padding: isSm ? "142px 1rem 80px" : isMd ? "148px 1.5rem 90px" : "156px 2rem 100px", scrollMarginTop: 128, background: SECTION_BACKGROUNDS.features, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
             {/* Section badge */}
@@ -395,14 +475,14 @@ export default function App() {
               <span style={{ color: "rgba(255,255,255,0.6)", borderBottom: "1px solid rgba(0,229,160,0.35)" }}>Hover any card</span>{" "}to see exactly what "real-time" means for that view.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 18 }}>
             {FEATURES.map((f, i) => <FeatureCard key={i} f={f} i={i} />)}
           </div>
         </div>
       </section>
 
       {/* LEADERBOARD PREVIEW */}
-      <section ref={lbRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
+      <section id="leaderboard" ref={lbRef} style={{ position: "relative", zIndex: 1, padding: isSm ? "0 1rem 80px" : "0 2rem 100px", scrollMarginTop: 128, opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44, opacity: lbVis ? 1 : 0, transform: lbVis ? "translateY(0)" : "translateY(14px)", transition: "opacity 0.56s ease 70ms, transform 0.56s ease 70ms" }}>
@@ -433,10 +513,10 @@ export default function App() {
             </div>
 
             {/* Main body: table left, charts right */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", opacity: lbVis ? 1 : 0, transition: "opacity 0.5s ease 190ms" }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMd ? "1fr" : "1fr 380px", opacity: lbVis ? 1 : 0, transition: "opacity 0.5s ease 190ms" }}>
 
               {/* Left: leaderboard table */}
-              <div style={{ borderRight: "1px solid rgba(255,255,255,0.06)", padding: "18px 0 0", transform: lbVis ? "translateX(0)" : "translateX(-16px)", transition: "transform 0.58s ease 210ms" }}>
+              <div style={{ borderRight: isMd ? "none" : "1px solid rgba(255,255,255,0.06)", padding: "18px 0 0", overflowX: isSm ? "auto" : "visible", transform: lbVis ? "translateX(0)" : "translateX(-16px)", transition: "transform 0.58s ease 210ms" }}>
                 <div style={{ padding: "0 20px 12px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
                     <span style={{ fontSize: 16 }}>📋</span>
@@ -445,7 +525,7 @@ export default function App() {
                   <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.33)" }}>Scroll through the latest rank, listener, and points data in one place.</div>
                 </div>
                 {/* Table header */}
-                <div style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", gap: 4, padding: "8px 20px", borderTop: "1px solid rgba(255,255,255,0.07)", borderBottom: "1px solid rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.1)" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", minWidth: isSm ? 760 : "auto", gap: 4, padding: "8px 20px", borderTop: "1px solid rgba(255,255,255,0.07)", borderBottom: "1px solid rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.1)" }}>
                   {["RANK","ARTIST","TOP SONG","TOP MARKET","MONTHLY LISTENERS","PEAK LISTENERS","POINTS"].map(h => (
                     <div key={h} style={{ fontSize: "0.54rem", color: "rgba(255,255,255,0.3)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.05em" }}>{h}</div>
                   ))}
@@ -460,7 +540,7 @@ export default function App() {
                   { rank: 6, artist: "Taylor Swift", song: "The Fate of Ophelia", market: "Uruguay", marketC: "#00e5a0", monthly: "101.88M", peak: "116.23M", pts: "3K", delta: null },
                   { rank: 7, artist: "Omar Courtz", song: "KOKO", market: "Panama", marketC: "#00e5a0", monthly: "28.88M", peak: "34.38M", pts: "2K", delta: null },
                 ].map((row, i) => (
-                  <div key={i} style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", gap: 4, padding: "11px 20px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: i === 0 ? "rgba(0,229,160,0.03)" : "transparent", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateX(0)" : "translateX(-10px)", transition: `opacity 0.44s ease ${220 + i * 55}ms, transform 0.44s ease ${220 + i * 55}ms` }}>
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "52px 1fr 1fr 100px 110px 110px 72px", minWidth: isSm ? 760 : "auto", gap: 4, padding: "11px 20px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: i === 0 ? "rgba(0,229,160,0.03)" : "transparent", opacity: lbVis ? 1 : 0, transform: lbVis ? "translateX(0)" : "translateX(-10px)", transition: `opacity 0.44s ease ${220 + i * 55}ms, transform 0.44s ease ${220 + i * 55}ms` }}>
                     <div style={{ fontSize: "1rem", fontWeight: 700, fontFamily: "'Playfair Display',serif", color: i === 0 ? "#00e5a0" : "rgba(255,255,255,0.7)" }}>{row.rank}</div>
                     <div>
                       <div style={{ fontSize: "0.82rem", fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>{row.artist}</div>
@@ -554,7 +634,7 @@ export default function App() {
       </section>
 
       {/* LABEL ANALYSIS PREVIEW */}
-      <section ref={laRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: laVis ? 1 : 0, transform: laVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
+      <section id="label-intelligence" ref={laRef} style={{ position: "relative", zIndex: 1, padding: isSm ? "0 1rem 80px" : "0 2rem 100px", scrollMarginTop: 128, opacity: laVis ? 1 : 0, transform: laVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -592,7 +672,7 @@ export default function App() {
 
             <div style={{ padding: "20px 24px 24px" }}>
               {/* KPI row */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 10, marginBottom: 14 }}>
+              <div style={{ display: "grid", gridTemplateColumns: fiveColGrid, gap: 10, marginBottom: 14 }}>
                 {[
                   { l: "TOTAL STREAMS TRACKED", v: "7.80B", s: "All label groups · 11 days", c: "#818cf8" },
                   { l: "TOP LABEL (STREAMS)", v: "Universal Music", s: "2.20B · 28.2% share", c: "#f472b6" },
@@ -610,7 +690,7 @@ export default function App() {
               </div>
 
               {/* Label breakdown row */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 10, marginBottom: 14 }}>
+              <div style={{ display: "grid", gridTemplateColumns: fiveColGrid, gap: 10, marginBottom: 14 }}>
                 {[
                   { label: "Other/Indie", v: "1.7B", tracks: "111 tracks · Best #1", delta: "+227.8% WkA→WkB", share: "22.1% share", up: true, c: "#818cf8" },
                   { label: "Independent", v: "1.4B", tracks: "229 tracks · Best #1", delta: "▼75.5% WkA→WkB", share: "18.4% share", up: false, c: "#22d3ee" },
@@ -629,7 +709,7 @@ export default function App() {
               </div>
 
               {/* Bottom: chart + market share */}
-              <div style={{ display: "grid", gridTemplateColumns: "1.55fr 1fr", gap: 14 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isMd ? "1fr" : "1.55fr 1fr", gap: 14 }}>
                 {/* Line chart mockup */}
                 <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 14, padding: "18px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
@@ -716,7 +796,7 @@ export default function App() {
       </section>
 
       {/* CHART TRACKER PREVIEW */}
-      <section ref={ctRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: ctVis ? 1 : 0, transform: ctVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
+      <section id="chart-tracker" ref={ctRef} style={{ position: "relative", zIndex: 1, padding: isSm ? "0 1rem 80px" : "0 2rem 100px", scrollMarginTop: 128, opacity: ctVis ? 1 : 0, transform: ctVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -748,7 +828,7 @@ export default function App() {
 
             <div style={{ padding: "20px 24px 24px" }}>
               {/* Controls row */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 18 }}>
+              <div style={{ display: "grid", gridTemplateColumns: twoColGrid, gap: 14, marginBottom: 18 }}>
                 {[
                   { icon: "📅", label: "Time Range", val: "14 days" },
                   { icon: "👁", label: "View Mode", val: "Line Chart" },
@@ -766,7 +846,7 @@ export default function App() {
               </div>
 
               {/* KPI cards */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 18 }}>
+              <div style={{ display: "grid", gridTemplateColumns: fourColGrid, gap: 12, marginBottom: 18 }}>
                 {[
                   { l: "CURRENT 1", v: "Drake", s: "Position 1 · best 1", c: "#818cf8", border: "rgba(129,140,248,0.4)" },
                   { l: "BIGGEST RISER", v: "+7", s: "Drake · 8 → 1", c: "#00e5a0", border: "rgba(0,229,160,0.3)" },
@@ -838,7 +918,7 @@ export default function App() {
       </section>
 
       {/* MOVEMENT DASHBOARD PREVIEW */}
-      <section ref={mvRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: mvVis ? 1 : 0, transform: mvVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
+      <section id="movement-dashboard" ref={mvRef} style={{ position: "relative", zIndex: 1, padding: isSm ? "0 1rem 80px" : "0 2rem 100px", scrollMarginTop: 128, opacity: mvVis ? 1 : 0, transform: mvVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -868,7 +948,7 @@ export default function App() {
               </div>
 
               {/* Tabs */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0, borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+              <div style={{ display: "grid", gridTemplateColumns: twoColGrid, gap: 0, borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
                 {[["📈 Track Movement", true], ["🎯 Album Movement", false]].map(([tab, active]) => (
                   <div key={tab} style={{ padding: "10px 20px", fontSize: "0.72rem", fontFamily: "'Space Mono',monospace", fontWeight: 700, letterSpacing: "0.06em", color: active ? "#fff" : "rgba(255,255,255,0.38)", background: active ? "rgba(52,211,153,0.08)" : "transparent", borderBottom: active ? "2px solid #34d399" : "2px solid transparent", cursor: "default", textAlign: "center" }}>{tab}</div>
                 ))}
@@ -878,7 +958,7 @@ export default function App() {
               <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.35)", padding: "10px 0 4px" }}>Rank + metric momentum across Spotify and iTunes daily charts.</div>
 
               {/* Filters */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr auto", gap: 14, alignItems: "end", paddingBottom: 16 }}>
+              <div style={{ display: "grid", gridTemplateColumns: isSm ? "1fr" : isMd ? "1fr 1fr" : "1fr 1fr auto", gap: 14, alignItems: "end", paddingBottom: 16 }}>
                 {[{ label: "Region", val: "Global / WW" }, { label: "Period", val: "Latest (5d)" }].map((f, i) => (
                   <div key={i}>
                     <div style={{ fontSize: "0.6rem", color: "rgba(255,255,255,0.35)", fontFamily: "'Space Mono',monospace", marginBottom: 5 }}>{f.label}</div>
@@ -900,10 +980,10 @@ export default function App() {
             </div>
 
             {/* Main content: Risers + Fallers side by side */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+            <div style={{ display: "grid", gridTemplateColumns: twoColGrid, gap: 0 }}>
 
               {/* TOP RISERS */}
-              <div style={{ padding: "18px 20px 20px", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ padding: "18px 20px 20px", borderRight: isMd ? "none" : "1px solid rgba(255,255,255,0.06)", overflowX: isSm ? "auto" : "visible" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
                   <span style={{ fontSize: 16 }}>📈</span>
                   <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Top Risers — rank + metric composite</span>
@@ -913,7 +993,7 @@ export default function App() {
                   <span style={{ fontSize: "0.6rem", color: "#00e5a0", fontFamily: "'Space Mono',monospace", fontWeight: 700, letterSpacing: "0.1em" }}>RANK + STREAMS</span>
                 </div>
                 {/* Table header */}
-                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "0 0 6px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", minWidth: isSm ? 620 : "auto", gap: 4, padding: "0 0 6px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
                   {["TRACK · ARTIST","START","NOW","STREAMS","+STREAMS","Δ RANK"].map(h => (
                     <div key={h} style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.06em" }}>{h}</div>
                   ))}
@@ -925,7 +1005,7 @@ export default function App() {
                   { t: "NOBLE", a: "F3mill", start: "#179", now: "#139", streams: "1.49M", plus: "+0.26M", delta: 40, rankW: 36, streamW: 58 },
                   { t: "All The Stars (w/ SZA)", a: "Kendrick Lamar", start: "#149", now: "#114", streams: "1.59M", plus: "+0.07M", delta: 35, rankW: 32, streamW: 74 },
                 ].map((row, i) => (
-                  <div key={i} style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "10px 0", borderBottom: i < 4 ? "1px solid rgba(255,255,255,0.04)" : "none", alignItems: "center" }}>
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", minWidth: isSm ? 620 : "auto", gap: 4, padding: "10px 0", borderBottom: i < 4 ? "1px solid rgba(255,255,255,0.04)" : "none", alignItems: "center" }}>
                     <div>
                       <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "rgba(255,255,255,0.88)", lineHeight: 1.3 }}>
                         <span style={{ color: "rgba(255,255,255,0.35)", marginRight: 8, fontSize: "0.65rem" }}>{i+1}</span>{row.t}
@@ -947,7 +1027,7 @@ export default function App() {
               </div>
 
               {/* TOP FALLERS */}
-              <div style={{ padding: "18px 20px 20px" }}>
+              <div style={{ padding: "18px 20px 20px", overflowX: isSm ? "auto" : "visible" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
                   <span style={{ fontSize: 16 }}>📉</span>
                   <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "rgba(255,255,255,0.85)" }}>Top Fallers — rank + metric composite</span>
@@ -957,7 +1037,7 @@ export default function App() {
                   <span style={{ fontSize: "0.6rem", color: "#fb923c", fontFamily: "'Space Mono',monospace", fontWeight: 700, letterSpacing: "0.1em" }}>RANK + STREAMS LOST</span>
                 </div>
                 {/* Table header */}
-                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "0 0 6px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", minWidth: isSm ? 620 : "auto", gap: 4, padding: "0 0 6px", borderBottom: "1px solid rgba(255,255,255,0.07)", marginBottom: 4 }}>
                   {["TRACK · ARTIST","START","NOW","STREAMS","LOST","Δ RANK"].map(h => (
                     <div key={h} style={{ fontSize: "0.55rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.06em" }}>{h}</div>
                   ))}
@@ -969,7 +1049,7 @@ export default function App() {
                   { t: "Don't Worry", a: "Drake", start: "#21", now: "#135", streams: "1.50M", lost: "-3.11M", delta: 114, rankW: 55, streamW: 68 },
                   { t: "Fortworth (w/ PARTYNEXTDOOR)", a: "Drake", start: "#50", now: "#161", streams: "1.37M", lost: "-1.40M", delta: 111, rankW: 54, streamW: 52 },
                 ].map((row, i) => (
-                  <div key={i} style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", gap: 4, padding: "10px 0", borderBottom: i < 4 ? "1px solid rgba(255,255,255,0.04)" : "none", alignItems: "center" }}>
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "2fr 60px 60px 70px 70px 62px", minWidth: isSm ? 620 : "auto", gap: 4, padding: "10px 0", borderBottom: i < 4 ? "1px solid rgba(255,255,255,0.04)" : "none", alignItems: "center" }}>
                     <div>
                       <div style={{ fontSize: "0.75rem", fontWeight: 600, color: "rgba(255,255,255,0.88)", lineHeight: 1.3 }}>
                         <span style={{ color: "rgba(255,255,255,0.35)", marginRight: 8, fontSize: "0.65rem" }}>{i+1}</span>{row.t}
@@ -994,7 +1074,7 @@ export default function App() {
       </section>
 
       {/* TRACK ACQUISITION PREVIEW */}
-      <section ref={taRef} style={{ position: "relative", zIndex: 1, padding: "0 2rem 100px", opacity: taVis ? 1 : 0, transform: taVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
+      <section id="track-acquisition" ref={taRef} style={{ position: "relative", zIndex: 1, padding: isSm ? "0 1rem 80px" : "0 2rem 100px", scrollMarginTop: 128, opacity: taVis ? 1 : 0, transform: taVis ? "translateY(0)" : "translateY(28px)", transition: "opacity 0.72s cubic-bezier(0.23,1,0.32,1), transform 0.72s cubic-bezier(0.23,1,0.32,1)" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           {/* Section header */}
           <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -1020,7 +1100,6 @@ export default function App() {
                   <span style={{ fontSize: 20 }}>🎯</span>
                   <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.4rem", fontWeight: 700 }}>Track Acquisition</span>
                 </div>
-                <div style={{ fontSize: "0.68rem", color: "rgba(255,255,255,0.32)", fontFamily: "'Space Mono',monospace" }}>610 tracks · 7 days · May 15 – May 21, 2026</div>
               </div>
               {/* Top bar controls */}
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -1040,7 +1119,7 @@ export default function App() {
             </div>
 
             {/* KPI row */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 0, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+            <div style={{ display: "grid", gridTemplateColumns: fiveColGrid, gap: 0, borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
               {[
                 { l: "STRONG BUY TRACKS", v: "0", s: "of tracked tracks", c: "#00e5a0", border: "rgba(0,229,160,0.25)" },
                 { l: "TOP ACQUISITION SCORE", v: "68", s: "Michael Jackson — Billie Jean", c: "#f5c518", border: "rgba(245,197,24,0.25)" },
@@ -1058,10 +1137,10 @@ export default function App() {
             </div>
 
             {/* Main body: track list + detail panel */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 340px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: isMd ? "1fr" : "1fr 340px" }}>
 
               {/* Track table */}
-              <div style={{ borderRight: "1px solid rgba(255,255,255,0.06)" }}>
+              <div style={{ borderRight: isMd ? "none" : "1px solid rgba(255,255,255,0.06)", overflowX: isSm ? "auto" : "visible" }}>
                 {/* Sort bar */}
                 <div style={{ padding: "10px 18px", borderBottom: "1px solid rgba(255,255,255,0.06)", display: "flex", alignItems: "center", gap: 8 }}>
                   <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 6, padding: "3px 10px", fontSize: "0.62rem", color: "rgba(255,255,255,0.4)", fontFamily: "'Space Mono',monospace" }}>610 tracks</div>
@@ -1071,7 +1150,7 @@ export default function App() {
                   ))}
                 </div>
                 {/* Table header */}
-                <div style={{ display: "grid", gridTemplateColumns: "28px 1fr 70px 70px 80px 80px 90px", gap: 4, padding: "7px 18px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "28px 1fr 70px 70px 80px 80px 90px", minWidth: isSm ? 700 : "auto", gap: 4, padding: "7px 18px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
                   {["#","TRACK · ARTIST","RANK","STREAMS","MOMENTUM","SIGNAL","ACQ SCORE"].map(h => (
                     <div key={h} style={{ fontSize: "0.54rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace", letterSpacing: "0.06em" }}>{h}</div>
                   ))}
@@ -1085,7 +1164,7 @@ export default function App() {
                   { t: "Beauty And A Beat (w/ Nicki Minaj)", a: "Justin Bieber", cross: false, rank: "#1", streams: "5.7M", mom: "-2.2%", momUp: false, signal: "HOLD", score: 55, bars: [5,3,2,3] },
                   { t: "Janice STFU", a: "Don Toliver", cross: false, rank: "#12", streams: "2.9M", mom: "+1.1%", momUp: true, signal: "WATCH", score: 51, bars: [2,3,4,4] },
                 ].map((row, i) => (
-                  <div key={i} style={{ display: "grid", gridTemplateColumns: "28px 1fr 70px 70px 80px 80px 90px", gap: 4, padding: "10px 18px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: row.active ? "rgba(34,211,238,0.04)" : "transparent", borderLeft: row.active ? "2px solid #22d3ee" : "2px solid transparent" }}>
+                  <div key={i} style={{ display: "grid", gridTemplateColumns: "28px 1fr 70px 70px 80px 80px 90px", minWidth: isSm ? 700 : "auto", gap: 4, padding: "10px 18px", borderBottom: "1px solid rgba(255,255,255,0.04)", alignItems: "center", background: row.active ? "rgba(34,211,238,0.04)" : "transparent", borderLeft: row.active ? "2px solid #22d3ee" : "2px solid transparent" }}>
                     <div style={{ fontSize: "0.65rem", color: "rgba(255,255,255,0.28)", fontFamily: "'Space Mono',monospace" }}>{i+1}</div>
                     <div>
                       <div style={{ fontSize: "0.78rem", fontWeight: 600, color: "rgba(255,255,255,0.88)" }}>{row.t}</div>
@@ -1124,7 +1203,7 @@ export default function App() {
                   ))}
                 </div>
                 {/* 2×2 metric grid */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
+                <div style={{ display: "grid", gridTemplateColumns: twoColGrid, gap: 8, marginBottom: 14 }}>
                   {[
                     { l: "BEST RANK", v: "#1", s: "Spotify Global", c: "#22d3ee" },
                     { l: "LATEST STREAMS", v: "5.8M", s: "-2.7% growth", c: "#00e5a0" },
@@ -1171,28 +1250,37 @@ export default function App() {
       {/* Atmosphere */}
       <div style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-60px", backgroundImage: `linear-gradient(rgba(0,229,160,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,0.04) 1px,transparent 1px)`, backgroundSize: "64px 64px", animation: "bgslow 60s linear infinite", maskImage: "radial-gradient(ellipse 100% 70% at 50% 0%,black 20%,transparent 100%)" }} />
-        <div style={{ position: "absolute", top: "3%", left: "50%", transform: "translateX(-50%)", width: 1100, height: 1100, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.11) 0%,rgba(0,194,224,0.04) 40%,transparent 65%)", animation: "pulse 8s ease-in-out infinite" }} />
-        <div style={{ position: "absolute", top: "55%", left: "2%", width: 600, height: 600, borderRadius: "50%", background: "radial-gradient(circle,rgba(124,108,246,0.14) 0%,transparent 70%)", animation: "pulse 10s ease-in-out infinite 2s" }} />
-        <div style={{ position: "absolute", top: "35%", right: "2%", width: 420, height: 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.12) 0%,transparent 70%)", animation: "pulse 7s ease-in-out infinite 1s" }} />
+        <div style={{ position: "absolute", top: "3%", left: "50%", transform: "translateX(-50%)", width: isSm ? 560 : isMd ? 820 : 1100, height: isSm ? 560 : isMd ? 820 : 1100, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.11) 0%,rgba(0,194,224,0.04) 40%,transparent 65%)", animation: "pulse 8s ease-in-out infinite" }} />
+        <div style={{ position: "absolute", top: "55%", left: "2%", width: isSm ? 300 : isMd ? 460 : 600, height: isSm ? 300 : isMd ? 460 : 600, borderRadius: "50%", background: "radial-gradient(circle,rgba(124,108,246,0.14) 0%,transparent 70%)", animation: "pulse 10s ease-in-out infinite 2s" }} />
+        <div style={{ position: "absolute", top: "35%", right: "2%", width: isSm ? 220 : isMd ? 300 : 420, height: isSm ? 220 : isMd ? 300 : 420, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.12) 0%,transparent 70%)", animation: "pulse 7s ease-in-out infinite 1s" }} />
         <div style={{ position: "absolute", bottom: "10%", left: "30%", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle,rgba(245,197,24,0.07) 0%,transparent 70%)" }} />
       </div>
 
       {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 68, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 2.5rem", background: scrolled ? "rgba(11,14,26,0.94)" : "transparent", backdropFilter: scrolled ? "blur(32px) saturate(1.8)" : "none", borderBottom: scrolled ? "1px solid rgba(0,229,160,0.1)" : "none", transition: "all 0.4s ease", boxShadow: scrolled ? "0 4px 40px rgba(0,0,0,0.4)" : "none" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
-          <span style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360°</span> Intelligence</span>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "10px 1.2rem 12px", background: scrolled ? "rgba(11,14,26,0.94)" : "rgba(11,14,26,0.6)", backdropFilter: "blur(32px) saturate(1.8)", borderBottom: "1px solid rgba(0,229,160,0.12)", transition: "all 0.4s ease", boxShadow: scrolled ? "0 8px 40px rgba(0,0,0,0.45)" : "0 2px 20px rgba(0,0,0,0.24)" }}>
+        <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
+            <span className="nav-brand-title" style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360°</span> Intelligence</span>
+          </div>
+          <button className="gbtn nav-demo-btn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", whiteSpace: "nowrap" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 28, fontSize: "0.85rem" }}>
-          {NAV_ITEMS.map(n => (
-            <a key={n} href={`#${n.replace(/\s+/g,"-").toLowerCase()}`} className="nav-link" style={{ color: "rgba(255,255,255,0.6)", fontSize: "1.00rem", textDecoration: "none", fontWeight: 500, letterSpacing: "0.03em", transition: "all 0.25s" }}>{n}</a>
+        <div className="top-nav-shell">
+          {NAV_ITEMS.map((item, idx) => (
+            <button
+              key={item.id}
+              className={`top-nav-btn ${activeNav === item.id ? "active" : ""}`}
+              style={{ animationDelay: `${idx * 35}ms` }}
+              onClick={() => scrollToSection(item.id)}
+            >
+              <span>{item.label}</span>
+            </button>
           ))}
-          <button className="gbtn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
         </div>
       </nav>
 
       {/* HERO */}
-      <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 2rem 60px", textAlign: "center", background: SECTION_BACKGROUNDS.hero, borderBottom: SECTION_DIVIDER }}>
+      <section style={{ position: "relative", zIndex: 1, minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: isSm ? "150px 1rem 56px" : isMd ? "160px 1.5rem 58px" : "168px 2rem 60px", textAlign: "center", background: SECTION_BACKGROUNDS.hero, borderBottom: SECTION_DIVIDER }}>
         {/* Hero badge */}
 
         <h1 style={{ fontSize: "clamp(3rem,7.5vw,7rem)", fontFamily: "'Playfair Display',serif", fontWeight: 400, lineHeight: 1.02, letterSpacing: "-0.035em", maxWidth: 1200, opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(28px)", transition: "all 0.9s cubic-bezier(0.23,1,0.32,1) 0.1s" }}>
@@ -1219,7 +1307,7 @@ export default function App() {
             <div style={{ flex: 1, background: "rgba(255,255,255,0.04)", borderRadius: 6, padding: "4px 14px", fontSize: "0.7rem", color: "rgba(255,255,255,0.26)", fontFamily: "'Space Mono',monospace" }}>chromadata.com · Artist 360° Intelligence</div>
             <div style={{ background: "rgba(0,229,160,0.13)", color: "#00e5a0", border: "1px solid rgba(0,229,160,0.28)", borderRadius: 6, padding: "3px 10px", fontSize: "0.65rem", fontFamily: "'Space Mono',monospace" }}>● LIVE · Last run 00:34</div>
           </div>
-          <div style={{ padding: "22px 24px 0", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }}>
+          <div style={{ padding: "22px 24px 0", display: "grid", gridTemplateColumns: fourColGrid, gap: 14 }}>
             {[
               { l: "CURRENTLY 1", v: "Drake", s: "94.26M listeners", c: "#00e5a0" },
               { l: "STRONGEST DEBUT", v: "1 Entry", s: "Make Them Cry · 42.9M", c: "#f5c518" },
@@ -1234,7 +1322,7 @@ export default function App() {
               </div>
             ))}
           </div>
-          <div style={{ padding: "16px 24px 24px", display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16 }}>
+          <div style={{ padding: "16px 24px 24px", display: "grid", gridTemplateColumns: isMd ? "1fr" : "1.6fr 1fr", gap: 16 }}>
             <div style={{ background: "rgba(255,255,255,0.02)", borderRadius: 14, border: "1px solid rgba(0,229,160,0.1)", padding: "18px" }}>
               <div style={{ fontSize: "0.62rem", color: "rgba(0,229,160,0.55)", fontFamily: "'Space Mono',monospace", marginBottom: 14, letterSpacing: "0.1em" }}>SPOTIFY GLOBAL · DAILY STREAMS BY LABEL · MAY 11–19</div>
               <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 100 }}>
@@ -1271,8 +1359,8 @@ export default function App() {
       
 
       {/* METRICS */}
-      <section ref={mRef} style={{ position: "relative", zIndex: 1, padding: "20px 2rem 80px" }}>
-        <div style={{ maxWidth: 1060, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 18 }}>
+      <section id="metrics" ref={mRef} style={{ position: "relative", zIndex: 1, padding: isSm ? "20px 1rem 70px" : "20px 2rem 80px", scrollMarginTop: 128 }}>
+        <div style={{ maxWidth: 1060, margin: "0 auto", display: "grid", gridTemplateColumns: fourColGrid, gap: 18 }}>
           {METRICS.map((m, i) => (
             <div key={i} className="metric-card" style={{ textAlign: "center", opacity: mVis ? 1 : 0, transform: mVis ? "translateY(0)" : "translateY(28px)", transition: `all 0.75s cubic-bezier(0.23,1,0.32,1) ${i*120}ms`, background: `linear-gradient(145deg,${m.color}10,${m.color}04)`, border: `1px solid ${m.color}30`, borderRadius: 22, padding: "38px 20px 32px", position: "relative", overflow: "hidden", boxShadow: `0 8px 40px ${m.color}0d` }}>
               <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,transparent,${m.color},transparent)`, opacity: 0.6 }} />
@@ -1286,15 +1374,15 @@ export default function App() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how-it-works" style={{ position: "relative", zIndex: 1, padding: "80px 2rem 100px", background: SECTION_BACKGROUNDS.workflow, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
+      <section id="how-it-works" style={{ position: "relative", zIndex: 1, padding: isSm ? "70px 1rem 80px" : "80px 2rem 100px", scrollMarginTop: 128, background: SECTION_BACKGROUNDS.workflow, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 60 }}>
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>From raw chart data<br /><em style={{ color: "#00c2e0" }}>to live dashboard</em> in minutes</h2>
             <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>This is what makes every LIVE badge and Last Run timestamp meaningful.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 0, position: "relative" }}>
+          <div style={{ display: "grid", gridTemplateColumns: fourColGrid, gap: isSm ? 18 : 0, position: "relative" }}>
             {/* Connector line through the center of circles (circle height=84px → center=42px) */}
-            <div style={{ position: "absolute", top: 42, left: "12.5%", right: "12.5%", height: 1, background: "linear-gradient(90deg,#00e5a040,#7c6cf660,#00c2e060,#a29bfe40)", zIndex: 0 }} />
+            {!isMd && <div style={{ position: "absolute", top: 42, left: "12.5%", right: "12.5%", height: 1, background: "linear-gradient(90deg,#00e5a040,#7c6cf660,#00c2e060,#a29bfe40)", zIndex: 0 }} />}
             {[
               { step: "01", icon: "📡", title: "Data Ingest", desc: "Automated scrapers fetch Spotify Global and iTunes WW chart snapshots daily — artist listener counts, track ranks, stream totals, and label attribution.", color: "#00e5a0" },
               { step: "02", icon: "⚙️", title: "Processing", desc: "Raw data is cleaned, normalized across 18 LATAM markets, and enriched with history. Debut detection, cross-platform matching, and label grouping happen here.", color: "#7c6cf6" },
@@ -1322,7 +1410,7 @@ export default function App() {
       </section>
 
       {/* GLOSSARY */}
-      <section id="glossary" style={{ position: "relative", zIndex: 1, padding: "90px 2rem 110px", background: SECTION_BACKGROUNDS.glossary, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
+      <section id="glossary" style={{ position: "relative", zIndex: 1, padding: isSm ? "75px 1rem 90px" : "90px 2rem 110px", scrollMarginTop: 128, background: SECTION_BACKGROUNDS.glossary, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         {/* subtle radial glow behind the section */}
         <div style={{ position: "absolute", top: "10%", left: "50%", transform: "translateX(-50%)", width: 700, height: 500, borderRadius: "50%", background: "radial-gradient(ellipse,rgba(245,197,24,0.04) 0%,transparent 70%)", pointerEvents: "none", zIndex: 0 }} />
         <div style={{ maxWidth: 860, margin: "0 auto", position: "relative", zIndex: 1 }}>
@@ -1364,13 +1452,13 @@ export default function App() {
       </section>
 
       {/* AI SECTION */}
-      <section style={{ position: "relative", zIndex: 1, padding: "80px 2rem 110px", overflow: "hidden", background: SECTION_BACKGROUNDS.ai, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
+      <section id="ai-analyst" style={{ position: "relative", zIndex: 1, padding: isSm ? "70px 1rem 90px" : "80px 2rem 110px", scrollMarginTop: 128, overflow: "hidden", background: SECTION_BACKGROUNDS.ai, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         {/* Background glow */}
         <div style={{ position: "absolute", top: "20%", right: "5%", width: 480, height: 480, borderRadius: "50%", background: "radial-gradient(circle,rgba(162,155,254,0.07) 0%,transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "absolute", bottom: "10%", left: "0%", width: 320, height: 320, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.05) 0%,transparent 70%)", pointerEvents: "none" }} />
 
         <div style={{ maxWidth: 980, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: twoColGrid, gap: isMd ? 28 : 64, alignItems: "center" }}>
 
             {/* Left: copy */}
             <div>
@@ -1497,61 +1585,6 @@ export default function App() {
             </div>
 
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section id="pricing" style={{ position: "relative", zIndex: 1, padding: "60px 2rem 130px", overflow: "hidden", background: SECTION_BACKGROUNDS.cta, borderTop: SECTION_DIVIDER }}>
-        {/* Outer ambient glows */}
-        <div style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 700, height: 300, background: "radial-gradient(ellipse,rgba(0,229,160,0.07) 0%,transparent 70%)", pointerEvents: "none" }} />
-
-        <div style={{
-          maxWidth: 740, margin: "0 auto", textAlign: "center",
-          background: "linear-gradient(160deg,rgba(0,229,160,0.06) 0%,rgba(0,194,224,0.03) 40%,rgba(124,108,246,0.06) 100%)",
-          border: "1px solid rgba(0,229,160,0.2)",
-          borderRadius: 36, padding: "80px 60px 72px",
-          position: "relative", overflow: "hidden",
-          boxShadow: "0 0 0 1px rgba(0,229,160,0.05), 0 48px 120px rgba(0,0,0,0.5), 0 0 80px rgba(0,229,160,0.07)",
-        }}>
-          {/* Inner corner glows */}
-          <div style={{ position: "absolute", top: -120, right: -120, width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,229,160,0.1) 0%,transparent 65%)", pointerEvents: "none" }} />
-          <div style={{ position: "absolute", bottom: -80, left: -80, width: 280, height: 280, borderRadius: "50%", background: "radial-gradient(circle,rgba(0,194,224,0.07) 0%,transparent 65%)", pointerEvents: "none" }} />
-
-          {/* Top "live" status bar */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 28 }}>
-            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#00e5a0", animation: "ring 2s ease-out infinite" }} />
-            <span style={{ fontFamily: "'Space Mono',monospace", fontSize: "0.67rem", color: "#00e5a0", letterSpacing: "0.22em" }}>LIVE PLATFORM · GET STARTED</span>
-          </div>
-
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.1rem,4.5vw,3.1rem)", marginTop: 0, letterSpacing: "-0.025em", lineHeight: 1.1 }}>
-            Know your market.<br /><em style={{ color: "#00e5a0" }}>Before anyone else does.</em>
-          </h2>
-
-          <p style={{ color: "rgba(255,255,255,0.46)", marginTop: 20, lineHeight: 1.82, marginBottom: 0, fontSize: "0.9rem", maxWidth: 520, margin: "20px auto 36px" }}>
-            Music labels, A&Rs, and managers across Latin America use Artist 360° Intelligence to act on real data — not last week's spreadsheet. Every metric is live, sourced, and timestamped.
-          </p>
-
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <button className="gbtn" style={{
-              background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a",
-              border: "none", borderRadius: 14, padding: "16px 44px",
-              fontSize: "1rem", fontWeight: 700, cursor: "pointer",
-              transition: "all 0.3s ease",
-              boxShadow: "0 6px 28px rgba(0,229,160,0.38), 0 2px 8px rgba(0,0,0,0.3)",
-              letterSpacing: "0.01em",
-            }}>Request Early Access →</button>
-            <button className="obtn" style={{
-              background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.82)",
-              border: "1px solid rgba(255,255,255,0.18)", borderRadius: 14,
-              padding: "16px 34px", fontSize: "1rem", fontWeight: 500,
-              cursor: "pointer", transition: "all 0.3s ease",
-              backdropFilter: "blur(6px)",
-            }}>Contact Sales</button>
-          </div>
-
-          <p style={{ marginTop: 22, fontSize: "0.72rem", color: "rgba(255,255,255,0.22)", fontFamily: "'Space Mono',monospace" }}>
-            No credit card required · Invite-only beta
-          </p>
         </div>
       </section>
 
