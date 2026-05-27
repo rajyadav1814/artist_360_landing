@@ -7,8 +7,6 @@ const NAV_ITEMS = [
   { id: "chart-tracker", label: "Chart Tracker" },
   { id: "movement-dashboard", label: "Movement" },
   { id: "track-acquisition", label: "Track Acquisition" },
-  { id: "metrics", label: "Metrics" },
-  { id: "how-it-works", label: "How It Works" },
   { id: "glossary", label: "Glossary" },
   { id: "ai-analyst", label: "AI Analyst" },
 ];
@@ -81,13 +79,6 @@ const REALTIME_TERMS = [
     short: "A track charting on both Spotify Global and iTunes WW simultaneously.",
     long: "Most tracks chart strongly on one platform or the other. When a track appears in top tiers of both Spotify (stream-based) and iTunes WW (purchase/airplay-based), it signals broad audience appeal that is not algorithm-dependent. Artist 360 tags these tracks with CROSS and weights them higher in Acquisition Scores — cross-platform performance is a more durable signal of real-world demand.",
     example: "60 tracks in the current window carry the CROSS tag — including Billie Jean and SWIM by BTS — both appearing in the Track Acquisition table with elevated scores as a result." },
-];
-
-const METRICS = [
-  { value: "200", suffix: "+", label: "Artists Tracked", color: "#00e5a0" },
-  { value: "18", suffix: "", label: "LATAM Markets", color: "#7c6cf6" },
-  { value: "6.34", suffix: "B", label: "Streams Monitored", color: "#db6b9a" },
-  { value: "613", suffix: "", label: "Tracks Scored Daily", color: "#00c2e0" },
 ];
 
 function useIO(threshold = 0.1) {
@@ -1352,59 +1343,6 @@ export default function App() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      
-
-      {/* METRICS */}
-      <section id="metrics" ref={mRef} style={{ position: "relative", zIndex: 1, padding: isSm ? "20px 1rem 70px" : "20px 2rem 80px", scrollMarginTop: 128 }}>
-        <div style={{ maxWidth: 1060, margin: "0 auto", display: "grid", gridTemplateColumns: fourColGrid, gap: 18 }}>
-          {METRICS.map((m, i) => (
-            <div key={i} className="metric-card" style={{ textAlign: "center", opacity: mVis ? 1 : 0, transform: mVis ? "translateY(0)" : "translateY(28px)", transition: `all 0.75s cubic-bezier(0.23,1,0.32,1) ${i*120}ms`, background: `linear-gradient(145deg,${m.color}10,${m.color}04)`, border: `1px solid ${m.color}30`, borderRadius: 22, padding: "38px 20px 32px", position: "relative", overflow: "hidden", boxShadow: `0 8px 40px ${m.color}0d` }}>
-              <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg,transparent,${m.color},transparent)`, opacity: 0.6 }} />
-              <div style={{ position: "absolute", bottom: -30, right: -30, width: 110, height: 110, borderRadius: "50%", background: `radial-gradient(circle,${m.color}18,transparent 70%)` }} />
-              <div className="metric-val" style={{ fontSize: "clamp(3rem,5.5vw,4.2rem)", fontFamily: "'Playfair Display',serif", color: m.color, transition: "text-shadow 0.3s", lineHeight: 1, letterSpacing: "-0.02em" }}><Counter end={m.value} suffix={m.suffix} /></div>
-              <div style={{ width: 36, height: 2, background: `linear-gradient(90deg,transparent,${m.color},transparent)`, margin: "14px auto 12px", opacity: 0.5 }} />
-              <div style={{ fontSize: "0.67rem", color: "rgba(255,255,255,0.5)", letterSpacing: "0.14em", fontFamily: "'Space Mono',monospace", textTransform: "uppercase" }}>{m.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section id="how-it-works" style={{ position: "relative", zIndex: 1, padding: isSm ? "70px 1rem 80px" : "80px 2rem 100px", scrollMarginTop: 128, background: SECTION_BACKGROUNDS.workflow, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 60 }}>
-            <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(1.8rem,4vw,3rem)", marginTop: 10, letterSpacing: "-0.02em", lineHeight: 1.1 }}>From raw chart data<br /><em style={{ color: "#00c2e0" }}>to live dashboard</em> in minutes</h2>
-            <p style={{ color: "rgba(255,255,255,0.4)", maxWidth: 500, margin: "14px auto 0", lineHeight: 1.75, fontSize: "0.88rem" }}>This is what makes every LIVE badge and Last Run timestamp meaningful.</p>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: fourColGrid, gap: isSm ? 18 : 0, position: "relative" }}>
-            {/* Connector line through the center of circles (circle height=84px → center=42px) */}
-            {!isMd && <div style={{ position: "absolute", top: 42, left: "12.5%", right: "12.5%", height: 1, background: "linear-gradient(90deg,#00e5a040,#7c6cf660,#00c2e060,#a29bfe40)", zIndex: 0 }} />}
-            {[
-              { step: "01", icon: "📡", title: "Data Ingest", desc: "Automated scrapers fetch Spotify Global and iTunes WW chart snapshots daily — artist listener counts, track ranks, stream totals, and label attribution.", color: "#00e5a0" },
-              { step: "02", icon: "⚙️", title: "Processing", desc: "Raw data is cleaned, normalized across 18 LATAM markets, and enriched with history. Debut detection, cross-platform matching, and label grouping happen here.", color: "#7c6cf6" },
-              { step: "03", icon: "🧮", title: "Score Computation", desc: "Acquisition Scores, Debut Scores, momentum signals, and WkA→WkB deltas are computed from processed data and written to the live PostgreSQL database.", color: "#00c2e0" },
-              { step: "04", icon: "🟢", title: "Live Dashboards", desc: "All views read directly from the live database. The LIVE badge and Last Run timestamp confirm the pipeline completed successfully and the data is fresh.", color: "#a29bfe" },
-            ].map((s, i) => (
-              <div key={i} style={{ padding: "0 18px", textAlign: "center", position: "relative", zIndex: 1 }}>
-                <div className="step-circle" style={{
-                  width: 84, height: 84, borderRadius: "50%",
-                  background: "radial-gradient(circle at 40% 38%, rgba(255,255,255,0.06) 0%, rgba(8,12,28,0.95) 70%)",
-                  border: `2px solid ${s.color}80`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 32, margin: "0 auto 20px",
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  boxShadow: `0 0 0 5px ${s.color}14, 0 0 28px ${s.color}28, inset 0 0 18px ${s.color}0a`,
-                  cursor: "default"
-                }}>{s.icon}</div>
-                <div style={{ fontSize: "0.63rem", fontFamily: "'Space Mono',monospace", color: s.color, letterSpacing: "0.18em", marginBottom: 8 }}>STEP {s.step}</div>
-                <h4 style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.05rem", marginBottom: 10 }}>{s.title}</h4>
-                <p style={{ fontSize: "0.78rem", color: "rgba(255,255,255,0.44)", lineHeight: 1.75 }}>{s.desc}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
