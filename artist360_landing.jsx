@@ -526,7 +526,7 @@ export default function App() {
         .gbtn:hover{box-shadow:0 0 48px rgba(0,229,160,0.55),0 8px 32px rgba(0,229,160,0.25)!important;transform:translateY(-3px) scale(1.02)!important;}
         .obtn:hover{background:rgba(255,255,255,0.09)!important;border-color:rgba(255,255,255,0.35)!important;box-shadow:0 0 20px rgba(255,255,255,0.06)!important;}
         .nav-link:hover{color:#00e5a0!important;text-shadow:0 0 14px rgba(0,229,160,0.5);}
-        .top-nav-shell{width:100%;display:flex;justify-content:center;flex-wrap:wrap;gap:10px;overflow:visible;padding:4px 2px 2px;}
+        .top-nav-shell{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;overflow:visible;padding:0 8px;}
         .top-nav-shell::-webkit-scrollbar{display:none;}
         .top-nav-btn{position:relative;isolation:isolate;border:1px solid rgba(255,255,255,0.15);background:linear-gradient(155deg,rgba(255,255,255,0.055),rgba(255,255,255,0.015));color:rgba(255,255,255,0.7);padding:8px 15px;border-radius:999px;font-size:.74rem;font-family:'Space Mono',monospace;letter-spacing:.06em;cursor:pointer;white-space:nowrap;transition:color .28s ease,border-color .28s ease,transform .28s ease,box-shadow .3s ease;backdrop-filter:blur(10px);animation:navSlideIn .52s cubic-bezier(0.23,1,0.32,1) both;}
         .top-nav-btn::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(130deg,rgba(0,229,160,0.18),rgba(0,194,224,0.12));opacity:0;transition:opacity .28s ease;}
@@ -566,9 +566,9 @@ export default function App() {
       `}</style>
 
       {/* FEATURES */}
-      <section id="features" style={{ position: "relative", zIndex: 1, padding: isSm ? "142px 1rem 80px" : isMd ? "148px 1.5rem 90px" : "156px 2rem 100px", scrollMarginTop: 128, background: SECTION_BACKGROUNDS.features, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
+      <section id="features" style={{ position: "relative", zIndex: 1, padding: isSm ? "105px 1rem 80px" : isMd ? "105px 1.5rem 90px" : "105px 2rem 100px", scrollMarginTop: 128, background: SECTION_BACKGROUNDS.features, borderTop: SECTION_DIVIDER, borderBottom: SECTION_DIVIDER }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
             {/* Section badge */}
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 0, letterSpacing: "-0.025em", lineHeight: 1.08 }}>Artist 360° Platform</h2>
             <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 480, margin: "14px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
@@ -1358,15 +1358,12 @@ export default function App() {
       </div>
 
       {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "10px 1.2rem 12px", background: scrolled ? "rgba(11,14,26,0.94)" : "rgba(11,14,26,0.6)", backdropFilter: "blur(32px) saturate(1.8)", borderBottom: "1px solid rgba(0,229,160,0.12)", transition: "all 0.4s ease", boxShadow: scrolled ? "0 8px 40px rgba(0,0,0,0.45)" : "0 2px 20px rgba(0,0,0,0.24)" }}>
-        <div style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
-            <span className="nav-brand-title" style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360°</span> Intelligence</span>
-          </div>
-          <button className="gbtn nav-demo-btn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", whiteSpace: "nowrap" }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 14, padding: "0 1.2rem", height: 64, background: scrolled ? "rgba(11,14,26,0.94)" : "rgba(11,14,26,0.6)", backdropFilter: "blur(32px) saturate(1.8)", borderBottom: "1px solid rgba(0,229,160,0.12)", transition: "all 0.4s ease", boxShadow: scrolled ? "0 8px 40px rgba(0,0,0,0.45)" : "0 2px 20px rgba(0,0,0,0.24)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          <div style={{ width: 34, height: 34, borderRadius: 10, background: "linear-gradient(135deg,#00e5a0,#00c2e0)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, animation: "pulse 4s ease-in-out infinite" }}>🎵</div>
+          <span className="nav-brand-title" style={{ fontFamily: "'Playfair Display',serif", fontSize: "1.35rem" }}>Artist <span style={{ color: "#00e5a0" }}>360°</span> Intelligence</span>
         </div>
-        <div className="top-nav-shell">
+        <div className="top-nav-shell" style={{ flex: 1, minWidth: 0 }}>
           {NAV_ITEMS.map((item, idx) => (
             <button
               key={item.id}
@@ -1378,6 +1375,7 @@ export default function App() {
             </button>
           ))}
         </div>
+        <button className="gbtn nav-demo-btn" style={{ background: "linear-gradient(135deg,#00e5a0,#00c2e0)", color: "#0b0e1a", border: "none", borderRadius: 8, padding: "8px 20px", fontSize: "0.82rem", fontWeight: 700, cursor: "pointer", transition: "all 0.3s ease", whiteSpace: "nowrap", flexShrink: 0 }} onClick={() => window.open("https://artist360intelligence.streamlit.app", "_blank")}>Live Demo ↗</button>
       </nav>
 
       {/* HERO */}
