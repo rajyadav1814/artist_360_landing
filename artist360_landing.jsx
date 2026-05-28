@@ -337,43 +337,12 @@ function FeatureCard({ f, i }) {
           transition: "color 0.3s",
         }}>{f.desc}</p>
 
-        {/* Stats pills */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 14 }}>
-          {f.stats.map((s, j) => (
-            <span key={j} style={{
-              background: hov ? `${f.color}16` : `${f.color}0c`,
-              border: `1px solid ${hov ? f.color + "40" : f.color + "22"}`,
-              color: hov ? f.color : f.color + "cc",
-              borderRadius: 7, padding: "4px 11px",
-              fontSize: "0.665rem", fontFamily: "'Space Mono',monospace",
-              fontWeight: 600, letterSpacing: "0.04em",
-              boxShadow: hov ? `0 0 8px ${f.color}20` : "none",
-              transition: "all 0.3s ease",
-            }}>{s}</span>
-          ))}
-        </div>
-
         {/* Click-to-expand hint */}
         <div style={{
           display: "flex", alignItems: "center", gap: 6,
           opacity: hov ? 1 : 0.45,
           transition: "opacity 0.3s ease",
         }}>
-          <div style={{
-            width: 18, height: 18, borderRadius: "50%",
-            background: hov ? `${f.color}22` : "rgba(255,255,255,0.04)",
-            border: `1px solid ${hov ? f.color + "50" : "rgba(255,255,255,0.12)"}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            transition: "all 0.3s",
-          }}>
-            <span style={{ fontSize: "0.6rem", color: hov ? f.color : "rgba(255,255,255,0.4)", lineHeight: 1 }}>↗</span>
-          </div>
-          <span style={{
-            fontSize: "0.6rem", fontFamily: "'Space Mono',monospace",
-            color: hov ? f.color : "rgba(255,255,255,0.3)",
-            letterSpacing: "0.08em", fontWeight: 600,
-            transition: "color 0.3s",
-          }}>Click to expand</span>
         </div>
       </div>
     </>
