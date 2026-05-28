@@ -13,35 +13,43 @@ const NAV_ITEMS = [
 
 const FEATURES = [
   { icon: "🏆", tag: "LEADERBOARD", title: "Artist 360°",
-    desc: "The single source of truth for Latin music power. 200+ artists ranked by a composite score that weighs iTunes chart points, Spotify monthly listeners, and cross-market footprint — rebuilt automatically every time fresh data arrives from either platform.",
+    desc: "200+ Latin artists ranked by a composite score — iTunes points, Spotify listeners, and cross-market footprint. Rebuilt automatically on every data run.",
+    fullDesc: "The single source of truth for Latin music power. 200+ artists ranked by a composite score that weighs iTunes chart points, Spotify monthly listeners, and cross-market footprint — rebuilt automatically every time fresh data arrives from either platform.",
     stats: ["200+ Artists", "18 LATAM Markets", "Live Composite Score"], color: "#00e5a0",
     realtime: "Rankings are rebuilt on every pipeline run. The moment Spotify or iTunes pushes a new chart snapshot, positions shift — no spreadsheet, no manual trigger, no delay." },
   { icon: "⚡", tag: "DEBUT INTELLIGENCE", title: "Debuts / Chart",
-    desc: "Catch breakout moments the instant they happen. Every first-time chart appearance is flagged, scored, and stacked against the incumbents it displaced — including Debut Score, Strength vs Field ratio, and multi-track debutant leaders, all live for the current week.",
+    desc: "Every chart debut flagged, scored, and stacked vs. incumbents — Debut Score, Strength vs Field ratio, and multi-track leaders, live for the current week.",
+    fullDesc: "Catch breakout moments the instant they happen. Every first-time chart appearance is flagged, scored, and stacked against the incumbents it displaced — including Debut Score, Strength vs Field ratio, and multi-track debutant leaders, all live for the current week.",
     stats: ["101 New Entries / Wk", "Debut Score", "Strength vs Field"], color: "#f472b6",
     realtime: "Debut detection runs inside the same processing cycle as raw chart ingestion — a track that charts for the first time today surfaces within minutes, not at next week's report." },
   { icon: "🏷️", tag: "LABEL INTELLIGENCE", title: "Label Market Share",
-    desc: "Universal, Sony, Warner, Independent, and Other/Indie battle for share across 6.34B+ streams in a rolling 9-day window. Daily stream curves and week-over-week momentum shifts reveal exactly who is gaining ground — and who is losing it.",
+    desc: "5 label groups tracked across 6.34B+ streams in a 9-day rolling window. Daily stream curves and week-over-week shifts show exactly who is gaining ground.",
+    fullDesc: "Universal, Sony, Warner, Independent, and Other/Indie battle for share across 6.34B+ streams in a rolling 9-day window. Daily stream curves and week-over-week momentum shifts reveal exactly who is gaining ground — and who is losing it.",
     stats: ["6.34B+ Streams", "5 Label Groups", "9-Day Rolling Window"], color: "#818cf8",
     realtime: "Each morning's ingest automatically drops the oldest day and appends the newest. Trend lines stay perpetually current without anyone touching a date filter." },
   { icon: "📈", tag: "POSITION INTELLIGENCE", title: "Chart Tracker",
-    desc: "Watch rank momentum unfold over 14 days for the current top 10. Live line charts surface the biggest riser, biggest faller, and average position across the full cohort — giving you a trajectory, not just today's number.",
+    desc: "14-day rank trajectories for the top 10. Surfaces the biggest riser, biggest faller, and average position — a trajectory, not just today's number.",
+    fullDesc: "Watch rank momentum unfold over 14 days for the current top 10. Live line charts surface the biggest riser, biggest faller, and average position across the full cohort — giving you a trajectory, not just today's number.",
     stats: ["14-Day Trajectories", "Risers & Fallers", "Avg Position"], color: "#fb923c",
     realtime: "Position history is appended on every run rather than overwritten — building a continuously growing timeline you can slice to 7, 14, or 30 days with zero data loss." },
   { icon: "🎯", tag: "TRACK INTELLIGENCE", title: "Acquisition Track",
-    desc: "613 tracks ranked on an Acquisition Score from 0–100 derived from chart rank, stream momentum, and cross-platform signal strength. Filter by Rising / Stable / Falling across three time windows to surface exactly the tracks worth acting on now.",
+    desc: "613 tracks scored 0–100 on chart rank, stream momentum, and cross-platform signal. Filter Rising / Stable / Falling instantly to surface what's worth acting on.",
+    fullDesc: "613 tracks ranked on an Acquisition Score from 0–100 derived from chart rank, stream momentum, and cross-platform signal strength. Filter by Rising / Stable / Falling across three time windows to surface exactly the tracks worth acting on now.",
     stats: ["613 Tracks Scored", "Acq Score 0–100", "Cross-Platform Signal"], color: "#22d3ee",
     realtime: "Scores are fully recalculated on every pipeline run. A track that goes viral overnight shows an elevated score by morning — not buried in next week's PDF." },
   { icon: "💡", tag: "COMMERCIAL SIGNALS", title: "Artist Acquisition",
-    desc: "300 artists assessed and ranked by a composite STRONG BUY / HOLD signal engine. Draws from Spotify listener counts, iTunes WW rank, tracks in the top 200, and 21-day listener trajectory to surface artists with durable upside before the market catches on.",
+    desc: "300 artists scored with a STRONG BUY / HOLD engine — drawing from Spotify listeners, iTunes rank, top-200 tracks, and a 21-day trajectory.",
+    fullDesc: "300 artists assessed and ranked by a composite STRONG BUY / HOLD signal engine. Draws from Spotify listener counts, iTunes WW rank, tracks in the top 200, and 21-day listener trajectory to surface artists with durable upside before the market catches on.",
     stats: ["300 Ranked Artists", "Strong Buy / Hold", "21-Day Trajectory"], color: "#c084fc",
     realtime: "All 300 artists are re-scored on every run. A HOLD can flip to STRONG BUY the same day its listener curve inflects — giving you the edge before the signal becomes obvious." },
   { icon: "⚖️", tag: "COMPARE", title: "Artist Comparison",
-    desc: "Stack any 2–5 artists side by side across rank, monthly listeners, track count, and LATAM country footprint. Visual bar and radar charts draw from the same live dataset as the global leaderboard for instant, apples-to-apples context.",
+    desc: "Compare 2–5 artists side-by-side: rank, listeners, track count, and LATAM footprint — bar and radar charts pulled from the live leaderboard.",
+    fullDesc: "Stack any 2–5 artists side by side across rank, monthly listeners, track count, and LATAM country footprint. Visual bar and radar charts draw from the same live dataset as the global leaderboard for instant, apples-to-apples context.",
     stats: ["Up to 5 Artists", "Side-by-Side Metrics", "Visual Radar Charts"], color: "#34d399",
     realtime: "All comparison metrics pull from the most recent leaderboard snapshot — every head-to-head reflects today's live numbers, never a cached or stale export." },
   { icon: "🤖", tag: "AI ANALYST", title: "Ask Anything",
-    desc: "No SQL, no dashboards, no waiting. Type a question in plain English and the AI translates it into a live PostgreSQL query across the full artist, track, and chart dataset — surfacing answers, ranked tables, and visual charts in seconds.",
+    desc: "Type a question in plain English — AI translates it into a live PostgreSQL query across artist, track, and chart data. Answers, tables, and charts in seconds.",
+    fullDesc: "No SQL, no dashboards, no waiting. Type a question in plain English and the AI translates it into a live PostgreSQL query across the full artist, track, and chart dataset — surfacing answers, ranked tables, and visual charts in seconds.",
     stats: ["Natural Language", "Live PostgreSQL", "Charts + Tables"], color: "#a78bfa",
     realtime: "Every query runs directly against the live database — asking 'Who debuted this week with the highest stream count?' returns today's real answer, not a Friday export." },
 ];
@@ -110,132 +118,265 @@ function Counter({ end, suffix }) {
   return <span ref={ref} style={{ fontVariantNumeric: "tabular-nums" }}>{vis ? val : 0}{suffix}</span>;
 }
 
+function FeatureModal({ f, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        background: "rgba(7,11,20,0.82)",
+        backdropFilter: "blur(18px)",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        padding: "1.5rem",
+        animation: "fadeInUp 0.22s ease",
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          background: `linear-gradient(145deg,${f.color}10,rgba(13,20,40,0.98) 55%,rgba(10,16,32,0.99))`,
+          border: `1px solid ${f.color}45`,
+          borderRadius: 26,
+          padding: "2.2rem 2.4rem 2rem",
+          maxWidth: 560,
+          width: "100%",
+          position: "relative",
+          boxShadow: `0 48px 120px rgba(0,0,0,0.65), 0 0 0 1px ${f.color}18, 0 0 60px ${f.color}10`,
+          animation: "fadeInUp 0.28s cubic-bezier(0.23,1,0.32,1)",
+          maxHeight: "90vh",
+          overflowY: "auto",
+        }}
+      >
+        {/* Top accent bar */}
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 3, borderRadius: "26px 26px 0 0",
+          background: `linear-gradient(90deg,transparent 0%,${f.color} 35%,${f.color}cc 65%,transparent 100%)`,
+          boxShadow: `0 0 20px ${f.color}80`,
+        }} />
+
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute", top: 18, right: 18,
+            width: 32, height: 32, borderRadius: "50%",
+            background: "rgba(255,255,255,0.06)",
+            border: `1px solid ${f.color}30`,
+            color: "rgba(255,255,255,0.55)", fontSize: "1rem",
+            cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "all 0.2s",
+            lineHeight: 1,
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = `${f.color}20`; e.currentTarget.style.color = f.color; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; e.currentTarget.style.color = "rgba(255,255,255,0.55)"; }}
+        >×</button>
+
+        {/* Icon + tag */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+          <div style={{
+            width: 54, height: 54, borderRadius: 16, flexShrink: 0,
+            background: `${f.color}18`, border: `1px solid ${f.color}45`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 26, boxShadow: `0 0 22px ${f.color}35, inset 0 1px 0 ${f.color}25`,
+          }}>{f.icon}</div>
+          <div>
+            <div style={{
+              fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.18em",
+              color: f.color, fontFamily: "'Space Mono',monospace", marginBottom: 5,
+            }}>{f.tag}</div>
+            <h3 style={{
+              fontSize: "1.45rem", fontWeight: 700, fontFamily: "'Playfair Display',serif",
+              color: "#fff", lineHeight: 1.2,
+            }}>{f.title}</h3>
+          </div>
+        </div>
+
+        {/* Full description */}
+        <p style={{
+          fontSize: "0.92rem", color: "rgba(255,255,255,0.68)",
+          lineHeight: 1.82, marginBottom: 22,
+        }}>{f.fullDesc}</p>
+
+        {/* Divider */}
+        <div style={{ height: 1, background: `linear-gradient(90deg,transparent,${f.color}30,transparent)`, marginBottom: 20 }} />
+
+        {/* Real-time block */}
+        <div style={{
+          padding: "14px 16px", marginBottom: 22,
+          background: `${f.color}0d`, border: `1px solid ${f.color}35`,
+          borderRadius: 14,
+          fontSize: "0.84rem", color: f.color, lineHeight: 1.72,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 8 }}>
+            <span style={{ fontSize: "0.88rem" }}>⏱</span>
+            <strong style={{ fontWeight: 700, fontSize: "0.72rem", fontFamily: "'Space Mono',monospace", letterSpacing: "0.14em" }}>REAL-TIME BEHAVIOUR</strong>
+          </div>
+          <p style={{ margin: 0, color: `${f.color}dd`, fontSize: "0.84rem" }}>{f.realtime}</p>
+        </div>
+
+        {/* Stats pills */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 9 }}>
+          {f.stats.map((s, j) => (
+            <span key={j} style={{
+              background: `${f.color}16`, border: `1px solid ${f.color}45`,
+              color: f.color, borderRadius: 8, padding: "6px 14px",
+              fontSize: "0.72rem", fontFamily: "'Space Mono',monospace",
+              fontWeight: 600, letterSpacing: "0.05em",
+              boxShadow: `0 0 10px ${f.color}20`,
+            }}>{s}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function FeatureCard({ f, i }) {
   const [ref, vis] = useIO(0.06);
   const [hov, setHov] = useState(false);
+  const [open, setOpen] = useState(false);
   const num = String(i + 1).padStart(2, "0");
   return (
-    <div ref={ref} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      style={{
-        background: hov
-          ? `linear-gradient(145deg,${f.color}0d,rgba(255,255,255,0.02) 60%,transparent)`
-          : "rgba(255,255,255,0.028)",
-        border: `1px solid ${hov ? f.color + "60" : "rgba(255,255,255,0.08)"}`,
-        borderRadius: 22,
-        padding: "1.75rem 1.9rem 1.65rem",
-        position: "relative",
-        overflow: "hidden",
-        transform: vis ? (hov ? "translateY(-8px) scale(1.015)" : "translateY(0)") : "translateY(34px)",
-        opacity: vis ? 1 : 0,
-        transition: "all 0.48s cubic-bezier(0.23,1,0.32,1)",
-        transitionDelay: vis ? `${i * 60}ms` : "0ms",
-        boxShadow: hov
-          ? `0 24px 64px rgba(0,0,0,0.38), 0 0 0 1px ${f.color}22, inset 0 1px 0 rgba(255,255,255,0.06)`
-          : "0 4px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.03)",
-        cursor: "default",
-      }}>
-
-      {/* Top accent bar — always present, glows on hover */}
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: 2,
-        background: hov
-          ? `linear-gradient(90deg,transparent 0%,${f.color} 40%,${f.color}bb 60%,transparent 100%)`
-          : `linear-gradient(90deg,transparent,${f.color}30,transparent)`,
-        transition: "all 0.45s ease",
-        boxShadow: hov ? `0 0 16px ${f.color}90` : "none",
-      }} />
-
-      {/* Background radial glow corner */}
-      <div style={{
-        position: "absolute", bottom: -20, right: -20,
-        width: 160, height: 160, borderRadius: "50%",
-        background: `radial-gradient(circle,${f.color}${hov ? "12" : "07"} 0%,transparent 70%)`,
-        transition: "all 0.5s ease",
-        pointerEvents: "none",
-      }} />
-
-      {/* Card index watermark */}
-      <div style={{
-        position: "absolute", top: 14, right: 18,
-        fontFamily: "'Space Mono',monospace", fontSize: "0.6rem",
-        color: `${f.color}${hov ? "50" : "22"}`,
-        fontWeight: 700, letterSpacing: "0.06em",
-        transition: "color 0.4s",
-        userSelect: "none",
-      }}>{num}</div>
-
-      {/* Icon box + tag */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
-        <div style={{
-          width: 46, height: 46, borderRadius: 13, flexShrink: 0,
-          background: hov ? `${f.color}1a` : `${f.color}10`,
-          border: `1px solid ${f.color}${hov ? "40" : "22"}`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 22,
-          boxShadow: hov ? `0 0 18px ${f.color}30, inset 0 1px 0 ${f.color}20` : "none",
-          transition: "all 0.4s ease",
-          filter: hov ? `drop-shadow(0 0 6px ${f.color}60)` : "none",
-        }}>{f.icon}</div>
-        <span style={{
-          fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.16em",
-          color: hov ? f.color : f.color + "bb",
-          fontFamily: "'Space Mono',monospace",
-          transition: "color 0.3s",
-          lineHeight: 1.3,
-        }}>{f.tag}</span>
-      </div>
-
-      {/* Title */}
-      <h3 style={{
-        fontSize: "1.12rem", fontWeight: 700, fontFamily: "'Playfair Display',serif",
-        marginBottom: 10, lineHeight: 1.25,
-        color: hov ? "#fff" : "rgba(255,255,255,0.92)",
-        transition: "color 0.3s",
-      }}>{f.title}</h3>
-
-      {/* Description */}
-      <p style={{
-        fontSize: "0.845rem", color: "rgba(255,255,255,0.5)",
-        lineHeight: 1.78, marginBottom: 14,
-        transition: "color 0.3s",
-      }}>{f.desc}</p>
-
-      {/* Real-time reveal */}
-      <div style={{
-        overflow: "hidden",
-        maxHeight: hov ? 120 : 0,
-        opacity: hov ? 1 : 0,
-        marginBottom: hov ? 14 : 0,
-        transition: "max-height 0.38s cubic-bezier(0.23,1,0.32,1), opacity 0.3s ease, margin-bottom 0.3s",
-      }}>
-        <div style={{
-          padding: "10px 13px",
-          background: `${f.color}0c`,
-          border: `1px solid ${f.color}30`,
-          borderRadius: 10,
-          fontSize: "0.775rem", color: f.color, lineHeight: 1.68,
+    <>
+      {open && <FeatureModal f={f} onClose={() => setOpen(false)} />}
+      <div ref={ref}
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        onClick={() => setOpen(true)}
+        style={{
+          background: hov
+            ? `linear-gradient(145deg,${f.color}0d,rgba(255,255,255,0.02) 60%,transparent)`
+            : "rgba(255,255,255,0.028)",
+          border: `1px solid ${hov ? f.color + "60" : "rgba(255,255,255,0.08)"}`,
+          borderRadius: 22,
+          padding: "1.75rem 1.9rem 1.65rem",
+          position: "relative",
+          overflow: "hidden",
+          transform: vis ? (hov ? "translateY(-8px) scale(1.015)" : "translateY(0)") : "translateY(34px)",
+          opacity: vis ? 1 : 0,
+          transition: "all 0.48s cubic-bezier(0.23,1,0.32,1)",
+          transitionDelay: vis ? `${i * 60}ms` : "0ms",
+          boxShadow: hov
+            ? `0 24px 64px rgba(0,0,0,0.38), 0 0 0 1px ${f.color}22, inset 0 1px 0 rgba(255,255,255,0.06)`
+            : "0 4px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.03)",
+          cursor: "pointer",
         }}>
-          <span style={{ opacity: 0.7, marginRight: 5 }}>⏱</span>
-          <strong style={{ fontWeight: 600 }}>Real-time:</strong>{" "}{f.realtime}
+
+        {/* Top accent bar — always present, glows on hover */}
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 2,
+          background: hov
+            ? `linear-gradient(90deg,transparent 0%,${f.color} 40%,${f.color}bb 60%,transparent 100%)`
+            : `linear-gradient(90deg,transparent,${f.color}30,transparent)`,
+          transition: "all 0.45s ease",
+          boxShadow: hov ? `0 0 16px ${f.color}90` : "none",
+        }} />
+
+        {/* Background radial glow corner */}
+        <div style={{
+          position: "absolute", bottom: -20, right: -20,
+          width: 160, height: 160, borderRadius: "50%",
+          background: `radial-gradient(circle,${f.color}${hov ? "12" : "07"} 0%,transparent 70%)`,
+          transition: "all 0.5s ease",
+          pointerEvents: "none",
+        }} />
+
+        {/* Card index watermark */}
+        <div style={{
+          position: "absolute", top: 14, right: 18,
+          fontFamily: "'Space Mono',monospace", fontSize: "0.6rem",
+          color: `${f.color}${hov ? "50" : "22"}`,
+          fontWeight: 700, letterSpacing: "0.06em",
+          transition: "color 0.4s",
+          userSelect: "none",
+        }}>{num}</div>
+
+        {/* Icon box + tag */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 18 }}>
+          <div style={{
+            width: 46, height: 46, borderRadius: 13, flexShrink: 0,
+            background: hov ? `${f.color}1a` : `${f.color}10`,
+            border: `1px solid ${f.color}${hov ? "40" : "22"}`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: 22,
+            boxShadow: hov ? `0 0 18px ${f.color}30, inset 0 1px 0 ${f.color}20` : "none",
+            transition: "all 0.4s ease",
+            filter: hov ? `drop-shadow(0 0 6px ${f.color}60)` : "none",
+          }}>{f.icon}</div>
+          <span style={{
+            fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.16em",
+            color: hov ? f.color : f.color + "bb",
+            fontFamily: "'Space Mono',monospace",
+            transition: "color 0.3s",
+            lineHeight: 1.3,
+          }}>{f.tag}</span>
+        </div>
+
+        {/* Title */}
+        <h3 style={{
+          fontSize: "1.12rem", fontWeight: 700, fontFamily: "'Playfair Display',serif",
+          marginBottom: 10, lineHeight: 1.25,
+          color: hov ? "#fff" : "rgba(255,255,255,0.92)",
+          transition: "color 0.3s",
+        }}>{f.title}</h3>
+
+        {/* Description */}
+        <p style={{
+          fontSize: "0.845rem", color: hov ? "rgba(255,255,255,0.62)" : "rgba(255,255,255,0.5)",
+          lineHeight: 1.78, marginBottom: 16,
+          transition: "color 0.3s",
+        }}>{f.desc}</p>
+
+        {/* Stats pills */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 7, marginBottom: 14 }}>
+          {f.stats.map((s, j) => (
+            <span key={j} style={{
+              background: hov ? `${f.color}16` : `${f.color}0c`,
+              border: `1px solid ${hov ? f.color + "40" : f.color + "22"}`,
+              color: hov ? f.color : f.color + "cc",
+              borderRadius: 7, padding: "4px 11px",
+              fontSize: "0.665rem", fontFamily: "'Space Mono',monospace",
+              fontWeight: 600, letterSpacing: "0.04em",
+              boxShadow: hov ? `0 0 8px ${f.color}20` : "none",
+              transition: "all 0.3s ease",
+            }}>{s}</span>
+          ))}
+        </div>
+
+        {/* Click-to-expand hint */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: 6,
+          opacity: hov ? 1 : 0.45,
+          transition: "opacity 0.3s ease",
+        }}>
+          <div style={{
+            width: 18, height: 18, borderRadius: "50%",
+            background: hov ? `${f.color}22` : "rgba(255,255,255,0.04)",
+            border: `1px solid ${hov ? f.color + "50" : "rgba(255,255,255,0.12)"}`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            transition: "all 0.3s",
+          }}>
+            <span style={{ fontSize: "0.6rem", color: hov ? f.color : "rgba(255,255,255,0.4)", lineHeight: 1 }}>↗</span>
+          </div>
+          <span style={{
+            fontSize: "0.6rem", fontFamily: "'Space Mono',monospace",
+            color: hov ? f.color : "rgba(255,255,255,0.3)",
+            letterSpacing: "0.08em", fontWeight: 600,
+            transition: "color 0.3s",
+          }}>Click to expand</span>
         </div>
       </div>
-
-      {/* Stats pills */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
-        {f.stats.map((s, j) => (
-          <span key={j} style={{
-            background: hov ? `${f.color}16` : `${f.color}0c`,
-            border: `1px solid ${hov ? f.color + "40" : f.color + "22"}`,
-            color: hov ? f.color : f.color + "cc",
-            borderRadius: 7, padding: "4px 11px",
-            fontSize: "0.665rem", fontFamily: "'Space Mono',monospace",
-            fontWeight: 600, letterSpacing: "0.04em",
-            boxShadow: hov ? `0 0 8px ${f.color}20` : "none",
-            transition: "all 0.3s ease",
-          }}>{s}</span>
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 
@@ -463,7 +604,7 @@ export default function App() {
             <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2rem,4vw,3.2rem)", marginTop: 0, letterSpacing: "-0.025em", lineHeight: 1.08 }}>Artist 360° Platform</h2>
             <p style={{ color: "rgba(255,255,255,0.38)", maxWidth: 480, margin: "14px auto 0", lineHeight: 1.8, fontSize: "0.875rem" }}>
               Eight intelligence modules. One live database.{" "}
-              <span style={{ color: "rgba(255,255,255,0.6)", borderBottom: "1px solid rgba(0,229,160,0.35)" }}>Hover any card</span>{" "}to see exactly what "real-time" means for that view.
+              <span style={{ color: "rgba(255,255,255,0.6)", borderBottom: "1px solid rgba(0,229,160,0.35)" }}>Click any card</span>{" "}to see the full details and real-time behaviour for that module.
             </p>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 18 }}>
